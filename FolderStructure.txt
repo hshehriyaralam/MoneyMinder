@@ -1,0 +1,38 @@
+finance-tracker-app/
+├── public/
+│   ├── index.html
+│   ├── favicon.ico
+│   └── manifest.json
+├── src/
+│   ├── assets/
+│   │   ├── images/              # Store images (e.g., logos, icons)
+│   │   └── styles/             # Global styles (e.g., CSS, SCSS)
+│   ├── components/             # Reusable UI components
+│   │   ├── common/             # Common components (e.g., buttons, inputs)
+│   │   ├── transactions/       # Transaction-related components
+│   │   ├── charts/             # Chart components
+│   │   └── layout/             # Layout components (e.g., header, footer)
+│   ├── context/                # React Contexts
+│   │   ├── CurrencyContext.js
+│   │   ├── ThemeContext.js
+│   │   └── TransactionContext.js
+│   ├── hooks/                  # Custom hooks
+│   │   ├── useCurrencyConverter.js
+│   │   ├── useLocalStorage.js
+│   │   └── useProgressTracker.js
+│   ├── pages/                  # Main pages of the app
+│   │   ├── Dashboard.js        # Dashboard page (balance, income, expenses)
+│   │   ├── Transactions.js     # Transaction list page
+│   │   ├── AddTransaction.js   # Add/edit transaction page
+│   │   ├── Analytics.js        # Charts and analytics page
+│   │   └── Settings.js         # Settings page (currency, theme)
+│   ├── utils/                  # Utility functions
+│   │   ├── helpers.js          # Helper functions (e.g., date formatting)
+│   │   └── constants.js        # Constants (e.g., categories, currency options)
+│   ├── App.js                  # Main App component
+│   ├── index.js                # Entry point
+│   └── App.css                 # Global styles
+├── .gitignore                  # Git ignore file
+├── package.json                # Project dependencies
+├── README.md                   # Project documentation
+└── ...                         # Other configuration files (e.g., .env, eslintrc)
