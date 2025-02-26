@@ -10,7 +10,7 @@ const App = () => {
 
   return (
     <Router>
-    <div className='w-full h-screen bg-slate-400 text-gray-900' >
+    <div className='w-full h-screen' >
       <Header />
       <Routes>
         <Route path='/' element={<Dashboard />} />
