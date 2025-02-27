@@ -1,23 +1,24 @@
-import React from 'react'
-import { theme } from '../theme/theme.js'
-import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx"
-import { ShinyButtonDemo } from '../comman/ShinnyButton.jsx'
+import React from 'react';
+import { theme } from '../theme/theme.js';
+import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
+import ButtonComponent from "../comman/VerseButton.jsx";
+import Logo from "../../assets/images/Finace_logo.png";
+
 const Header = () => {
   return (
-    <div className={`w-full p-5 py-5 justify-between  items-center  flex  `}
-    // style={{backgroundColor : theme.colors.background.lightAlt}}  
-    >
-      <div className='mx-8' style={{color :theme.colors.primary}} >
-        <h1  className='text-2xl font-bold' >MoneyMetrics</h1>
+    <header className="w-full p-3 flex justify-between items-center bg-white shadow-md md:p-3 lg:p-3">
+      <div className="flex items-center">
+        <img src={Logo} alt="Logo" className="w-12 md:w-14 lg:w-18" />
+        <h1 className="text-lg md:text-2xl font-extrabold text-[#1E40AF] tracking-wide font-sans  text-[#009087]">
+          MoneyMinder
+        </h1>
       </div>
-      <div className='flex gap-x-5 mx-4'  >
-
-        {/* <button>Sign Up</button> */}
+        <div className="flex gap-2 sm:gap-3 md:gap-4">
         <InteractiveHoverButtonDemo Name={'Sign Up'} />
-        <ShinyButtonDemo Name={'Login'} />
+        <ButtonComponent Name={'Login'} />
       </div>
-    </div>
-  )
-}
+    </header>
+  );
+};
 
-export default Header
+export default Header;

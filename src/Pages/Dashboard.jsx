@@ -1,4 +1,3 @@
-import Header from '@/Components/layout/Header'
 import React from 'react'
 
 const Dashboard = () => {
