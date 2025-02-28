@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Calendar, Home, Inbox, Search, Settings, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import { Home, Plus, List, Settings, PieChart, Menu, ChevronLeft } from "lucide-react";
 import {
   Sidebar,
   SidebarProvider,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,43 +14,53 @@ import {
 import { Button } from "@/components/ui/button";
 
 const items = [
-  { title: "Home", url: "/", icon: Home },
-  { title: "Inbox", url: "/Inbox", icon: Inbox },
-  { title: "Calendar", url: "/Calendar", icon: Calendar },
-  { title: "Search", url: "/Search", icon: Search },
+  { title: "Dashboard", url: "/", icon: Home },
+  { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
+  { title: "Transactions", url: "/Transaction", icon: List },
+  { title: "Analytics", url: "/Analytics", icon: PieChart },
   { title: "Settings", url: "/Setting", icon: Settings },
 ];
 
-const AppSidebar = () => {
-  const [open, setOpen] = useState(true);
+const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
+  const location = useLocation();
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    setActive(location.pathname);
+  }, [location.pathname]);
 
   return (
     <SidebarProvider>
-      {/* Sidebar Toggle Button (Mobile Only) */}
-      <Button
-        onClick={() => setOpen(!open)}
-        variant="outline"
-        className="m-4 md:hidden"
+      <Sidebar
+        className={`fixed top-20 left-0 h-screen bg-white shadow-lg text-gray-800 transition-all duration-300 
+          ${isCollapsed ? "w-20" : "w-64"}
+        `}
       >
-        <Menu className="w-6 h-6" />
-      </Button>
-
-      {/* Sidebar with Fixed Width */}
-      <Sidebar className="w-64 h-full bg-gray-100 text-black transition-transform">
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="text-gray-600 px-4 py-2">
-              Application
-            </SidebarGroupLabel>
+            <div className={`flex ${isCollapsed ? "justify-center" : "justify-end"} px-3 mt-5`}>
+              <Button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                variant="outline"
+                className="w-10 flex items-center"
+              >
+                {isCollapsed ? <Menu className="w-8 h-8" /> : <ChevronLeft className="w-8 h-8" />}
+              </Button>
+            </div>
             <SidebarGroupContent>
-              <SidebarMenu className="space-y-2">
+              <SidebarMenu className="space-y-2 text-xl mt-4">
                 {items.map((item) => (
-                  <SidebarMenuItem key={item.title} className="hover:bg-gray-200 rounded-md">
+                  <SidebarMenuItem key={item.title} className="rounded-lg">
                     <SidebarMenuButton asChild>
-                      <a href={item.url} className="flex items-center gap-3 px-4 py-2">
-                        <item.icon className="w-5 h-5 text-black" />
-                        <span className="text-black">{item.title}</span> {/* Black Text */}
-                      </a>
+                      <Link
+                        to={item.url}
+                        className={`flex items-center px-5 py-3 rounded-lg transition-all duration-300 
+                          ${active === item.url ? "bg-blue-600 text-white shadow-md" : "hover:bg-blue-500 hover:text-black hover:shadow-md"}
+                        `}
+                      >
+                        <item.icon className={`w-6 h-6 ${active === item.url ? "text-white" : "text-blue-600"}`} />
+                        {!isCollapsed && <span className="ml-4 font-medium">{item.title}</span>}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
