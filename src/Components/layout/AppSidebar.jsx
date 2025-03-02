@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Home, Plus, List, Settings, PieChart, Menu, ChevronLeft } from "lucide-react";
+import Dock from "@/Components/layout/Dock";
+import { VscHome, VscArchive, VscAccount, VscSettingsGear } from "react-icons/vsc";
 import {
   Sidebar,
   SidebarProvider,
@@ -22,70 +24,88 @@ const items = [
 ];
 
 const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  const itemsDock = [
+    { title: "Dashboard", url: "/", icon: <VscHome size={20} />, onClick: () => navigate("/") },
+    { title: "Add Transaction", url: "/AddTransaction", icon: <VscArchive size={20} />, onClick: () => navigate("/AddTransaction") },
+    { title: "Transactions", url: "/Transaction", icon: <VscAccount size={20} />, onClick: () => navigate("/Transaction") },
+    { title: "Settings", url: "/Setting", icon: <VscSettingsGear size={20} />, onClick: () => navigate("/Setting") },
+  ];
 
   useEffect(() => {
     setActive(location.pathname);
   }, [location.pathname]);
 
-  // Automatically collapse sidebar on small screens
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsCollapsed(true);
-      }
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize();
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [setIsCollapsed]);
+  }, []);
 
   return (
-    <SidebarProvider>
-      {/* Sidebar Hidden on Mobile */}
-      <Sidebar
-        className={`fixed top-20 left-0 h-screen bg-white shadow-lg text-gray-800 transition-all duration-300 z-50 
-          ${isCollapsed ? "-translate-x-full" : "translate-x-0"} 
-          ${isCollapsed ? "w-0" : "w-64"} 
-          md:${isCollapsed ? "w-20" : "w-64"} 
-          md:translate-x-0 hidden md:block
-        `}
-      >
-        <SidebarContent>
-          <SidebarGroup>
-            <div className={`flex ${isCollapsed ? "justify-center" : "justify-end"} px-3 mt-5`}>
-              <Button
-                onClick={() => setIsCollapsed(!isCollapsed)}
-                variant="outline"
-                className="w-10 flex items-center"
-              >
-                {isCollapsed ? <Menu className="w-8 h-8" /> : <ChevronLeft className="w-8 h-8" />}
-              </Button>
-            </div>
-            <SidebarGroupContent>
-              <SidebarMenu className="space-y-2 text-xl mt-4">
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title} className="rounded-lg">
-                    <SidebarMenuButton asChild>
-                      <Link
-                        to={item.url}
-                        className={`flex items-center px-5 py-3 rounded-lg transition-all duration-300 
-                          ${active === item.url ? "bg-blue-600 text-white shadow-md" : "hover:bg-blue-500 hover:text-black hover:shadow-md"}
-                        `}
-                      >
-                        <item.icon className={`w-6 h-6 ${active === item.url ? "text-white" : "text-blue-600"}`} />
-                        {!isCollapsed && <span className="ml-4 font-medium">{item.title}</span>}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-    </SidebarProvider>
+    <>
+      <SidebarProvider>
+        {!isMobile && (
+          <Sidebar
+            className={`fixed top-20 left-0 h-screen bg-gray-100 shadow-xl transition-all duration-300 z-50 
+              ${isCollapsed ? "w-16" : "w-60"} 
+              hidden md:block
+            `}
+          >
+            <SidebarContent>
+              <SidebarGroup>
+                <div className="flex justify-between items-center p-4 ">
+                  
+                  <Button
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    variant="ghost"
+                    className="rounded-full p-2"
+                  >
+                    {isCollapsed ? <Menu className="w-6 h-6 text-gray-600" /> : <ChevronLeft className="w-6 h-6 text-gray-600 " />}
+                  </Button>
+                </div>
+                <SidebarGroupContent>
+                  <SidebarMenu className="space-y-2 mt-2">
+                    {items.map((item) => (
+                      <SidebarMenuItem key={item.title} className="rounded-lg">
+                        <SidebarMenuButton asChild>
+                          <Link
+                            to={item.url}
+                            className={`flex items-center px-5 py-3 rounded-lg transition-all duration-300 
+                              ${active === item.url ? "bg-blue-600 text-white shadow-md" : "hover:bg-blue-500 hover:text-white"}
+                            `}
+                          >
+                            <item.icon className={`w-6 h-6 ${active === item.url ? "text-white" : "text-blue-600"}`} />
+                            {!isCollapsed && <span className="ml-4 font-medium">{item.title}</span>}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+          </Sidebar>
+        )}
+      </SidebarProvider>
+
+      {isMobile && (
+        <Dock 
+          items={itemsDock}
+          panelHeight={68}
+          baseItemSize={50}
+          magnification={70}
+          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white border-blue-900 text-white shadow-lg rounded-full px-3 py-2 flex justify-around w-[90%] max-w-md"
+        />
+      )}
+    </>
   );
 };
 
