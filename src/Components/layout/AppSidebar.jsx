@@ -10,8 +10,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/sidebar";
+import { Button } from "@/Components/ui/button";
 
 const items = [
   { title: "Dashboard", url: "/", icon: Home },
@@ -29,11 +29,27 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     setActive(location.pathname);
   }, [location.pathname]);
 
+  // Automatically collapse sidebar on small screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsCollapsed(true);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setIsCollapsed]);
+
   return (
     <SidebarProvider>
+      {/* Sidebar Hidden on Mobile */}
       <Sidebar
-        className={`fixed top-20 left-0 h-screen bg-white shadow-lg text-gray-800 transition-all duration-300 
-          ${isCollapsed ? "w-20" : "w-64"}
+        className={`fixed top-20 left-0 h-screen bg-white shadow-lg text-gray-800 transition-all duration-300 z-50 
+          ${isCollapsed ? "-translate-x-full" : "translate-x-0"} 
+          ${isCollapsed ? "w-0" : "w-64"} 
+          md:${isCollapsed ? "w-20" : "w-64"} 
+          md:translate-x-0 hidden md:block
         `}
       >
         <SidebarContent>

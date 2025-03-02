@@ -19,7 +19,7 @@ const App = () => {
         </header>
         <div className="flex flex-1 pt-16">
           <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
-            <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>
           <div
             className={`flex-1 pt-10 bg-gray-100 overflow-y-auto h-screen transition-all duration-300 ${
