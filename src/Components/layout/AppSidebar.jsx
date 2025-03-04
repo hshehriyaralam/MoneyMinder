@@ -1,8 +1,11 @@
+
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Home, Plus, List, Settings, PieChart, Menu, ChevronLeft } from "lucide-react";
 import Dock from "@/Components/layout/Dock";
-import { VscHome, VscArchive, VscAccount, VscSettingsGear } from "react-icons/vsc";
+import { RiDashboardLine, RiExchangeFundsLine, RiFileList3Line, RiPieChart2Line, RiSettings3Line } from "react-icons/ri";
+
+
 import {
   Sidebar,
   SidebarProvider,
@@ -30,10 +33,11 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   const itemsDock = [
-    { title: "Dashboard", url: "/", icon: <VscHome size={20} />, onClick: () => navigate("/") },
-    { title: "Add Transaction", url: "/AddTransaction", icon: <VscArchive size={20} />, onClick: () => navigate("/AddTransaction") },
-    { title: "Transactions", url: "/Transaction", icon: <VscAccount size={20} />, onClick: () => navigate("/Transaction") },
-    { title: "Settings", url: "/Setting", icon: <VscSettingsGear size={20} />, onClick: () => navigate("/Setting") },
+    { title: "Dashboard", url: "/", icon: <RiDashboardLine size={20} />, onClick: () => navigate("/") },
+    { title: "Add Transaction", url: "/AddTransaction", icon: <RiExchangeFundsLine size={20} />, onClick: () => navigate("/AddTransaction") },
+    { title: "Transactions", url: "/Transaction", icon: <RiFileList3Line size={20} />, onClick: () => navigate("/Transaction") },
+    { title: "Settings", url: "/Setting", icon: <RiSettings3Line size={20} />, onClick: () => navigate("/Setting") },
+    { title: "Analytics", url: "/Analytics", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Analytics") },
   ];
 
   useEffect(() => {
@@ -54,36 +58,36 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
       <SidebarProvider>
         {!isMobile && (
           <Sidebar
-            className={`fixed top-20 left-0 h-screen bg-gray-100 shadow-xl transition-all duration-300 z-50 
+            className={`fixed top-24 left-0 h-screen bg-gray-100 shadow-xl transition-all duration-300 z-50 
               ${isCollapsed ? "w-16" : "w-60"} 
               hidden md:block
             `}
           >
             <SidebarContent>
               <SidebarGroup>
-                <div className="flex justify-between items-center p-4 ">
+                <div className="flex justify-between items-center mt-3 text-white ">
                   
                   <Button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     variant="ghost"
-                    className="rounded-full p-2"
+                    className="rounded p-2 bg-blue-600  hover:bg-blue-600    "
                   >
-                    {isCollapsed ? <Menu className="w-6 h-6 text-gray-600" /> : <ChevronLeft className="w-6 h-6 text-gray-600 " />}
+                    {isCollapsed ? <Menu className="w-4 h-4 text-white relative " /> : <ChevronLeft className="w-4 h-4  text-white  " />}
                   </Button>
                 </div>
                 <SidebarGroupContent>
-                  <SidebarMenu className="space-y-2 mt-2">
+                  <SidebarMenu className="space-y-2 mt-4">
                     {items.map((item) => (
                       <SidebarMenuItem key={item.title} className="rounded-lg">
                         <SidebarMenuButton asChild>
                           <Link
                             to={item.url}
-                            className={`flex items-center px-5 py-3 rounded-lg transition-all duration-300 
-                              ${active === item.url ? "bg-blue-600 text-white shadow-md" : "hover:bg-blue-500 hover:text-white"}
+                            className={`flex items-center  px-3 py-1 rounded-lg transition-all duration-300 
+                              ${active === item.url ? "bg-blue-600 text-white shadow-md px-1" : "hover:bg-blue-500 hover:text-black"}
                             `}
                           >
-                            <item.icon className={`w-6 h-6 ${active === item.url ? "text-white" : "text-blue-600"}`} />
-                            {!isCollapsed && <span className="ml-4 font-medium">{item.title}</span>}
+                            <item.icon className={`w-4 h-4 ${active === item.url ? "text-white" : "text-blue-600"}`} />
+                            {!isCollapsed && <span className="ml-3 font-medium">{item.title}</span>}
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
