@@ -58,7 +58,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
       <SidebarProvider>
         {!isMobile && (
           <Sidebar
-            className={`fixed top-24 left-0 h-screen bg-gray-100 shadow-xl transition-all duration-300 z-50 
+            className={`fixed top-20 left-0 h-screen  shadow-xl transition-all duration-300 z-50 
               ${isCollapsed ? "w-16" : "w-60"} 
               hidden md:block
             `}

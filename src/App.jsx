@@ -13,16 +13,16 @@ const App = () => {
 
   return (
     <Router>
-      <div className="w-full h-screen flex flex-col">
-              <header className="fixed  w-full z-50 bg-white shadow-md">
+      <div className="w-full h-screen flex flex-col ">
+              <header className="fixed w-full  z-50 shadow-md  ">
           <Header />
         </header>
-        <div className="flex flex-1 pt-16">
+        <div className="flex flex-1 pt-16   bg-gradient-to-b from-[#34E89E] to-[#0F3443]">
           <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
-          <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+            <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>
           <div
-            className={`flex-1 pt-10 bg-gray-100 overflow-y-auto h-screen transition-all duration-300 ${
+            className={`flex-1 pt-10 overflow-y-auto h-screen transition-all duration-300 ${
               isCollapsed ? 'pl-20' : 'pl-64'
             }`}
           >
@@ -41,3 +41,4 @@ const App = () => {
 };
 
 export default App;
+ 
