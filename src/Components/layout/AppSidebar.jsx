@@ -54,23 +54,24 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   }, []);
 
   return (
-    <>
+    <div >
       <SidebarProvider>
         {!isMobile && (
-          <Sidebar
-            className={`fixed top-20 left-0 h-screen  shadow-xl transition-all duration-300 z-50 
-              ${isCollapsed ? "w-16" : "w-60"} 
-              hidden md:block
-            `}
-          >
-            <SidebarContent>
-              <SidebarGroup>
-                <div className="flex justify-between items-center mt-3 text-white ">
+        <Sidebar
+        className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
+          ${isCollapsed ? "w-16" : "w-60"} 
+          hidden md:block 
+          bg-gradient-to-b from-[#34E89E] to-[#0F3443]  
+        `} 
+      >
+            <SidebarContent   className="h-full bg-gradient-to-b from-[#33d391] to-[#0F3443] " >
+              <SidebarGroup >
+                <div className="flex justify-between items-center mt-3   text-white ">
                   
                   <Button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     variant="ghost"
-                    className="rounded p-2 bg-blue-600  hover:bg-blue-600    "
+                    className="rounded  bg-green-600  hover:bg-green-600    "
                   >
                     {isCollapsed ? <Menu className="w-4 h-4 text-white relative " /> : <ChevronLeft className="w-4 h-4  text-white  " />}
                   </Button>
@@ -83,10 +84,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
                           <Link
                             to={item.url}
                             className={`flex items-center  px-3 py-1 rounded-lg transition-all duration-300 
-                              ${active === item.url ? "bg-blue-600 text-white shadow-md px-1" : "hover:bg-blue-500 hover:text-black"}
+                              ${active === item.url ? "bg-green-600 text-white shadow-md px-1" : "hover:bg-green-500 hover:text-black"}
                             `}
                           >
-                            <item.icon className={`w-4 h-4 ${active === item.url ? "text-white" : "text-blue-600"}`} />
+                            <item.icon className={`w-4 h-4 ${active === item.url ? "text-white" : "text-white-600"}`} />
                             {!isCollapsed && <span className="ml-3 font-medium">{item.title}</span>}
                           </Link>
                         </SidebarMenuButton>
@@ -109,7 +110,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
           className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white border-blue-900 text-white shadow-lg rounded-full px-3 py-2 flex justify-around w-[90%] max-w-md"
         />
       )}
-    </>
+    </div>
   );
 };
 

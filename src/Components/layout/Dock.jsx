@@ -87,7 +87,7 @@ function DockLabel({ children, className = "", ...rest }) {
           animate={{ opacity: 1, y: -10 }}
           exit={{ opacity: 0, y: 0 }}
           transition={{ duration: 0.2 }}
-          className={`${className} absolute -top-6 left-1/2 w-fit whitespace-pre rounded-md border border-gray-300 bg-gray-200 px-2 py-0.5 text-xs text-black font-bold`}
+          className={`${className} absolute -top-6 left-1/2 w-fit h-fit whitespace-pre rounded-md border border-gray-300  px-2 py-0.5 text-xs text-black font-bold`}
           role="tooltip"
           style={{ x: "-50%" }}
         >
@@ -100,7 +100,7 @@ function DockLabel({ children, className = "", ...rest }) {
 
 function DockIcon({ children, className = "" }) {
   return (
-    <div className={`flex items-center justify-center bg-gray-200 border-gray-300 border-2 p-2 rounded-full ${className}`}>
+    <div className={`flex items-center justify-center bg-white bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
       {children}
     </div>
   );
