@@ -56,7 +56,7 @@ function DockItem({
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center bg-gray-200 border-gray-300 border-2 text-black shadow-md rounded-full ${className}`}
+      className={`relative inline-flex items-center justify-center bg-[#0F3443] border-gray-300 border-2 text-black shadow-md rounded-full ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -100,7 +100,7 @@ function DockLabel({ children, className = "", ...rest }) {
 
 function DockIcon({ children, className = "" }) {
   return (
-    <div className={`flex items-center justify-center bg-white bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
+    <div className={`flex items-center justify-center bg-transparent bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
       {children}
     </div>
   );

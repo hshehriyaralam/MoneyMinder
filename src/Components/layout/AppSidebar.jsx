@@ -54,14 +54,14 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   }, []);
 
   return (
-    <div >
+    <>
       <SidebarProvider>
         {!isMobile && (
         <Sidebar
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-          bg-gradient-to-b from-[#34E89E] to-[#0F3443]  
+          bg-gradient-to-b from-[#34E89E] to-[#0F3443] border-none  
         `} 
       >
             <SidebarContent   className="h-full bg-gradient-to-b from-[#33d391] to-[#0F3443] " >
@@ -107,10 +107,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
           panelHeight={68}
           baseItemSize={50}
           magnification={70}
-          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-white border-blue-900 text-white shadow-lg rounded-full px-3 py-2 flex justify-around w-[90%] max-w-md"
+          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-transparent   text-white  shadow-lg rounded-full px-3 py-2 flex justify-around w-[90%] max-w-md"
         />
       )}
-    </div>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ const App = () => {
             className={`flex-1 pt-10 overflow-y-auto h-screen transition-all duration-300 ${
               isCollapsed ? 'pl-20' : 'pl-64'
             }`}
-          >
+          >   
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />
