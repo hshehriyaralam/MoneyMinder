@@ -5,7 +5,7 @@ import React from 'react'
 const Dashboard = () => {
  
   return (
-    <div>
+    <div className='flex flex-col justify-center items-center'>
         <BalnceCard />
     </div>
   )
