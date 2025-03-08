@@ -1,3 +1,4 @@
+import BalnceCard from '@/Components/transactions/BalnceCard'
 import React from 'react'
 
 
@@ -5,7 +6,7 @@ const Dashboard = () => {
  
   return (
     <div>
-        <h1 className='text-black' >Dashboard</h1>
+        <BalnceCard />
     </div>
   )
 }
