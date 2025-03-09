@@ -11,9 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-StylingStructure.txt
-FolderStructure.txt
-Detailed.txt
+StylingStructure
+FolderStructure
+Detailed
 
 # Editor directories and files
 .vscode/*

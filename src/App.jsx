@@ -22,7 +22,7 @@ const App = () => {
             <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>
           <div
-            className={`flex-1 pt-10 overflow-y-auto h-screen transition-all duration-300 ${
+            className={`flex-1 pt-10 overflow-y-auto  transition-all duration-300 ${
               isCollapsed ? 'pl-20' : 'pl-64'
             }`}
           >   

@@ -4,6 +4,7 @@ import CashPick1 from "../../assets/images/cash-amount2.png";
 import AnimatedContent from '../comman/AnimatedContent';
 import TrueFocus from "../comman/TrueFocus.jsx"
 import CountUp from "../comman/CountUp.jsx"
+import Income from "../../assets/images/income1.png"
 
 const BalanceCard = () => {
   return (
