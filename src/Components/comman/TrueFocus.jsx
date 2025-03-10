@@ -66,7 +66,7 @@ const TrueFocus = ({
     <h3  // <-- h3 tag added
       key={index}
       ref={(el) => (wordRefs.current[index] = el)}
-      className="relative text-2xl md:text-3xl font-bold text-[#1E3A5F] mt-4 mb-2 cursor-pointer"  // <-- h3 styling applied
+      className="relative text-2xl md:text-3xl font-bold text-[#1E3A5F] mt-4 mb-2 cursor-pointer" 
       style={{
         filter: isActive ? `blur(0px)` : `blur(${blurAmount}px)`,
         "--border-color": borderColor,

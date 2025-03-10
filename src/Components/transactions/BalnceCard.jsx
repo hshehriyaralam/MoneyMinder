@@ -61,7 +61,7 @@ const BalanceCard = () => {
         distance={200}
         direction="horizontal"
         reverse={false}
-        config={{ tension: 80, friction: 20 }}
+        config={{ tension: 80, friction: 40 }}
         initialOpacity={0.2}
         animateOpacity
         scale={1.1}

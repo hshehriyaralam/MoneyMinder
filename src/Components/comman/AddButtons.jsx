@@ -43,7 +43,7 @@ const StyledWrapper = styled.div`
     width: 140px;
     border-radius: 50px;
     transition-duration: 0.4s;
-    background-color: blue;
+    background-color:rgb(18, 43, 74);
     align-items: center;
   }
 
@@ -57,6 +57,7 @@ const StyledWrapper = styled.div`
     content: "Add Income";
     color: white;
     font-size: 0px;
+    font-family :  'Lexend Deca', sans-serif;
   }
 
   .button:hover::before {
