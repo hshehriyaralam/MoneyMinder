@@ -2,13 +2,12 @@ import React from 'react';
 import BlurText from "../comman/BlurText.jsx";
 import CashPick1 from "../../assets/images/cash-amount2.png";
 import AnimatedContent from '../comman/AnimatedContent';
-import TrueFocus from "../comman/TrueFocus.jsx"
-import CountUp from "../comman/CountUp.jsx"
-import Income from "../../assets/images/income1.png"
+import TrueFocus from "../comman/TrueFocus.jsx";
+import CountUp from "../comman/CountUp.jsx";
 
 const BalanceCard = () => {
   return (
-    <div className="bg-transparent rounded-lg p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-full max-w-lg md:max-w-4xl mx-auto h-auto flex flex-col md:flex-row items-center justify-center">
+    <div className="bg-transparent rounded-lg p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]  transition-all duration-300 w-full max-w-lg md:max-w-4xl mx-auto h-auto flex flex-col md:flex-row items-center justify-center">
       <div className="flex-1 text-center w-full">
         <TrueFocus
           sentence="Total Balance"
@@ -16,7 +15,8 @@ const BalanceCard = () => {
           blurAmount={5}
           borderColor="green"
           animationDuration={1}
-          pauseBetweenAnimations={1}/>
+          pauseBetweenAnimations={1}
+        />
         <div className="flex justify-center items-center">
           <BlurText
             text="$5,000"
@@ -65,14 +65,14 @@ const BalanceCard = () => {
         initialOpacity={0.2}
         animateOpacity
         scale={1.1}
-        threshold={0.2}>
+        threshold={0.2}
+      >
         <img 
           src={CashPick1} 
           alt="Balance-Vector" 
           className="w-48 md:w-[500px] max-w-full h-auto mt-2 md:mt-0 md:ml-6"
         />
       </AnimatedContent>
-
     </div>
   );
 };

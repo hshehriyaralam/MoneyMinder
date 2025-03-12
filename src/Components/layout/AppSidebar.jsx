@@ -61,17 +61,17 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-          bg-gradient-to-b from-[#34E89E] to-[#0F3443] border-none  
+      bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5] border-none  
         `} 
       >
-            <SidebarContent   className="h-full bg-gradient-to-b from-[#33d391] to-[#0F3443] " >
+            <SidebarContent   className="h-full bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5]" >
               <SidebarGroup >
                 <div className="flex justify-between items-center mt-3   text-white ">
                   
                   <Button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     variant="ghost"
-                    className="rounded  bg-green-600  hover:bg-green-600    "
+                    className="rounded  bg-[#09435a] hover:bg-[#4b8ca6]   "
                   >
                     {isCollapsed ? <Menu className="w-4 h-4 text-white relative " /> : <ChevronLeft className="w-4 h-4  text-white  " />}
                   </Button>
@@ -84,7 +84,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
                           <Link
                             to={item.url}
                             className={`flex items-center  px-3 py-1 rounded-lg transition-all duration-300 
-                              ${active === item.url ? "bg-green-600 text-white shadow-md px-1" : "hover:bg-green-500 hover:text-black"}
+                              ${active === item.url ? "bg-[#09435a] text-white shadow-md px-1" : "hover:bg-[#4b8ca6] hover:text-black"}
                             `}
                           >
                             <item.icon className={`w-4 h-4 ${active === item.url ? "text-white" : "text-white-600"}`} />
