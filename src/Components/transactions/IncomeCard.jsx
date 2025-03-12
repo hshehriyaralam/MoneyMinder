@@ -4,20 +4,12 @@ import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx"
 import HyperText from "../magicui/hyper-text"
 import AnimatedContent from '../comman/AnimatedContent';
-
-
+import incomeLogo from "../../assets/images/3588982.png"
 const IncomeSection = () => {
   return (
-    <AnimatedContent
-        distance={300}
-        direction="horizontal"
-        reverse={true}
-        config={{ tension: 80, friction: 20 }}
-        initialOpacity={0.2}
-        animateOpacity
-        scale={1}
-        threshold={0.2}>
-    <div className="bg-transparent rounded-lg p-2 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-[500px] h-62 flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-2">
+    <div 
+    className="bg-transparent   rounded-lg p-2 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-[500px] h-62 flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-2"
+    >
       <div className="flex-1 text-center">
         <HyperText> 
             Total Income
@@ -47,10 +39,9 @@ const IncomeSection = () => {
         animateOpacity
         scale={1.1}
         threshold={0.2}>
-         <img src={IncomeVector} alt="Income-Vector" width={250} className="mt-2 md:mt-0 md:ml-4" />
+         <img src={incomeLogo} alt="Income-Vector" width={270} className="mt-2 md:mt-0 md:ml-4" />
       </AnimatedContent>
     </div>
-    </AnimatedContent>
   );
 };
 export default IncomeSection;
