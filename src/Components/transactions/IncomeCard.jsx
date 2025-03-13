@@ -31,7 +31,7 @@ const IncomeCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <IncomeButton />
+          <IncomeButton  />
         </div>
       </div>
       <AnimatedContent

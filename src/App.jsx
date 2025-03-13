@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Dashboard from './Pages/Dashboard';
 import AddTransaction from './Pages/AddTransaction';
 import Analytics from './Pages/Analytics';
@@ -10,22 +10,32 @@ import AppSidebar from './Components/layout/AppSidebar';
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024)
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Router>
-      <div className="w-full h-screen flex flex-col ">
-              <header className="fixed w-full  z-50 shadow-md  ">
+      <div className="w-full h-screen flex flex-col">
+        <header className="fixed w-full z-50 shadow-md">
           <Header />
         </header>
-        <div className="flex flex-1 pt-16  bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5]">
-          <div className="fixed left-0 top-16 h-[calc(100vh-4rem)]   z-40">
+        <div className="flex flex-1 pt-16 bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5]">
+          <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
             <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>
           <div
-            className={`flex-1 pt-10 overflow-y-auto  transition-all duration-300 ${
-              isCollapsed ? 'pl-20' : 'pl-64'
+            className={`flex-1 pt-10 overflow-y-auto transition-all duration-300 ${
+              isMobile ? "pl-0" : isCollapsed ? "pl-20" : "pl-64"
             }`}
-          >   
+          >
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />
@@ -39,6 +49,8 @@ const App = () => {
     </Router>
   );
 };
+
+
 
 export default App;
  

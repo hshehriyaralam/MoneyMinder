@@ -56,7 +56,7 @@ function DockItem({
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center bg-[#0F3443] border-gray-300 border-2 text-black shadow-md rounded-full ${className}`}
+      className={`relative inline-flex items-center justify-center bg-[#0D4D66] border-gray-300 border-2 text-black shadow-md rounded-full ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -87,7 +87,7 @@ function DockLabel({ children, className = "", ...rest }) {
           animate={{ opacity: 1, y: -10 }}
           exit={{ opacity: 0, y: 0 }}
           transition={{ duration: 0.2 }}
-          className={`${className} absolute -top-6 left-1/2 w-fit h-fit whitespace-pre rounded-md border border-gray-300  px-2 py-0.5 text-xs text-black font-bold`}
+          className={`${className} absolute -top-6 left-1/2 w-fit h-fit  rounded-md border border-2 border-gray-300  px-2 py-0.5 text-xs text-white font-bold`}
           role="tooltip"
           style={{ x: "-50%" }}
         >
@@ -100,7 +100,7 @@ function DockLabel({ children, className = "", ...rest }) {
 
 function DockIcon({ children, className = "" }) {
   return (
-    <div className={`flex items-center justify-center bg-transparent bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
+    <div className={`flex items-center text-gray-300 justify-center bg-transparent bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
       {children}
     </div>
   );

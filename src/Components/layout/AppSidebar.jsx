@@ -107,7 +107,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
           panelHeight={68}
           baseItemSize={50}
           magnification={70}
-          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-transparent   text-white  shadow-lg rounded-full px-3 py-2 flex justify-around w-[90%] max-w-md"
+          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-transparent   text-white  shadow-lg rounded-full px-2 py-2 flex justify-around w-[90%] max-w-md"
         />
       )}
     </>
