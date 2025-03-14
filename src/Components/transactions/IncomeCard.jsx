@@ -1,7 +1,7 @@
 import React from 'react';
 import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx";
-import AnimatedContent from '../comman/AnimatedContent';
+import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
 
 const IncomeCard = () => {

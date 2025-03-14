@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import AnimatedAvatar from '@/Components/comman/AnimateAvtar'
-
-
+import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
+import Input from "../comman/InputVerse";
+import DatePickerDemo from "../comman/DatePicker";
+import TextArea from "../comman/TextAreaVerse";
 
 const IncomeForm = () => {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("salary");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [description, setDescription] = useState("");
+  const [date, setDate] = useState(null); // 🔹 Date state added
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,12 +17,11 @@ const IncomeForm = () => {
   };
 
   return (
-    <div className="h-96 flex items-center justify-center bg-transparent p-4">
-      <div className="w-full max-w-4xl bg-transparent mt-10  backdrop-blur-lg rounded-lg shadow-2xl p-6 flex flex-col md:flex-row">
-        {/* Avatar Section */}
-        <div className="flex items-center justify-center md:justify-start md:items-start">
-               <AnimatedAvatar  />
-         
+    <div className="h-72 flex mt-20 border border-blue-900 items-center justify-center bg-transparent p-4">
+      <div className="w-full max-w-4xl bg-transparent  border border-gray-300  backdrop-blur-lg rounded-lg shadow-2xl p-6 flex flex-col md:flex-row">
+        
+        <div className="flex items-center  border border-gray-800  justify-center md:justify-start md:items-center">
+          <AnimatedAvatar />
         </div>
 
         {/* Form Section */}
@@ -30,16 +30,7 @@ const IncomeForm = () => {
 
           {/* Amount Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Amount</label>
-            <input
-              type="number"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-              min="0"
-              required
-            />
+            <Input value={amount} onChange={(e) => setAmount(e.target.value)} label={"Amount"} />
           </div>
 
           {/* Category Dropdown */}
@@ -60,26 +51,12 @@ const IncomeForm = () => {
 
           {/* Date Picker */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-              required
-            />
+            <DatePickerDemo selectedDate={date} setSelectedDate={setDate} />
           </div>
 
           {/* Description Textarea */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Description</label>
-            <textarea
-              placeholder="Add a description (optional)"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-              rows="2"
-            />
+            <TextArea value={description} onChange={(e) => setDescription(e.target.value)} label={"Description"} />
           </div>
 
           {/* Submit and Cancel Buttons */}

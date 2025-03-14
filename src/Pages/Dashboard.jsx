@@ -4,6 +4,7 @@ import IncomeCard from "@/Components/transactions/IncomeCard";
 import ExpenseCard from "@/Components/transactions/ExpenseCard";
 
 
+
 const Dashboard = () => {
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center p-4 space-y-6">
@@ -13,7 +14,7 @@ const Dashboard = () => {
         <IncomeCard className="w-full sm:w-1/2 lg:w-1/3" />
         <ExpenseCard className="w-full sm:w-1/2 lg:w-1/3" />
       </div>
-      
+             
 
     </div>
   );

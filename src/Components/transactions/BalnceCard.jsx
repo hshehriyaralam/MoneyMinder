@@ -1,7 +1,7 @@
 import React from 'react';
 import BlurText from "../comman/BlurText.jsx";
 import CashPick1 from "../../assets/images/cash-amount2.png";
-import AnimatedContent from '../comman/AnimatedContent';
+import AnimatedContent from '../comman/AnimatedContent.jsx';
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
 
