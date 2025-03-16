@@ -5,20 +5,14 @@ const Input = ({label}) => {
   return (
     <StyledWrapper>
       <div className="form-control">
-        <input required type="number" />
+        <input type="value" required />
         <label>
-          <span style={{transitionDelay: '350ms'}}>{label[0]}</span>
-          <span style={{transitionDelay: '300ms'}}>{label[1]}</span>
-          <span style={{transitionDelay: '250ms'}}>{label[2]}</span>
-          <span style={{transitionDelay: '200ms'}}>{label[3]}</span>
-          <span style={{transitionDelay: '150ms'}}>{label[4]}</span>
-          <span style={{transitionDelay: '100ms'}}>{label[5]}</span>
-          <span style={{transitionDelay: '50ms'}}>{label[6]}</span>
-          <span style={{transitionDelay: '0ms'}}>{label[7]}</span>
-          <span style={{transitionDelay: '0ms'}}>{label[8]}</span>
-          <span style={{transitionDelay: '0ms'}}>{label[9]}</span>
-          <span style={{transitionDelay: '0ms'}}>{label[10]}</span>
-        </label>
+      {label.split("").map((char, index) => (
+        <span key={index} style={{ transitionDelay: `${index * 50}ms` }}>
+          {char}
+        </span>
+      ))}
+    </label>
       </div>
     </StyledWrapper>
   );
@@ -27,25 +21,28 @@ const Input = ({label}) => {
 const StyledWrapper = styled.div`
   .form-control {
     position: relative;
-    margin: 20px 0 40px;
-    width: 190px;
+    margin: 20px 0 20px ;
+    width: 260px;
+    
   }
 
   .form-control input {
     background-color: transparent;
     border: 0;
-    border-bottom: 2px #fff solid;
+    border-bottom: 2px #b3b6ba solid;
     display: block;
     width: 100%;
-    padding: 15px 0;
-    font-size: 18px;
-    color: #fff;
+    padding: 10px 0;
+
+    font-size: 15px;
+    color: #dadde2;
+    font-family: 'Lexend Deca', sans-serif;
   }
 
   .form-control input:focus,
   .form-control input:valid {
     outline: 0;
-    border-bottom-color: lightblue;
+    border-bottom-color: #1E3A5F;
   }
 
   .form-control label {
@@ -57,15 +54,15 @@ const StyledWrapper = styled.div`
 
   .form-control label span {
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
     min-width: 5px;
-    color: #fff;
+    color:rgb(215, 219, 226);
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .form-control input:focus+label span,
   .form-control input:valid+label span {
-    color: lightblue;
+    color: #fff;
     transform: translateY(-30px);
   }`;
 

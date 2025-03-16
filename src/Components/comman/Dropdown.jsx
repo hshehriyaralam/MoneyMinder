@@ -4,59 +4,57 @@ const CategoryDropdown = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [customCategory, setCustomCategory] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
-  const [categories, setCategories] = useState([
-    "Salary",
-    "Freelance",
-    "Investment",
-  ]);
+  const [categories, setCategories] = useState(["Salary"]);
 
   const handleCategoryChange = (e) => {
     const value = e.target.value;
     if (value === "custom") {
-      setShowCustomInput(true); // Show custom input field
-      setSelectedCategory(""); // Reset selected category
+      setShowCustomInput(true);
+      setSelectedCategory("");
     } else {
       setSelectedCategory(value);
-      setShowCustomInput(false); // Hide custom input field
+      setShowCustomInput(false);
     }
   };
 
   const handleAddCustomCategory = () => {
     if (customCategory.trim() !== "") {
-      setCategories([...categories, customCategory]); // Add custom category to the list
-      setSelectedCategory(customCategory); // Set the custom category as selected
-      setCustomCategory(""); // Clear the custom input field
-      setShowCustomInput(false); // Hide custom input field
+      setCategories([...categories, customCategory]);
+      setSelectedCategory(customCategory);
+      setCustomCategory("");
+      setShowCustomInput(false);
     }
   };
 
   return (
     <div className="w-[60%] space-y-2">
-      {/* Dropdown Label */}
-      <label className="block text-sm font-medium text-gray-700">
-        Select Category
-      </label>
-
-      {/* Dropdown */}
-      <select
-        value={selectedCategory}
-        onChange={handleCategoryChange}
-        className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-      >
-        <option value="" disabled>
-          Choose a category
-        </option>
-        {/* Predefined Categories */}
-        {categories.map((category, index) => (
-          <option key={index} value={category}>
-            {category}
+      <label className="block text-sm font-medium text-gray-300">Select Category</label>
+      <div className="relative">
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="mt-1 block w-full px-3 py-1.5 bg-transparent border-b border-gray-300 rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-[#325788] focus:border-transparent text-sm appearance-none"
+        >
+          <option value="" 
+           className="bg-[#09435a]"
+           disabled
+           >Choose a category</option>
+          {categories.map((category, index) => (
+            <option key={index} value={category} className="bg-[#09435a] text-white hover:bg-gray-700">
+              {category}
+            </option>
+          ))}
+          <option value="custom" className="bg-[#09435a] text-white hover:bg-gray-700">
+            Add Custom Category
           </option>
-        ))}
-        {/* Custom Category Option */}
-        <option value="custom">Add Custom Category</option>
-      </select>
+        </select>
+        
+        {/* Custom Dropdown Arrow */}
+        <div className="absolute top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
+          🔽
+        </div>
+      </div>
 
-      {/* Custom Category Input */}
       {showCustomInput && (
         <div className="flex gap-2 mt-2">
           <input
@@ -64,7 +62,7 @@ const CategoryDropdown = () => {
             placeholder="Enter custom category"
             value={customCategory}
             onChange={(e) => setCustomCategory(e.target.value)}
-            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#325788] focus:border-transparent text-sm bg-transparent text-white"
           />
           <button
             onClick={handleAddCustomCategory}

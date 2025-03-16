@@ -1,16 +1,17 @@
 import React from "react";
-import { DatePicker } from "antd";
+import { DatetimePicker } from "@/components/ui/datetime-picker";
 
-const CustomDatePicker = ({ selectedDate, setSelectedDate }) => {
+const DatetimePickerDemo = () => {
   return (
-    <DatePicker
-      value={selectedDate}
-      onChange={(date) => setSelectedDate(date)}
-      className="w-full"
-      format="DD/MM/YYYY" // Customize the date format
-      placeholder="Pick a date"
+    <DatetimePicker
+      format={[
+        [ "days", "months",  "years"],
+        ["hours", "minutes", "am/pm"],
+      ]}
     />
   );
 };
 
-export default CustomDatePicker;
+export default  DatetimePickerDemo ;
+
+

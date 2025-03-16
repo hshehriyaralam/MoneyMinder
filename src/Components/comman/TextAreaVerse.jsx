@@ -1,67 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TextArea = ({ label }) => {
+const Input = () => {
   return (
     <StyledWrapper>
-      <div className="form-control">
-        <textarea required rows="3" />
-        <label>
-          {label.split('').map((char, index) => (
-            <span key={index} style={{ transitionDelay: `${350 - index * 50}ms` }}>
-              {char}
-            </span>
-          ))}
-        </label>
+      <div className="form__group field">
+        <input type="input" className="form__field" placeholder="Name" required />
+        <label htmlFor="name" className="form__label">Name</label>
       </div>
     </StyledWrapper>
   );
-};
+}
 
 const StyledWrapper = styled.div`
-  .form-control {
+  .form__group {
     position: relative;
-    margin: 20px 0 40px;
+    padding: 20px 0 0;
     width: 100%;
+    max-width: 180px;
   }
 
-  .form-control textarea {
-    background-color: transparent;
-    border: 2px solid #fff;
+  .form__field {
+    font-family: inherit;
     width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    color: #fff;
-    resize: none;
-    min-height: 100px;
-  }
-
-  .form-control textarea:focus,
-  .form-control textarea:valid {
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
     outline: 0;
-    border-color: lightblue;
+    font-size: 17px;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
   }
 
-  .form-control label {
+  .form__field::placeholder {
+    color: transparent;
+  }
+
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 17px;
+    cursor: text;
+    top: 20px;
+  }
+
+  .form__label {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #9b9b9b;
     pointer-events: none;
   }
 
-  .form-control label span {
-    display: inline-block;
-    font-size: 18px;
-    min-width: 5px;
-    color: #fff;
-    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  .form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #116399, #38caef);
+    border-image-slice: 1;
   }
 
-  .form-control textarea:focus + label span,
-  .form-control textarea:valid + label span {
-    color: lightblue;
-    transform: translateY(-30px);
+  .form__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #38caef;
+    font-weight: 700;
   }
-`;
 
-export default TextArea;
+  /* reset input */
+  .form__field:required, .form__field:invalid {
+    box-shadow: none;
+  }`;
+
+export default Input;
