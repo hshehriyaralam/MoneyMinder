@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-const CategoryDropdown = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
   const [customCategory, setCustomCategory] = useState("");
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [categories, setCategories] = useState(["Salary"]);
@@ -28,27 +27,35 @@ const CategoryDropdown = () => {
 
   return (
     <div className="w-[60%] space-y-2">
-      <label className="block text-sm font-medium text-gray-300">Select Category</label>
+      <label className="block text-sm font-medium text-gray-300">
+        Select Category
+      </label>
       <div className="relative">
         <select
           value={selectedCategory}
           onChange={handleCategoryChange}
           className="mt-1 block w-full px-3 py-1.5 bg-transparent border-b border-gray-300 rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-[#325788] focus:border-transparent text-sm appearance-none"
         >
-          <option value="" 
-           className="bg-[#09435a]"
-           disabled
-           >Choose a category</option>
+          <option value="" disabled className="bg-[#09435a]">
+            Choose a category
+          </option>
           {categories.map((category, index) => (
-            <option key={index} value={category} className="bg-[#09435a] text-white hover:bg-gray-700">
+            <option
+              key={index}
+              value={category}
+              className="bg-[#09435a] text-white hover:bg-gray-700"
+            >
               {category}
             </option>
           ))}
-          <option value="custom" className="bg-[#09435a] text-white hover:bg-gray-700">
+          <option
+            value="custom"
+            className="bg-[#09435a] text-white hover:bg-gray-700"
+          >
             Add Custom Category
           </option>
         </select>
-        
+
         {/* Custom Dropdown Arrow */}
         <div className="absolute top-1/2 right-3 transform -translate-y-1/2 pointer-events-none">
           🔽

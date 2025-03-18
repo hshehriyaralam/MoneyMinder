@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { use, useState } from 'react';
 import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
+import Modal from '../layout/IncomeModal.jsx';
 
 const IncomeCard = () => {
-  return (
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+   return (
     <AnimatedContent
     distance={300}
     direction="horizontal"
@@ -31,7 +35,7 @@ const IncomeCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <IncomeButton  />
+          <IncomeButton onClick={() => setIsModalOpen(true) }     />
         </div>
       </div>
       <AnimatedContent
@@ -47,6 +51,7 @@ const IncomeCard = () => {
         <img src={incomeLogo} alt="Income-Vector" className="w-48 sm:w-56 md:w-64 mt-2 md:mt-0 md:ml-4" />
       </AnimatedContent>
     </div>
+    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </AnimatedContent>
   );
 };

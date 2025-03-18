@@ -28,7 +28,7 @@ const IncomeForm = () => {
             <AnimatedAvatar />
           </div>
           <form onSubmit={handleSubmit} className="flex-1 space-y-6 ">
-               <CategoryDropdown />
+               <CategoryDropdown  selectedCategory={category} setSelectedCategory={setCategory} />
             <div>
               <label className="block text-sm font-medium text-gray-300">Date</label>
               <DatetimePickerDemo selectedDate={date} setSelectedDate={setDate} />
