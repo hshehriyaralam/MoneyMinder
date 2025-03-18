@@ -3,11 +3,10 @@ import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
-import Modal from '../layout/IncomeModal.jsx';
+
 
 const IncomeCard = () => {
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
    return (
     <AnimatedContent
@@ -35,7 +34,7 @@ const IncomeCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <IncomeButton onClick={() => setIsModalOpen(true) }     />
+          <IncomeButton   navigate={() => alert("navigate")}  />
         </div>
       </div>
       <AnimatedContent
@@ -51,7 +50,6 @@ const IncomeCard = () => {
         <img src={incomeLogo} alt="Income-Vector" className="w-48 sm:w-56 md:w-64 mt-2 md:mt-0 md:ml-4" />
       </AnimatedContent>
     </div>
-    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </AnimatedContent>
   );
 };
