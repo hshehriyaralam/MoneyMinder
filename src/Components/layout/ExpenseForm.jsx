@@ -5,11 +5,10 @@ import DatetimePickerDemo from "../comman/DatePicker";
 import CategoryDropdown from "../comman/Dropdown";
 import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
-import { useNavigate } from "react-router-dom";
 
 
-const IncomeForm = () => {
-  const Navigate = useNavigate()
+
+const ExpenseForm = () => {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("salary");
   const [description, setDescription] = useState("");
@@ -24,7 +23,7 @@ const IncomeForm = () => {
   return (
     <div className="h-auto flex  items-center justify-center bg-transparent p-4">
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-2 flex flex-col">
-      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">Add Income</h1>
+      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">Add Expense</h1>
         <div className="flex flex-col md:flex-row items-center">
                <div className="flex items-center justify-center p-2  "> 
             <AnimatedAvatar />
@@ -50,7 +49,7 @@ const IncomeForm = () => {
               />
             </div>
             <div className="flex gap-3">
-          <CancellButton  Navigate={() => Navigate('/')} />
+          <CancellButton />
           <Button />
             </div>
           </form>
@@ -60,4 +59,4 @@ const IncomeForm = () => {
   );
 };
 
-export default IncomeForm;
+export default ExpenseForm;

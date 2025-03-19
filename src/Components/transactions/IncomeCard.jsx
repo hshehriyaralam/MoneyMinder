@@ -3,11 +3,12 @@ import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
+import { useNavigate } from 'react-router-dom';
 
 
 const IncomeCard = () => {
 
-
+  const navigate = useNavigate()
    return (
     <AnimatedContent
     distance={300}
@@ -34,7 +35,7 @@ const IncomeCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <IncomeButton   navigate={() => alert("navigate")}  />
+          <IncomeButton   navigate={() => navigate('/AddTransaction')}  />
         </div>
       </div>
       <AnimatedContent
