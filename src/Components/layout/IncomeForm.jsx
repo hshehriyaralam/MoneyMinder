@@ -8,16 +8,18 @@ import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
 
 
+
 const IncomeForm = () => {
   const Navigate = useNavigate()
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("salary");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(null); 
+  const [date, setDate] = useState("")
+  const [time, setTime] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const income = { amount, category, date, description };
+    const income = { amount, category, date, description, time};
     console.log("Income Added:", income);
   };
 
@@ -31,25 +33,49 @@ const IncomeForm = () => {
           </div>
           <form onSubmit={handleSubmit} className="flex-1 space-y-6 ">
                <CategoryDropdown  selectedCategory={category} setSelectedCategory={setCategory} />
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Date</label>
-              <DatetimePickerDemo selectedDate={date} setSelectedDate={setDate} />
+            <div className="flex gap-x-4" >
+              <div>
+              <label className=" block text-sm font-medium text-gray-300">Date :</label>
+              <input
+              className="w-[100%]  border-b  text-sm  border-gray-300 rounded-xl mt-1  py-1 px-3
+              outline-none text-gray-300 focus:border-1   focus:border-blue-900
+              "
+              type="Date"
+              value={date} 
+      
+              onChange={(e) => setDate(e.target.value)}  />
+              </div>
+              <div>
+
+               <label className=" block  text-sm font-medium text-gray-300">Time :</label>
+              <input
+              className="w-[100%] space-y-2 border-b text-sm border-gray-300 rounded-xl mt-1  py-1 px-3
+              outline-none text-gray-300 focus:border-1   focus:border-blue-900
+              "
+              type="Time"
+              value={time} 
+              onChange={(e) => setTime(e.target.value)}  />
+              </div>
             </div>
+            
             <div>
               <Input
+              type={'number'}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 label={"Amount"}
+                
               />
             </div>
             <div>
               <Input
+              type={'text'}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 label={"Description"}
               />
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
           <CancellButton  Navigate={() => Navigate('/')} />
           <Button  onclick={handleSubmit} />
             </div>

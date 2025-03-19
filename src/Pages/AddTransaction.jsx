@@ -10,7 +10,7 @@ const AddTransaction = () => {
   const [isIncome, setIsIncome] = useState(true);
   return (
     <div className='p-2' >
-      <div  className='flex justify-between mx-24'>
+      <div  className='flex flex-col items-center gap-2 md:flex-row   md:justify-between md:mx-24'>
 <SplitText
   text="Add Transactions"
   className="text-2xl font-semibold  text-gray-300"

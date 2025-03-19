@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = ({label, onChange,value}) => {
+const Input = ({label, onChange,value,type}) => {
   return (
     <StyledWrapper>
       <div className="form-control">
-        <input type="value" required  onChange={onChange} value={value} />
+        <input type={type}   onChange={onChange} value={value}   required />
         <label>
       {label.split("").map((char, index) => (
         <span key={index} style={{ transitionDelay: `${index * 50}ms` }}>
@@ -21,9 +21,8 @@ const Input = ({label, onChange,value}) => {
 const StyledWrapper = styled.div`
   .form-control {
     position: relative;
-    margin: 20px 0 20px ;
+    margin: 20px 0 20px;
     width: 260px;
-    
   }
 
   .form-control input {
@@ -33,10 +32,22 @@ const StyledWrapper = styled.div`
     display: block;
     width: 100%;
     padding: 10px 0;
-
+    appearance: none;
     font-size: 15px;
     color: #dadde2;
     font-family: 'Lexend Deca', sans-serif;
+  }
+
+  /* ✅ Remove number input arrows (spinners) */
+  .form-control input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Standard */
+  }
+
+  .form-control input[type="number"]::-webkit-inner-spin-button,
+  .form-control input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .form-control input:focus,
@@ -56,14 +67,16 @@ const StyledWrapper = styled.div`
     display: inline-block;
     font-size: 16px;
     min-width: 5px;
-    color:rgb(215, 219, 226);
+    color: rgb(215, 219, 226);
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  .form-control input:focus+label span,
-  .form-control input:valid+label span {
+  .form-control input:focus + label span,
+  .form-control input:valid + label span {
     color: #fff;
     transform: translateY(-30px);
-  }`;
+  }
+`;
+
 
 export default Input;
