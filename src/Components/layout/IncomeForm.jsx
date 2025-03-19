@@ -22,8 +22,8 @@ const IncomeForm = () => {
   };
 
   return (
-    <div className="h-auto flex  items-center justify-center bg-transparent p-4">
-      <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-2 flex flex-col">
+    <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
+      <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
       <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">Add Income</h1>
         <div className="flex flex-col md:flex-row items-center">
                <div className="flex items-center justify-center p-2  "> 
@@ -51,7 +51,7 @@ const IncomeForm = () => {
             </div>
             <div className="flex gap-3">
           <CancellButton  Navigate={() => Navigate('/')} />
-          <Button />
+          <Button  onclick={handleSubmit} />
             </div>
           </form>
         </div>

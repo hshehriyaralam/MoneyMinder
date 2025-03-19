@@ -3,8 +3,10 @@ import ExpenseButton from '../comman/ExpenseButton';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "../../assets/images/9610082-removebg-preview.png";
+import { useNavigate } from 'react-router-dom';
 
 const ExpenseCard = () => {
+  const Navigate = useNavigate()
   return (
     <AnimatedContent
         distance={300}
@@ -31,7 +33,7 @@ const ExpenseCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <ExpenseButton />
+          <ExpenseButton  Navigate={() => Navigate('/AddTransaction')} />
         </div>
       </div>
       <AnimatedContent

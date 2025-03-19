@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = ({label}) => {
+const Input = ({label, onChange,value}) => {
   return (
     <StyledWrapper>
       <div className="form-control">
-        <input type="value" required />
+        <input type="value" required  onChange={onChange} value={value} />
         <label>
       {label.split("").map((char, index) => (
         <span key={index} style={{ transitionDelay: `${index * 50}ms` }}>
