@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import BlurText from "../comman/BlurText.jsx";
 import CashPick1 from "../../assets/images/cash-amount2.png";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
+import { Context } from '@/Context/TransactionContext.jsx';
 
 const BalanceCard = () => {
+  const {incomeAmount}  = useContext(Context)
+  const {expenseAmount}  = useContext(Context)
+  const {BalanceAmount} = useContext(Context)
   return (
     <div className="bg-transparent rounded-lg p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]  transition-all duration-300 w-full max-w-lg md:max-w-4xl mx-auto h-auto flex flex-col md:flex-row items-center justify-center">
       <div className="flex-1 text-center w-full">
@@ -19,7 +23,7 @@ const BalanceCard = () => {
         />
         <div className="flex justify-center items-center">
           <BlurText
-            text="$5,000"
+            text={`$${BalanceAmount}`}
             delay={150}
             animateBy="words"
             direction="right"
@@ -33,7 +37,7 @@ const BalanceCard = () => {
               +$
               <CountUp
                 from={0}
-                to={3000}
+                to={`${incomeAmount}`}
                 separator=","
                 direction="up"
                 duration={1}
@@ -47,7 +51,7 @@ const BalanceCard = () => {
               -$
               <CountUp
                 from={0}
-                to={2000}
+                to={`${expenseAmount}`}
                 separator=","
                 direction="up"
                 duration={1}

@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
-import DatetimePickerDemo from "../comman/DatePicker";
 import CategoryDropdown from "../ExpenseComponents/Dropdown";
 import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
+import { Context } from "@/Context/TransactionContext";
 
 
 
 const ExpenseForm = () => {
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("salary");
+  const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(""); 
   const [time, setTime] = useState("")
-
+  const {ExpenseUpdate} = useContext(Context)
   const handleSubmit = (e) => {
     e.preventDefault();
+    ExpenseUpdate(amount)
+    setAmount('')
+    setCategory('')
+    setDate('')
+    setTime('')
+    setDescription('')
     const income = { amount, category, date, description };
     console.log("Income Added:", income);
   };

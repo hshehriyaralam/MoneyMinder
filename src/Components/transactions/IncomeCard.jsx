@@ -1,13 +1,14 @@
-import React, { use, useState } from 'react';
+import React, { use, useContext, useState } from 'react';
 import IncomeButton from '../comman/AddButtons.jsx';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { Context } from '@/Context/TransactionContext.jsx';
 
 
 const IncomeCard = () => {
-
+  const {incomeAmount} = useContext(Context)
   const navigate = useNavigate()
    return (
     <AnimatedContent
@@ -27,7 +28,7 @@ const IncomeCard = () => {
           +$
           <CountUp
             from={0}
-            to={3000}
+            to={`${incomeAmount}`}
             separator="," 
             direction="up"
             duration={1}

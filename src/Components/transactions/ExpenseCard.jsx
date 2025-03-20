@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ExpenseButton from '../comman/ExpenseButton';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "../../assets/images/9610082-removebg-preview.png";
 import { useNavigate } from 'react-router-dom';
+import { Context } from '@/Context/TransactionContext';
 
 const ExpenseCard = () => {
+  const {expenseAmount} = useContext(Context)
   const Navigate = useNavigate()
   return (
     <AnimatedContent
@@ -25,7 +27,7 @@ const ExpenseCard = () => {
           -$
           <CountUp
             from={0}
-            to={3000}
+            to={`${expenseAmount}`}
             separator="," 
             direction="up"
             duration={1}

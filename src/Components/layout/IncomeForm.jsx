@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import DatetimePickerDemo from "../comman/DatePicker";
@@ -6,6 +6,7 @@ import CategoryDropdown from "../comman/Dropdown";
 import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
+import { Context } from "@/Context/TransactionContext";
 
 
 
@@ -16,9 +17,18 @@ const IncomeForm = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
+  const {incomeUpdate} = useContext(Context)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    incomeUpdate(amount)
+    setAmount('')
+    setDescription('')
+    setCategory('')
+    setDate('')
+    setTime('')
+    Navigate('/')
+
     const income = { amount, category, date, description, time};
     console.log("Income Added:", income);
   };
