@@ -10,6 +10,7 @@ import { Context } from '@/Context/TransactionContext.jsx';
 const IncomeCard = () => {
   const {incomeAmount} = useContext(Context)
   const navigate = useNavigate()
+  
    return (
     <AnimatedContent
     distance={300}

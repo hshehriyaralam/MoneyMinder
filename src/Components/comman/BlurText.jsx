@@ -60,10 +60,7 @@ const BlurText = ({
             await next(step);
           }
           animatedCount.current += 1;
-          if (animatedCount.current === elements.length && onAnimationComplete) {
-            onAnimationComplete();
-          }
-        }
+               }
         : animationFrom || defaultFrom,
       delay: i * delay,
       config: { easing },
