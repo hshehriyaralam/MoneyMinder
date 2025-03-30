@@ -18,10 +18,12 @@ const IncomeForm = () => {
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
   const {incomeUpdate} = useContext(Context)
+  const {CategoryUpdate} = useContext(Context)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     incomeUpdate(amount)
+    CategoryUpdate(category)
     setAmount('')
     setDescription('')
     setCategory('')

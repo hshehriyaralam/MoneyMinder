@@ -4,6 +4,7 @@ import IncomeCard from "@/Components/transactions/IncomeCard";
 import ExpenseCard from "@/Components/transactions/ExpenseCard";
 import CategoryDropdown from "@/Components/comman/Dropdown";
 import IncomeForm from "@/Components/layout/IncomeForm";
+import TransactionHistory from "@/Components/transactions/TransactionHistory";
 
 
 
@@ -15,7 +16,7 @@ const Dashboard = () => {
         <IncomeCard className="w-full sm:w-1/2 lg:w-1/3" />
         <ExpenseCard className="w-full sm:w-1/2 lg:w-1/3" />
       </div> 
-      
+      <TransactionHistory />
     </div>
   );
 };
