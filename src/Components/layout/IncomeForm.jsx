@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import DatetimePickerDemo from "../comman/DatePicker";
@@ -17,13 +17,27 @@ const IncomeForm = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
-  const {incomeUpdate} = useContext(Context)
-  const {CategoryUpdate} = useContext(Context)
+  const {addIncomeTransaction,editTransaction} = useContext(Context)
+
+
+  useEffect(() => {
+    if(editTransaction){
+      setAmount(editTransaction.amount)
+      setCategory(editTransaction.category)
+      setDescription(editTransaction.description)
+      setDate(editTransaction.date)
+      setTime(editTransaction.time)
+    }
+  },[editTransaction])
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    incomeUpdate(amount)
-    CategoryUpdate(category)
+    if(!amount || !category || !date || !time || !description){
+      alert('please filll in the form')
+      return
+    }
+
+    addIncomeTransaction(category, date, time, amount, description)
     setAmount('')
     setDescription('')
     setCategory('')
@@ -38,7 +52,8 @@ const IncomeForm = () => {
   return (
     <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
-      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">Add Income</h1>
+      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">
+        {editTransaction ? "Edit Income" : "Add Income"}</h1>
         <div className="flex flex-col md:flex-row items-center">
                <div className="flex items-center justify-center p-2  "> 
             <AnimatedAvatar />
@@ -89,7 +104,7 @@ const IncomeForm = () => {
             </div>
             <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
           <CancellButton  Navigate={() => Navigate('/')} />
-          <Button  onclick={handleSubmit} />
+          <Button  onclick={handleSubmit} Name={editTransaction ? "Update" : 'Add'} />
             </div>
           </form>
         </div>

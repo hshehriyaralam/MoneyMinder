@@ -5,24 +5,27 @@ import CategoryDropdown from "../ExpenseComponents/Dropdown";
 import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
 import { Context } from "@/Context/TransactionContext";
+import { useNavigate } from "react-router-dom";
 
 
 
 const ExpenseForm = () => {
+  const Navigate = useNavigate()
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(""); 
   const [time, setTime] = useState("")
-  const {ExpenseUpdate} = useContext(Context)
+  const {addExpenseTransaction} = useContext(Context)
   const handleSubmit = (e) => {
     e.preventDefault();
-    ExpenseUpdate(amount)
+    addExpenseTransaction(category, date, time, amount, description)
     setAmount('')
     setCategory('')
     setDate('')
     setTime('')
     setDescription('')
+    Navigate('/')
     const income = { amount, category, date, description };
     console.log("Income Added:", income);
   };

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = ({onclick}) => {
+const Button = ({onclick, Name}) => {
   return (
     <StyledWrapper>
       <button className="animated-button"  onClick={onclick} >
-        <span>Add</span>
+        <span>{Name}</span>
         <span />
       </button>
     </StyledWrapper>

@@ -7,9 +7,7 @@ import CountUp from "../comman/CountUp.jsx";
 import { Context } from '@/Context/TransactionContext.jsx';
 
 const BalanceCard = () => {
-  const {incomeAmount}  = useContext(Context)
-  const {expenseAmount}  = useContext(Context)
-  const {BalanceAmount} = useContext(Context)
+  const {incomeAmount,expenseAmount,BalanceAmount}  = useContext(Context)
   return (
     <div className="bg-transparent rounded-lg p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]  transition-all duration-300 w-full max-w-lg md:max-w-4xl mx-auto h-auto flex flex-col md:flex-row items-center justify-center">
       <div className="flex-1 text-center w-full">
