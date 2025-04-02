@@ -47,7 +47,7 @@ const TransactionContext = ({ children }) => {
     const newExpense = { id:Date.now(),  category, date, time, amount, description, type: "expense" };
 
     if(editTransaction){
-      setExpenseTransaction((prev) => prev.map((t) => (t.id === editTransaction ? newIncome : t)))
+      setExpenseTransaction((prev) => prev.map((t) => (t.id === editTransaction ? newExpense : t)))
 
       setEditTransaction(null)
     }else{
