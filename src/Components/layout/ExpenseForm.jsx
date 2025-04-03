@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../ExpenseComponents/Dropdown";
@@ -8,7 +8,6 @@ import { Context } from "@/Context/TransactionContext";
 import { useNavigate } from "react-router-dom";
 
 
-
 const ExpenseForm = () => {
   const Navigate = useNavigate()
   const [amount, setAmount] = useState("");
@@ -16,24 +15,47 @@ const ExpenseForm = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(""); 
   const [time, setTime] = useState("")
-  const {addExpenseTransaction} = useContext(Context)
+  const {addExpenseTransaction,editTransaction,setEditTransaction} = useContext(Context)
+
+    useEffect(() => {
+      if(editTransaction){
+        setAmount(editTransaction.amount)
+        setCategory(editTransaction.category)
+        setDescription(editTransaction.description)
+        setDate(editTransaction.date)
+        setTime(editTransaction.time)
+      }
+    },[editTransaction])
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(!amount || !category || !date || !time || !description){
+      alert('please filll in the form')
+      return
+    }
+
     addExpenseTransaction(category, date, time, amount, description)
     setAmount('')
+    setDescription('')
     setCategory('')
     setDate('')
     setTime('')
-    setDescription('')
+    setEditTransaction(null)
     Navigate('/')
-    const income = { amount, category, date, description };
-    console.log("Income Added:", income);
   };
+
+
+  const handleBack = (e) => {
+    e.preventDefault()
+    setEditTransaction(null)
+    Navigate('/')
+   }
 
   return (
     <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col ">
-      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">Add Expense</h1>
+      <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">{editTransaction ? "Edit Expense" : "Add Expense"}</h1>
         <div className="flex flex-col md:flex-row items-center">
                <div className="flex items-center justify-center p-2  "> 
             <AnimatedAvatar />
@@ -79,8 +101,8 @@ const ExpenseForm = () => {
               />
             </div>
             <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
-          <CancellButton />
-          <Button />
+          <CancellButton  handleBack={handleBack}  />
+          <Button onclick={handleSubmit} Name={editTransaction ? 'Update' : 'Edit'} />
             </div>
           </form>
         </div>

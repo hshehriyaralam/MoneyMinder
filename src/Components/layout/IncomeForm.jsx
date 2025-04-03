@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
-import DatetimePickerDemo from "../comman/DatePicker";
 import CategoryDropdown from "../comman/Dropdown";
 import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
 import { Context } from "@/Context/TransactionContext";
-
-
 
 const IncomeForm = () => {
   const Navigate = useNavigate()
@@ -17,7 +14,7 @@ const IncomeForm = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
-  const {addIncomeTransaction,editTransaction} = useContext(Context)
+  const {addIncomeTransaction,editTransaction,setEditTransaction} = useContext(Context)
 
 
   useEffect(() => {
@@ -43,11 +40,15 @@ const IncomeForm = () => {
     setCategory('')
     setDate('')
     setTime('')
+    setEditTransaction(null)
     Navigate('/')
-
-    const income = { amount, category, date, description, time};
-    console.log("Income Added:", income);
   };
+
+  const handleBack = (e) => {    
+    e.preventDefault()
+    setEditTransaction(null)
+    Navigate('/')
+  }
 
   return (
     <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
@@ -103,7 +104,7 @@ const IncomeForm = () => {
               />
             </div>
             <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
-          <CancellButton  Navigate={() => Navigate('/')} />
+          <CancellButton  handleBack={handleBack} />
           <Button  onclick={handleSubmit} Name={editTransaction ? "Update" : 'Add'} />
             </div>
           </form>

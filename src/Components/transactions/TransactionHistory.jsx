@@ -28,7 +28,9 @@ function TransactionHistory() {
 
           <button className='text-black mx-10' onClick={() => removeTransaction(item.id,item.type)}  >Delete</button>
           <button
-          onClick={() => { setEditTransaction(item); Navigate('/AddTransaction') }
+          onClick={() => { setEditTransaction(item);
+            Navigate(`/AddTransaction?type=${item.type}`);
+            }
            }
           className='text-black-900' >
             Update

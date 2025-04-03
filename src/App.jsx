@@ -10,7 +10,7 @@ import AppSidebar from './Components/layout/AppSidebar';
 import ScrollTop from './Components/comman/ScrollTop';
 
 const App = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {

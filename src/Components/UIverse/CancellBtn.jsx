@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CancellButton = ({Navigate}) => {
+const CancellButton = ({handleBack}) => {
   return (
     <StyledWrapper>
-      <button className="button"  onClick={Navigate} >
+      <button className="button"  onClick={handleBack} >
         Go Back
       </button>
     </StyledWrapper>
