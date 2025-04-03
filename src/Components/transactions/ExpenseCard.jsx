@@ -35,7 +35,7 @@ const ExpenseCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <ExpenseButton  Navigate={() => Navigate('/AddTransaction')} />
+          <ExpenseButton  Navigate={() => Navigate('/AddTransaction?type=expense')} />
         </div>
       </div>
       <AnimatedContent

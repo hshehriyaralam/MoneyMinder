@@ -7,6 +7,7 @@ import Setting from './Pages/Setting';
 import Transaction from './Pages/Transaction';
 import Header from './Components/layout/Header';
 import AppSidebar from './Components/layout/AppSidebar';
+import ScrollTop from './Components/comman/ScrollTop';
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -23,6 +24,7 @@ const App = () => {
 
   return (
     <Router>
+      <ScrollTop />
       <div className="w-full h-screen flex flex-col">
         <header className="fixed w-full z-50 shadow-md">
           <Header />

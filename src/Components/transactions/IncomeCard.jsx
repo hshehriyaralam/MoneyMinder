@@ -37,7 +37,7 @@ const IncomeCard = () => {
           />
         </p>
         <div className="flex justify-center">
-          <IncomeButton   navigate={() => navigate('/AddTransaction')}  />
+          <IncomeButton   navigate={() => navigate('/AddTransaction?type=income')}  />
         </div>
       </div>
       <AnimatedContent
