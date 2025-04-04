@@ -21,7 +21,7 @@ import { Button } from "@/Components/ui/button";
 const items = [
   { title: "Dashboard", url: "/", icon: Home },
   { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
-  { title: "Transactions", url: "/Transaction", icon: List },
+  { title: "Transactions", url: "/Transactions", icon: List },
   { title: "Analytics", url: "/Analytics", icon: PieChart },
   { title: "Settings", url: "/Setting", icon: Settings },
 ];
@@ -35,7 +35,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const itemsDock = [
     { title: "Dashboard", url: "/", icon: <RiDashboardLine size={20} />, onClick: () => navigate("/") },
     { title: "Add Transaction", url: "/AddTransaction", icon: <RiExchangeFundsLine size={20} />, onClick: () => navigate("/AddTransaction") },
-    { title: "Transactions", url: "/Transaction", icon: <RiFileList3Line size={20} />, onClick: () => navigate("/Transaction") },
+    { title: "Transactions", url: "/Transactions", icon: <RiFileList3Line size={20} />, onClick: () => navigate("/Transactions") },
     { title: "Settings", url: "/Setting", icon: <RiSettings3Line size={20} />, onClick: () => navigate("/Setting") },
     { title: "Analytics", url: "/Analytics", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Analytics") },
   ];

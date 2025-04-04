@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 const FuzzyText = ({
   children,
-  fontSize = "15px",
+  fontSize = "20px",
   fontWeight = 900,
   fontFamily = "Lexend Deca, sans-serif",
   color = "#0c2e5e",

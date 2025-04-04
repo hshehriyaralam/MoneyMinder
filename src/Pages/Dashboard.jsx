@@ -16,7 +16,7 @@ const Dashboard = () => {
         <IncomeCard className="w-full sm:w-1/2 lg:w-1/3" />
         <ExpenseCard className="w-full sm:w-1/2 lg:w-1/3" />
       </div> 
-      <TransactionHistory />
+      <TransactionHistory  showDesc={true} />
     </div>
   );
 };

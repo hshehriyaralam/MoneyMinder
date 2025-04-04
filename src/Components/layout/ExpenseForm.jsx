@@ -102,7 +102,7 @@ const ExpenseForm = () => {
             </div>
             <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
           <CancellButton  handleBack={handleBack}  />
-          <Button onclick={handleSubmit} Name={editTransaction ? 'Update' : 'Edit'} />
+          <Button onclick={handleSubmit} Name={editTransaction ? 'Update' : 'Add'} />
             </div>
           </form>
         </div>

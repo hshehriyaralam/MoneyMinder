@@ -20,10 +20,10 @@ const AddTransaction = () => {
   }
   return (
     <div className='' >
-      <div  className='flex flex-col items-center gap-2 md:flex-row   md:justify-between md:mx-24'>
+      <div  className='flex flex-col items-center gap-2 md:flex-row   md:justify-between md:mx-48'>
 <SplitText
   text="Add Transactions"
-  className="text-2xl font-semibold  text-gray-300"
+  className="text-[27px] font-semibold  text-gray-300"
   delay={150}
   animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
   animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
