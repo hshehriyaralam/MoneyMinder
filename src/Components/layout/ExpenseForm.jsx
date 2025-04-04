@@ -27,12 +27,7 @@ const ExpenseForm = () => {
        }
      },[editTransaction])
 
-    const formatTime = (time) => {
-      const [hours, minutes] = time.split(":");
-      const hours12 = hours % 12 || 12; // Convert to 12-hour format
-      const ampm = hours >= 12 ? "PM" : "AM";
-      return `${hours12}:${minutes} ${ampm}`;
-    };
+ 
 
 
   const handleSubmit = (e) => {
@@ -62,6 +57,16 @@ const ExpenseForm = () => {
    }
 
   return (
+    <AnimatedContent
+    distance={300}
+    direction="vertical"
+    reverse={false}
+    config={{ tension: 80, friction: 20 }}
+    initialOpacity={0.2}
+    animateOpacity
+    scale={1.1}
+    threshold={0.2}
+  >
     <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col ">
       <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">{editTransaction ? "Edit Expense" : "Add Expense"}</h1>
@@ -92,9 +97,7 @@ const ExpenseForm = () => {
               "
               type="time"
               value={time} 
-              onChange={(e) => {
-                const formattedTime  = formatTime(e.target.value)
-                setTime(formattedTime)}} />
+              onChange={(e) => setTime(e.target.value)}/>
               </div>
             </div>
             <div>
@@ -119,6 +122,7 @@ const ExpenseForm = () => {
         </div>
       </div>
     </div>
+    </AnimatedContent>
   );
 };
 

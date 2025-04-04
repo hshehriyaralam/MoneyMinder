@@ -1,17 +1,17 @@
-import AnimatedAvatar from '@/Components/comman/AnimateAvtar'
 import React, { useContext, useEffect, useState } from 'react'
 import IncomeForm from '@/Components/layout/IncomeForm'
-import Switch from '@/Components/UIverse/Toggle'
 import SplitText from "../Components/Reactbits/SplitText"
 import Toggle from '@/Components/UIverse/Toggle'
 import ExpenseForm from '@/Components/layout/ExpenseForm'
 import { useSearchParams} from 'react-router-dom'
+import { Context } from '@/Context/TransactionContext'
+import AnimatedContent from '@/Components/comman/AnimatedContent'
 
 const AddTransaction = () => {
   const [searchParams,setSearchParams] = useSearchParams()
   const type = searchParams.get('type')
   const [isIncome, setIsIncome] = useState(type !== 'expense' );
-
+  const {editTransaction} = useContext(Context)
 
 
   const handleToggle = (value) => {
@@ -31,7 +31,18 @@ const AddTransaction = () => {
   threshold={0.2}
   rootMargin="-50px"
 />
-<Toggle isIncome={isIncome} setIsIncome={handleToggle} />
+{!editTransaction &&   <AnimatedContent
+    distance={300}
+    direction="horizontal"
+    reverse={false}
+    config={{ tension: 80, friction: 20 }}
+    initialOpacity={0.2}
+    animateOpacity
+    scale={1.1}
+    threshold={0.2}
+  >
+    <Toggle isIncome={isIncome} setIsIncome={handleToggle} />
+  </AnimatedContent>  }
   </div>
 {isIncome ? <IncomeForm /> : <ExpenseForm /> }
   </div>

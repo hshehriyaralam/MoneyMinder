@@ -6,6 +6,7 @@ import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
 import { Context } from "@/Context/TransactionContext";
+import AnimatedContent from "../comman/AnimatedContent";
 
 const IncomeForm = () => {
   const Navigate = useNavigate()
@@ -27,12 +28,18 @@ const IncomeForm = () => {
     }
   },[editTransaction])
 
-  const formatTime = (time) => {
-    const [hours, minutes] = time.split(":");
-    const hours12 = hours % 12 || 12;
-    const ampm = hours >= 12 ? "PM" : "AM";
-    return `${hours12}:${minutes} ${ampm}`;
-  };
+
+  useEffect(() => {
+    return () => {
+      setEditTransaction(null);
+      setAmount('');
+      setDescription('');
+      setCategory('salary');
+      setDate('');
+      setTime('');
+    };
+  }, []);
+
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,6 +65,16 @@ const IncomeForm = () => {
   }
 
   return (
+    <AnimatedContent
+    distance={300}
+    direction="vertical"
+    reverse={false}
+    config={{ tension: 80, friction: 20 }}
+    initialOpacity={0.2}
+    animateOpacity
+    scale={1.1}
+    threshold={0.2}
+  >
     <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
       <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">
@@ -83,18 +100,18 @@ const IncomeForm = () => {
               <div>
 
                <label className=" block  text-sm font-medium text-gray-300">Time :</label>
+               
                <input
               className="w-[100%] space-y-2 border-b text-sm border-gray-300 rounded-xl mt-1  py-1 px-3
               outline-none text-gray-300 focus:border-1   focus:border-blue-900
               "
               type="time"
+              placeholder="hh:mm"
               value={time} 
-              onChange={(e) => {
-                const formattedTime  = formatTime(e.target.value)
-                setTime(formattedTime)}} />
+             pattern="[0-9]{2}:[0-9]{2}"
+             onChange={(e) =>setTime(e.target.value) }/>
               </div>
             </div>
-            
             <div>
               <Input
               type={'number'}
@@ -120,6 +137,7 @@ const IncomeForm = () => {
         </div>
       </div>
     </div>
+    </AnimatedContent>
   );
 };
 

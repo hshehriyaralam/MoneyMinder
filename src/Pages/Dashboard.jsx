@@ -2,8 +2,6 @@ import React from "react";
 import BalanceCard from "@/Components/transactions/BalnceCard";
 import IncomeCard from "@/Components/transactions/IncomeCard";
 import ExpenseCard from "@/Components/transactions/ExpenseCard";
-import CategoryDropdown from "@/Components/comman/Dropdown";
-import IncomeForm from "@/Components/layout/IncomeForm";
 import TransactionHistory from "@/Components/transactions/TransactionHistory";
 
 
@@ -16,7 +14,7 @@ const Dashboard = () => {
         <IncomeCard className="w-full sm:w-1/2 lg:w-1/3" />
         <ExpenseCard className="w-full sm:w-1/2 lg:w-1/3" />
       </div> 
-      <TransactionHistory  showDesc={true} />
+      <TransactionHistory  showDesc={true} limit={6} Name={'Transactions'} />
     </div>
   );
 };

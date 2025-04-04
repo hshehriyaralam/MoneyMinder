@@ -9,12 +9,26 @@ import Button from "../UIverse/EditButtton"
 import  DeleteButton from "../UIverse/DeleteButton"
 import Explore from '../UIverse/ExploreALL';
 
-
-
-function TransactionHistory({showDesc}) {
+function TransactionHistory({showDesc, limit,Name}) {
   const Navigate = useNavigate();
   const { transactions, removeTransaction, setEditTransaction } = useContext(Context);
-  const [showDescription, setShowDescription] = useState(() => showDesc)
+  const [showDescription, setShowDescription,BalanceAmount] = useState(() => showDesc)
+
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":");
+    const hours12 = hours % 12 || 12;
+    const ampm = hours >= 12 ? "PM" : "AM";
+    return `${hours12}:${minutes} ${ampm}`;
+  };
+  
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); 
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   const getCategoryIcon = (category) => {
     const icons = {
@@ -27,11 +41,17 @@ function TransactionHistory({showDesc}) {
     };
     return icons[category.toLowerCase()] || icons.other;
   };
-
+    if(limit === undefined) return null
+  const visibleProduct = limit === "all"  ? transactions : transactions.slice(0,limit)
   return (
-    <div className=" w-full p-5 my-5">
-    <TextAnimate animation="slideLeft" by="character"  className={`text-center text-[30px] font-lexend font-bold my-3 text-[#1E3A5F] `} >
-      Transactions
+    <div className="w-full p-5">
+    <TextAnimate 
+    delay={0.4}
+    duration={1.9}
+    animation="slideLeft"
+     by="character"
+      className={`text-center text-[30px] font-lexend font-bold  text-[#1E3A5F] `} >
+      {Name}
     </TextAnimate>
  
  
@@ -45,54 +65,40 @@ function TransactionHistory({showDesc}) {
     <div className="px-3 py-1.5">Type</div>
     <div className="px-3 py-1.5 text-center">Actions</div>
   </div>
-
-  
         <div className="divide-y-2  my-5 divide-gray-200">
-          {transactions.map((item) => (
+          {visibleProduct.map((item) => (
             <div 
               key={item.id} 
-               className="grid grid-cols-7 rounded-b-lg text-[15px] transition-colors items-end mt-4  "
-            >
-              
+               className="grid grid-cols-7 rounded-b-lg text-[15px] transition-colors items-end mt-4">      
               <div className={`px-4 py-3 text-[17px] ${item.type === "income" ? "text-green-700 font-semibold" : "text-red-700 font-semibold"}`}>
                 {item.type === "income" ? "+" : "-"}$
-                              <CountUp
-                                from={0}
-                                to={item.amount}
-                                separator=","
-                                direction="up"
-                                duration={1}
-                                className="inline"
-                              />
-                             </div>
-
+                 <CountUp
+                  from={0}
+                  to={item.amount}
+                  separator=","
+                  direction="up"
+                  duration={1}
+                  className="inline" />
+              </div>
               <div className="px-4 py-3 flex text[15px] items-center">
                 <span className="mr-2">{getCategoryIcon(item.category)}</span>
                 {item.category}
               </div>
-
               <div className="px-4 py-3 text-gray-800">
                    <DecryptedText
-                   text={`${item.date}`}
+                  text={formatDate(item.date)}
                    animateOn="view"
-                   revealDirection="center"
-                    />
+                   revealDirection="center" />
               </div>
-
               <div className="px-4 py-3 text-gray-800">
               <DecryptedText
-                   text={`${item.time || "--:--"}`}
+                  text={formatTime(item.time || "--:--")}
                    animateOn="view"
-                   revealDirection="left"
-                    />
-               
+                   revealDirection="left"/>
               </div>
-
-            
                 {showDescription &&  <div className="px-4 py-3 text-[16px] text-gray-700 truncate">
                   {item.description}
                 </div>}
-
               <div className="px-4 py-3">
                 <span className={`inline-flex items-center px-2.5  py-0.5 rounded-full text-[10px] font-semibold ${
                   item.type === "income" 
@@ -102,23 +108,20 @@ function TransactionHistory({showDesc}) {
                  <ShinyText text={`${item.type}`} disabled={false} speed={10} className='text-gray-200'  />
                 </span>
               </div>
-
-
               <div className="px-4 py-3  flex justify-center items-center space-x-5">
                 <Button Name={"Edit"}  onClick={() => {
                   setEditTransaction(item);
                   Navigate(`/AddTransaction?type=${item.type}`);
                   }} />
-                    <DeleteButton  Name={'Delete'}  onClick={() => removeTransaction(item.id, item.type)} />
+                  <DeleteButton  Name={'Delete'}  onClick={() => removeTransaction(item.id, item.type)} />
               </div>
             </div>
           ))}
           <div className='flex justify-end pr-6 mt-5'  >
-              <Explore Name={'Explore All'} onClick={() => Navigate('/Transactions')}  />
+          {limit === 6 &&  <Explore Name={'Explore All'} onClick={() => Navigate('/Transactions')}  />  }   
           </div>
         </div>
       </div>
-
       {transactions.length === 0 && (
         <div className="text-center py-10 text-gray-700">
           No transactions found. Add your first transaction!
@@ -127,5 +130,4 @@ function TransactionHistory({showDesc}) {
     </div>
   );
 }
-
 export default TransactionHistory;
