@@ -17,15 +17,22 @@ const ExpenseForm = () => {
   const [time, setTime] = useState("")
   const {addExpenseTransaction,editTransaction,setEditTransaction} = useContext(Context)
 
-    useEffect(() => {
-      if(editTransaction){
-        setAmount(editTransaction.amount)
-        setCategory(editTransaction.category)
-        setDescription(editTransaction.description)
-        setDate(editTransaction.date)
-        setTime(editTransaction.time)
-      }
-    },[editTransaction])
+   useEffect(() => {
+       if(editTransaction){
+         setAmount(editTransaction.amount)
+         setCategory(editTransaction.category)
+         setDescription(editTransaction.description)
+         setDate(editTransaction.date)
+         setTime(editTransaction.time)
+       }
+     },[editTransaction])
+
+    const formatTime = (time) => {
+      const [hours, minutes] = time.split(":");
+      const hours12 = hours % 12 || 12; // Convert to 12-hour format
+      const ampm = hours >= 12 ? "PM" : "AM";
+      return `${hours12}:${minutes} ${ampm}`;
+    };
 
 
   const handleSubmit = (e) => {
@@ -34,6 +41,8 @@ const ExpenseForm = () => {
       alert('please filll in the form')
       return
     }
+    
+
 
     addExpenseTransaction(category, date, time, amount, description)
     setAmount('')
@@ -81,9 +90,11 @@ const ExpenseForm = () => {
               className="w-[100%] space-y-2 border-b text-sm border-gray-300 rounded-xl mt-1  py-1 px-3
               outline-none text-gray-300 focus:border-1   focus:border-blue-900
               "
-              type="Time"
+              type="time"
               value={time} 
-              onChange={(e) => setTime(e.target.value)}  />
+              onChange={(e) => {
+                const formattedTime  = formatTime(e.target.value)
+                setTime(formattedTime)}} />
               </div>
             </div>
             <div>

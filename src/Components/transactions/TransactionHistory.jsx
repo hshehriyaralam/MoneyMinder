@@ -29,7 +29,7 @@ function TransactionHistory({showDesc}) {
   };
 
   return (
-    <div className="p-5 my-5">
+    <div className=" w-full p-5 my-5">
     <TextAnimate animation="slideLeft" by="character"  className={`text-center text-[30px] font-lexend font-bold my-3 text-[#1E3A5F] `} >
       Transactions
     </TextAnimate>
@@ -119,7 +119,6 @@ function TransactionHistory({showDesc}) {
         </div>
       </div>
 
-      {/* Empty State */}
       {transactions.length === 0 && (
         <div className="text-center py-10 text-gray-700">
           No transactions found. Add your first transaction!

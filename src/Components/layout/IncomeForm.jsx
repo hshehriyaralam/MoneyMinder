@@ -27,6 +27,13 @@ const IncomeForm = () => {
     }
   },[editTransaction])
 
+  const formatTime = (time) => {
+    const [hours, minutes] = time.split(":");
+    const hours12 = hours % 12 || 12;
+    const ampm = hours >= 12 ? "PM" : "AM";
+    return `${hours12}:${minutes} ${ampm}`;
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if(!amount || !category || !date || !time || !description){
@@ -76,13 +83,15 @@ const IncomeForm = () => {
               <div>
 
                <label className=" block  text-sm font-medium text-gray-300">Time :</label>
-              <input
+               <input
               className="w-[100%] space-y-2 border-b text-sm border-gray-300 rounded-xl mt-1  py-1 px-3
               outline-none text-gray-300 focus:border-1   focus:border-blue-900
               "
-              type="Time"
+              type="time"
               value={time} 
-              onChange={(e) => setTime(e.target.value)}  />
+              onChange={(e) => {
+                const formattedTime  = formatTime(e.target.value)
+                setTime(formattedTime)}} />
               </div>
             </div>
             
