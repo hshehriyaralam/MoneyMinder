@@ -6,7 +6,7 @@ import Button from "../UIverse/IncomeBuuton"
 import CancellButton from "../UIverse/CancellBtn";
 import { Context } from "@/Context/TransactionContext";
 import { useNavigate } from "react-router-dom";
-
+import AnimatedContent from "../comman/AnimatedContent";
 
 const ExpenseForm = () => {
   const Navigate = useNavigate()
