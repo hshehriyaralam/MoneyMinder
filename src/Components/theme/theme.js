@@ -1,7 +1,7 @@
 export const theme = {
   colors: {
-    primary: "#2563EB", // Blue
-    accent: "#FFC107", // Orange (Neutral Accent)
+    primary: "#1E3A5F", 
+    accent: "#149a65", 
     success: "#34C759", // Green
     error: "#DC2626", // Red
     warning: "#FF9900", // Orange-Yellow

@@ -15,6 +15,8 @@ const IncomeForm = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [missingFields , setMisingFields] = useState([])
   const {addIncomeTransaction,editTransaction,setEditTransaction} = useContext(Context)
 
 
@@ -42,11 +44,20 @@ const IncomeForm = () => {
 
   
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if(!amount || !category || !date || !time || !description){
-      alert('please filll in the form')
-      return
-    }
+    e.preventDefault()
+    const emptyField = [];
+
+    if(!amount)  emptyField.push("Amount")
+    if(!category)  emptyField.push("Category")
+    if(!date)  emptyField.push("Date")  
+    if(!time)  emptyField.push("Time")
+    if(!description)  emptyField.push("Description")
+
+      if(emptyField.length > 0){
+        setMisingFields(emptyField)
+        setShowErrorModal(true)
+        return;
+      }
 
     addIncomeTransaction(category, date, time, amount, description)
     setAmount('')
@@ -75,7 +86,7 @@ const IncomeForm = () => {
     scale={1.1}
     threshold={0.2}
   >
-    <div className="h-auto flex  items-center justify-center bg-transparent p-4 mb-20">
+    <div className={`h-auto flex  items-center justify-center bg-transparent p-4 mb-20 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
       <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">
         {editTransaction ? "Edit Income" : "Add Income"}</h1>
@@ -137,6 +148,31 @@ const IncomeForm = () => {
         </div>
       </div>
     </div>
+
+
+    {showErrorModal && (
+  <div className="fixed inset-0  backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-intent  rounded-lg p-6 shadow-xl w-96">
+      <h2 className="text-xl font-bold text-[#1E3A5F] mb-4 text-center">
+        Please Fill in All Required Fields
+      </h2>
+      <ul className="list-disc list-inside text-left text-gray-100">
+        {missingFields.map((field, index) => (
+          <li key={index}>{field}</li>
+        ))}
+      </ul>
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => setShowErrorModal(false)}
+          className="bg-[#149a65]   hover:bg-[#1E3A5F] text-gray-100 hover:text-gray-300 px-4 py-2 rounded"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </AnimatedContent>
   );
 };
