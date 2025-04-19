@@ -24,11 +24,13 @@ const TransactionContext = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("incomeTransaction", JSON.stringify(incomeTransaction));
-  }, [incomeTransaction]);
-
-  useEffect(() => {
     localStorage.setItem("expenseTransaction", JSON.stringify(expenseTransaction));
-  }, [expenseTransaction]);
+
+  }, [incomeTransaction,expenseTransaction]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("expenseTransaction", JSON.stringify(expenseTransaction));
+  // }, [expenseTransaction]);
 
   const addIncomeTransaction = (category, date, time, amount, description) => {
     const newIncome = { id:Date.now(), category, date, time, amount, description, type: "income" };

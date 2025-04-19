@@ -11,6 +11,10 @@ const IncomeCard = () => {
   const {incomeAmount} = useContext(Context)
   const navigate = useNavigate()
   
+
+  const handleNavigate  = () => {
+    navigate('/AddTransaction?type=income')
+  }
    return (
     <AnimatedContent
     distance={300}
@@ -38,6 +42,7 @@ const IncomeCard = () => {
         </p>
         <div className="flex justify-center">
           <IncomeButton   navigate={() => navigate('/AddTransaction?type=income')}  />
+            <button onClick={() => navigate(`/AddTransaction?type=income`)}>sdddd</button>
         </div>
       </div>
       <AnimatedContent

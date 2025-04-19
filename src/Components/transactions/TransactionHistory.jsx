@@ -8,6 +8,7 @@ import ShinyText from '../Reactbits/ShinnyText';
 import Button from "../UIverse/EditButtton";
 import DeleteButton from "../UIverse/DeleteButton";
 import Explore from '../UIverse/ExploreALL';
+import { AnimatedList } from '../magicui/animated-list';
 
 // Pagination Imports
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
@@ -133,7 +134,6 @@ console.log(limit,"limit")
               </div>
             </div>
           ))}
-
           {limit === 6 && (
             <div className="flex justify-end pr-6 mt-5 my-5">
               <Explore Name={"Explore All"} onClick={() => Navigate('/Transactions')} />
