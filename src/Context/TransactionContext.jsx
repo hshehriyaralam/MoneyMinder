@@ -13,58 +13,39 @@ const TransactionContext = ({ children }) => {
     }
   };
 
-  const [incomeTransaction, setIncomeTransaction] = useState(() =>
-    getStoredValue("incomeTransaction", [])
+  const [transactions, setTransactions] = useState(() =>
+    getStoredValue("transactions", [])
   );
-
-  const [expenseTransaction, setExpenseTransaction] = useState(() =>
-    getStoredValue("expenseTransaction", [])
-  );
-  const [editTransaction, setEditTransaction] = useState(null)
+  const [editTransaction, setEditTransaction] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem("incomeTransaction", JSON.stringify(incomeTransaction));
-    localStorage.setItem("expenseTransaction", JSON.stringify(expenseTransaction));
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
 
-  }, [incomeTransaction,expenseTransaction]);
+  const addTransaction = (transaction) => {
+    const newTransaction = { 
+      ...transaction, 
+      id: Date.now(),
+      createdAt: new Date().toISOString()
+    };
 
-  // useEffect(() => {
-  //   localStorage.setItem("expenseTransaction", JSON.stringify(expenseTransaction));
-  // }, [expenseTransaction]);
-
-  const addIncomeTransaction = (category, date, time, amount, description) => {
-    const newIncome = { id:Date.now(), category, date, time, amount, description, type: "income" };
-
-
-    if(editTransaction){
-      setIncomeTransaction((prev) => prev.map((t) => (t.id === editTransaction.id ? newIncome : t)));
-
-      setEditTransaction(null)
-    }else{
-      setIncomeTransaction((prev) => [...prev, newIncome ])
+    if(editTransaction) {
+      setTransactions(prev => 
+        prev.map(t => t.id === editTransaction.id ? newTransaction : t)
+      );
+      setEditTransaction(null);
+    } else {
+      setTransactions(prev => [newTransaction, ...prev]); // Newest first
     }
   };
 
-  const addExpenseTransaction = (category, date, time, amount, description) => {
-    const newExpense = { id:Date.now(),  category, date, time, amount, description, type: "expense" };
-
-    if(editTransaction){
-      setExpenseTransaction((prev) => prev.map((t) => (t.id === editTransaction.id ? newExpense : t)))
-
-      setEditTransaction(null)
-    }else{
-       setExpenseTransaction((prev) => [...prev, newExpense]);
-    } 
+  const removeTransaction = (id) => {
+    setTransactions(prev => prev.filter(transaction => transaction.id !== id));
   };
 
-
-  const removeTransaction = (id,type) => {
-    if(type === "income"){
-      setIncomeTransaction((prev) => prev.filter((transaction) => transaction.id !== id ))
-    } else if(type === "expense" ) {
-      setExpenseTransaction((prev) => prev.filter((transaction) => transaction.id !== id) )
-    }
-  }
+  // Derived values
+  const incomeTransaction = transactions.filter(t => t.type === "income");
+  const expenseTransaction = transactions.filter(t => t.type === "expense");
 
   const incomeAmount = incomeTransaction.reduce(
     (total, transaction) => total + Number(transaction.amount),
@@ -78,18 +59,15 @@ const TransactionContext = ({ children }) => {
 
   const BalanceAmount = incomeAmount - expenseAmount;
 
-  const transactions = [...incomeTransaction, ...expenseTransaction];
-  
   const ALL = {
+    transactions,
     incomeTransaction,
     expenseTransaction,
-    addIncomeTransaction,
-    addExpenseTransaction,
+    addTransaction,
     removeTransaction,
     incomeAmount,
     expenseAmount,
     BalanceAmount,
-    transactions,
     editTransaction,
     setEditTransaction
   };

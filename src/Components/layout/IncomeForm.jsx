@@ -2,78 +2,82 @@ import React, { useContext, useEffect, useState } from "react";
 import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../comman/Dropdown";
-import Button from "../UIverse/IncomeBuuton"
+import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
 import { Context } from "@/Context/TransactionContext";
 import AnimatedContent from "../comman/AnimatedContent";
 
 const IncomeForm = () => {
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("salary");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
-  const [showErrorModal, setShowErrorModal] = useState(false)
-  const [missingFields , setMisingFields] = useState([])
-  const {addIncomeTransaction,editTransaction,setEditTransaction} = useContext(Context)
-
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [missingFields, setMisingFields] = useState([]);
+  const { addTransaction, editTransaction, setEditTransaction } = useContext(Context);
 
   useEffect(() => {
     if(editTransaction){
-      setAmount(editTransaction.amount)
-      setCategory(editTransaction.category)
-      setDescription(editTransaction.description)
-      setDate(editTransaction.date)
-      setTime(editTransaction.time)
+      setAmount(editTransaction.amount);
+      setCategory(editTransaction.category);
+      setDescription(editTransaction.description);
+      setDate(editTransaction.date);
+      setTime(editTransaction.time);
     }
-  },[editTransaction])
-
+  }, [editTransaction]);
 
   useEffect(() => {
     return () => {
       setEditTransaction(null);
-      setAmount('');
-      setDescription('');
-      setCategory('salary');
-      setDate('');
-      setTime('');
+      resetForm();
     };
   }, []);
 
-  
+  const resetForm = () => {
+    setAmount('');
+    setDescription('');
+    setCategory('salary');
+    setDate('');
+    setTime('');
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const emptyField = [];
 
-    if(!amount)  emptyField.push("Amount")
-    if(!category)  emptyField.push("Category")
-    if(!date)  emptyField.push("Date")  
-    if(!time)  emptyField.push("Time")
-    if(!description)  emptyField.push("Description")
+    if(!amount) emptyField.push("Amount");
+    if(!category) emptyField.push("Category");
+    if(!date) emptyField.push("Date");  
+    if(!time) emptyField.push("Time");
+    if(!description) emptyField.push("Description");
 
-      if(emptyField.length > 0){
-        setMisingFields(emptyField)
-        setShowErrorModal(true)
-        return;
-      }
+    if(emptyField.length > 0){
+      setMisingFields(emptyField);
+      setShowErrorModal(true);
+      return;
+    }
 
-    addIncomeTransaction(category, date, time, amount, description)
-    setAmount('')
-    setDescription('')
-    setCategory('')
-    setDate('')
-    setTime('')
-    setEditTransaction(null)
-    Navigate('/')
+    addTransaction({
+      category,
+      date,
+      time,
+      amount,
+      description,
+      type: "income"
+    });
+    
+    resetForm();
+    Navigate('/');
   };
 
   const handleBack = (e) => {    
-    e.preventDefault()
-    setEditTransaction(null)
-    Navigate('/')
-  }
+    e.preventDefault();
+    setEditTransaction(null);
+    Navigate('/');
+  };
 
   return (
     <AnimatedContent
