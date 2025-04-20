@@ -9,6 +9,7 @@ import Button from "../UIverse/EditButtton";
 import DeleteButton from "../UIverse/DeleteButton";
 import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
+import Filters from '../layout/Filters';
 
 function TransactionHistory({ limit, Name }) {
   const Navigate = useNavigate();
@@ -20,11 +21,9 @@ function TransactionHistory({ limit, Name }) {
   // Sort transactions by creation date (newest first)
   const sortedTransactions = React.useMemo(() => {
     return [...transactions].sort((a, b) => {
-      // First try sorting by createdAt if available
       if (a.createdAt && b.createdAt) {
         return new Date(b.createdAt) - new Date(a.createdAt);
       }
-      // Fallback to ID sorting for backward compatibility
       return b.id - a.id;
     });
   }, [transactions]);
@@ -90,7 +89,7 @@ function TransactionHistory({ limit, Name }) {
       >
         {Name}
       </TextAnimate>
-
+      <Filters/>
       <div className="overflow-x-auto shadow-2xl mt-4">
         {/* Desktop Headers */}
         <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-600 rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-gray-100">

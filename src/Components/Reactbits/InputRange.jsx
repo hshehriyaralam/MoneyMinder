@@ -1,0 +1,64 @@
+import { useEffect, useRef, useState } from "react";
+
+export default function ElasticSlider({
+  defaultValue = 100,
+  minValue = 0,
+  maxValue = 1000,
+  className = "",
+  stepSize = 1,
+  leftIcon = <></>,
+  rightIcon = <></>,
+}) {
+  return (
+    <div className={`flex flex-col items-center justify-center gap-4 w-48 ${className}`}>
+      <Slider
+        defaultValue={defaultValue}
+        minValue={minValue}
+        maxValue={maxValue}
+        stepSize={stepSize}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+      />
+    </div>
+  );
+}
+
+function Slider({
+  defaultValue,
+  minValue,
+  maxValue,
+  stepSize,
+  leftIcon,
+  rightIcon,
+}) {
+  const [value, setValue] = useState(defaultValue);
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
+
+  const handleChange = (e) => {
+    setValue(Number(e.target.value));
+  };
+
+  return (
+    <>
+      <div className="flex items-center gap-3 w-full">
+        {leftIcon}
+        <input
+          ref={sliderRef}
+          type="range"
+          min={minValue}
+          max={maxValue}
+          step={stepSize}
+          value={value}
+          onChange={handleChange}
+          className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+        />
+        <p className="text-gray-500 text-sm font-medium">{value}</p>
+        {rightIcon}
+      </div>
+    </>
+  );
+}

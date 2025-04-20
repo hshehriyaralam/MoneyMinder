@@ -43,7 +43,7 @@ const TransactionContext = ({ children }) => {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
   };
 
-  // Derived values
+
   const incomeTransaction = transactions.filter(t => t.type === "income");
   const expenseTransaction = transactions.filter(t => t.type === "expense");
 
