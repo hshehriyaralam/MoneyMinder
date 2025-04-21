@@ -11,15 +11,15 @@ import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
 import Filters from '../layout/Filters';
 
+
 function TransactionHistory({ limit, Name }) {
   const Navigate = useNavigate();
   const { transactions, removeTransaction, setEditTransaction } = useContext(Context);
-  const [filterValue, setFilterValue] = useState(100)
-
+  const [filterValue, setFilterValue] = useState(100);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Sort transactions by creation date (newest first)
   const sortedTransactions = React.useMemo(() => {
     return [...transactions].sort((a, b) => {
       if (a.createdAt && b.createdAt) {
@@ -28,10 +28,15 @@ function TransactionHistory({ limit, Name }) {
       return b.id - a.id;
     });
   }, [transactions]);
-
-  const filteredTrnsaction =  React.useMemo(() => {
-    return sortedTransactions.filter(tnx => tnx.amount >= filterValue)
-  },[sortedTransactions,filterValue])
+  
+  const filteredTrnsaction = React.useMemo(() => {
+    return sortedTransactions.filter((tnx) => {
+      const isAboveAmount = tnx.amount >= filterValue;
+      const isCategoryMatch =
+        selectedCategory === "All" || tnx.type?.toLowerCase() === selectedCategory?.toLowerCase();
+      return isAboveAmount && isCategoryMatch;
+    });
+  }, [sortedTransactions, filterValue, selectedCategory]);
 
   const getVisibleTransactions = () => {
     if (limit === 6) {
@@ -75,7 +80,7 @@ function TransactionHistory({ limit, Name }) {
   if (limit === undefined) return null;
 
   const visibleTransactions = getVisibleTransactions();
-  const totalPage = Math.ceil(sortedTransactions.length / itemsPerPage);
+  const totalPage = Math.ceil(filteredTrnsaction.length / itemsPerPage);
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPage) {
@@ -94,9 +99,15 @@ function TransactionHistory({ limit, Name }) {
       >
         {Name}
       </TextAnimate>
-      <Filters onSelectValue={setFilterValue}     />
+      <div className="flex items-center gap-4">
+            <Filters 
+        onSelectValue={setFilterValue} 
+        selectedCategory={selectedCategory} 
+        setSelectCategory={setSelectedCategory}
+      />
+      </div>
+
       <div className="overflow-x-auto shadow-2xl mt-4">
-        {/* Desktop Headers */}
         <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-600 rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-gray-100">
           <div>Amount</div>
           <div>Category</div>
@@ -192,7 +203,6 @@ function TransactionHistory({ limit, Name }) {
         </div>
       </div>
 
-      {/* Pagination */}
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
         <div className="flex list-none text-gray-900 font-bold justify-center mt-4">
           <Pagination>
