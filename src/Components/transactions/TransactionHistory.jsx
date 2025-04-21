@@ -14,6 +14,7 @@ import Filters from '../layout/Filters';
 function TransactionHistory({ limit, Name }) {
   const Navigate = useNavigate();
   const { transactions, removeTransaction, setEditTransaction } = useContext(Context);
+  const [filterValue, setFilterValue] = useState(100)
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -28,13 +29,17 @@ function TransactionHistory({ limit, Name }) {
     });
   }, [transactions]);
 
+  const filteredTrnsaction =  React.useMemo(() => {
+    return sortedTransactions.filter(tnx => tnx.amount >= filterValue)
+  },[sortedTransactions,filterValue])
+
   const getVisibleTransactions = () => {
     if (limit === 6) {
       return sortedTransactions.slice(0, 6);
     } else {
       const indexOfLastItem = currentPage * itemsPerPage;
       const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      return sortedTransactions.slice(indexOfFirstItem, indexOfLastItem);
+      return filteredTrnsaction.slice(indexOfFirstItem, indexOfLastItem);
     }
   };
 
@@ -89,7 +94,7 @@ function TransactionHistory({ limit, Name }) {
       >
         {Name}
       </TextAnimate>
-      <Filters/>
+      <Filters onSelectValue={setFilterValue}     />
       <div className="overflow-x-auto shadow-2xl mt-4">
         {/* Desktop Headers */}
         <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-600 rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-gray-100">

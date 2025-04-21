@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
-import InputRange from '../UIverse/Range'
+import React, { useContext, useState } from 'react'
 import ElasticSlider from '../Reactbits/InputRange'
+import { Context } from '@/Context/TransactionContext'
 
-const Filters = () => {
-  const [minValue, setMinValue] = useState(100)
-  const [maxValue, setMaxValue] = useState(1000)
+const Filters = ({onSelectValue}) => {
+  const [selectValue, setSelectValue] = useState(100)
+  const {maxValue,minValue} = useContext(Context)
+
+  const handleSliderChange = (value) => {
+    setSelectValue(value)
+    onSelectValue(value)
+  }
+
+  
   return (
     <div  className='flex  items-center mx-35 gap-x-4' >
       <ElasticSlider
-      minValue={100}
-      maxValue={1000}
-      stepSize={1}
-      defaultValue={100}
+      minValue={`${minValue}`}
+      maxValue={`${maxValue}`}
+      stepSize={10}
+      defaultValue={`${minValue}`}
+      onChange={handleSliderChange}
       />
     </div>
   )

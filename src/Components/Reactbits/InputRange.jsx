@@ -8,6 +8,7 @@ export default function ElasticSlider({
   stepSize = 1,
   leftIcon = <></>,
   rightIcon = <></>,
+  onChange = () => {},
 }) {
   return (
     <div className={`flex flex-col items-center justify-center gap-4 w-48 ${className}`}>
@@ -18,6 +19,7 @@ export default function ElasticSlider({
         stepSize={stepSize}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
+        onChange={onChange}
       />
     </div>
   );
@@ -30,6 +32,7 @@ function Slider({
   stepSize,
   leftIcon,
   rightIcon,
+  onChange,
 }) {
   const [value, setValue] = useState(defaultValue);
   const sliderRef = useRef(null);
@@ -39,26 +42,24 @@ function Slider({
   }, [defaultValue]);
 
   const handleChange = (e) => {
-    setValue(Number(e.target.value));
+    const newValue = Number(e.target.value);
+    setValue(newValue);
+    if (onChange) onChange(newValue);
   };
 
   return (
-    <>
-      <div className="flex items-center gap-3 w-full">
-        {leftIcon}
-        <input
-          ref={sliderRef}
-          type="range"
-          min={minValue}
-          max={maxValue}
-          step={stepSize}
-          value={value}
-          onChange={handleChange}
-          className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
-        />
-        <p className="text-gray-500 text-sm font-medium">{value}</p>
-        {rightIcon}
-      </div>
-    </>
+    <div className="flex items-center gap-3 w-full">
+      <input
+        ref={sliderRef}
+        type="range"
+        min={minValue}
+        max={maxValue}
+        step={stepSize}
+        value={value}
+        onChange={handleChange}
+        className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+      />
+      <p className="text-gray-200 text-sm font-medium">{value}</p>
+     </div>
   );
 }

@@ -58,6 +58,11 @@ const TransactionContext = ({ children }) => {
   );
 
   const BalanceAmount = incomeAmount - expenseAmount;
+  const maxValue = transactions.length > 0 ? Math.max(...transactions.map( t => Number(t.amount))) : 0
+  const minValue = transactions.length > 0 ? Math.min(...transactions.map( t => Number(t.amount))) : 0
+  
+
+  
 
   const ALL = {
     transactions,
@@ -69,7 +74,9 @@ const TransactionContext = ({ children }) => {
     expenseAmount,
     BalanceAmount,
     editTransaction,
-    setEditTransaction
+    setEditTransaction,
+    maxValue,
+    minValue,
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;
