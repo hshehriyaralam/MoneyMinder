@@ -3,12 +3,7 @@ import { DatetimePicker } from "@/components/ui/datetime-picker";
 
 const DatetimePickerDemo = () => {
   return (
-    <DatetimePicker
-      format={[
-        [ "days", "months",  "years"],
-        ["hours", "minutes", "am/pm"],
-      ]}
-    />
+    <DatetimePicker  />
   );
 };
 
