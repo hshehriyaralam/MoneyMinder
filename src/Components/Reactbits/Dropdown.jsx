@@ -4,7 +4,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "../ui/breadcrumb";
 import {
   Select,
   SelectContent,

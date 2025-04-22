@@ -70,7 +70,7 @@ const BreadcrumbEllipsis = ({
   <span
     role="presentation"
     aria-hidden="true"
-    className={cn("flex size-5 items-center justify-center", className)}
+    className={cn("flex size-5  items-center justify-center", className)}
     {...props}>
     <DotsHorizontalIcon size={16} strokeWidth={2} />
   </span>
