@@ -2,14 +2,13 @@ import React, { useContext, useState } from "react";
 import ElasticSlider from "../Reactbits/InputRange";
 import { Context } from "@/Context/TransactionContext";
 import DropDown from "../Reactbits/Dropdown";
-
 const Filters = ({ onSelectValue, selectedCategory, setSelectCategory }) => {
   const [selectValue, setSelectValue] = useState(100);
   const { maxValue, minValue } = useContext(Context);
 
   const handleSliderChange = (value) => {
     setSelectValue(value);
-    onSelectValue(value);
+    onSelectValue(value);x
   };
 
   return (

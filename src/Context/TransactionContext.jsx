@@ -35,7 +35,7 @@ const TransactionContext = ({ children }) => {
       );
       setEditTransaction(null);
     } else {
-      setTransactions(prev => [newTransaction, ...prev]); // Newest first
+      setTransactions(prev => [newTransaction, ...prev]);
     }
   };
 
@@ -60,6 +60,9 @@ const TransactionContext = ({ children }) => {
   const BalanceAmount = incomeAmount - expenseAmount;
   const maxValue = transactions.length > 0 ? Math.max(...transactions.map( t => Number(t.amount))) : 0
   const minValue = transactions.length > 0 ? Math.min(...transactions.map( t => Number(t.amount))) : 0
+  const GetCategories = transactions.map((t) => t.category )
+
+  
   
 
   
@@ -77,6 +80,7 @@ const TransactionContext = ({ children }) => {
     setEditTransaction,
     maxValue,
     minValue,
+    GetCategories
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;
