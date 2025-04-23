@@ -99,8 +99,8 @@ function TransactionHistory({ limit, Name }) {
       >
         {Name}
       </TextAnimate>
-      <div className="flex items-center gap-4">
-            <Filters 
+      <div className='mx-10'>
+        <Filters 
         onSelectValue={setFilterValue} 
         selectedCategory={selectedCategory} 
         setSelectCategory={setSelectedCategory}
