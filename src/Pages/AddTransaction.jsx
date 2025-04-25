@@ -19,7 +19,7 @@ const AddTransaction = () => {
     setSearchParams({type : value ? 'income' : 'expense'})
   }
   return (
-    <div className='' >
+    <div>
       <div  className='flex flex-col items-center gap-2 md:flex-row   md:justify-between md:mx-48'>
 <SplitText
   text="Add Transactions"

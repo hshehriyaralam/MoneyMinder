@@ -100,11 +100,11 @@ function TransactionHistory({ limit, Name }) {
         {Name}
       </TextAnimate>
       <div className='mx-10'>
-        <Filters 
+        { limit === 'all' &&   (<Filters 
         onSelectValue={setFilterValue} 
         selectedCategory={selectedCategory} 
         setSelectCategory={setSelectedCategory}
-      />
+      />)}
       </div>
 
       <div className="overflow-x-auto shadow-2xl mt-4">

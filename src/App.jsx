@@ -8,6 +8,7 @@ import Transaction from './Pages/Transaction';
 import Header from './Components/layout/Header';
 import AppSidebar from './Components/layout/AppSidebar';
 import ScrollTop from './Components/comman/ScrollTop';
+import Overview from './Pages/Overview';
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -44,6 +45,7 @@ const App = () => {
               <Route path="/Transactions" element={<Transaction />} />
               <Route path="/Setting" element={<Setting />} />
               <Route path="/Analytics" element={<Analytics />} />
+              <Route path="/Overview" element={<Overview />} />
             </Routes>
           </div>
         </div>

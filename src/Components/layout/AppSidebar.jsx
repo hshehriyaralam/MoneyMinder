@@ -23,8 +23,9 @@ const items = [
   { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
   { title: "Transactions", url: "/Transactions", icon: List },
   { title: "Analytics", url: "/Analytics", icon: PieChart },
+  { title: "Overview", url: "/Overview", icon: Settings }, 
   { title: "Settings", url: "/Setting", icon: Settings },
-];
+]; 
 
 const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Transactions", url: "/Transactions", icon: <RiFileList3Line size={20} />, onClick: () => navigate("/Transactions") },
     { title: "Settings", url: "/Setting", icon: <RiSettings3Line size={20} />, onClick: () => navigate("/Setting") },
     { title: "Analytics", url: "/Analytics", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Analytics") },
+    { title: "Overview", url: "/Overview", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Overview") },
   ];
 
   useEffect(() => {

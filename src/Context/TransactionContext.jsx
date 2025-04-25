@@ -61,7 +61,16 @@ const TransactionContext = ({ children }) => {
   const maxValue = transactions.length > 0 ? Math.max(...transactions.map( t => Number(t.amount))) : 0
   const minValue = transactions.length > 0 ? Math.min(...transactions.map( t => Number(t.amount))) : 0
   const GetCategories = transactions.map((t) => t.category )
-
+  const Percentage = transactions.map((t) => {
+    if(t.type.toLowerCase() === 'income'){
+      return Math.floor((t.amount / incomeAmount) * 100)
+    }else if(t.type.toLowerCase() === 'expense'){
+      return Math.floor((t.amount / expenseAmount) * 100)
+    }else{
+      return 0
+    }
+  })
+  
   
   
 
@@ -80,7 +89,8 @@ const TransactionContext = ({ children }) => {
     setEditTransaction,
     maxValue,
     minValue,
-    GetCategories
+    GetCategories,
+    Percentage
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;
