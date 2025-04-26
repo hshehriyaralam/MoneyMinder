@@ -5,6 +5,7 @@ import CategoriesCard from '@/Components/OverviewComponents/CategoriesCard'
 import { Context } from '@/Context/TransactionContext'
 import IncomeCard from '@/Components/transactions/IncomeCard'
 import ExpenseCard from '@/Components/transactions/ExpenseCard'
+import CircleProgreesBar from '@/Components/OverviewComponents/CircleProgreesBar'
 
 const Overview = () => {
   const {transactions,Percentage} = useContext(Context)
@@ -24,10 +25,10 @@ const Overview = () => {
   
     const percentage = totalBase > 0 ? Math.round((totalAmount / totalBase) * 100) : 0;
   
-    return { category, type, amount: totalAmount, percentage: `${percentage}% of ${type}` };
+    return { category, type, amount: totalAmount, percentage: `${percentage}` };
   });
   return (
-    <div className='min-h-screen w-full flex flex-col  p-4 space-y-6' >
+    <div className='min-h-screen w-full flex flex-col   p-4 space-y-6' >
        <TextAnimate
               delay={0.4}
               duration={1.9}
@@ -38,19 +39,22 @@ const Overview = () => {
               {"Overview"}
             </TextAnimate>
             <div className='flex flex-row gap-x-4'>
-              <IncomeCard />
-              <ExpenseCard />
+              {/* <IncomeCard /> */}
+              {/* <ExpenseCard /> */}
             </div>
             {/* <SavingCard /> */}
+            <div  className='flex flex-row flex-wrap flex-wrap gap-x-4 gap-y-4' >
+
            {categoryWithPercentage.length > 0 ? categoryWithPercentage.map((item, index) => (
-  <CategoriesCard
-    key={index}
-    category={item.category}
-    type={item.type}
-    amount={item.amount}
-    percentage={item.percentage}
-  />
-)) : <p>No transaction history</p>}
+             <CategoriesCard
+             key={index} 
+             category={item.category}
+             type={item.type}
+             amount={item.amount}
+             percentage={item.percentage}
+             />
+            )) : <p>No transaction history</p>}
+            </div>
      
 
     </div>
