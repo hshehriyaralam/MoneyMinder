@@ -95,7 +95,7 @@ function TransactionHistory({ limit, Name }) {
         duration={1.9}
         animation="slideLeft"
         by="character"
-        className="text-center text-2xl sm:text-3xl font-lexend font-bold text-[#082244]"
+        className="text-center text-4xl sm:text-4xl font-lexend font-bold text-white"
       >
         {Name}
       </TextAnimate>
