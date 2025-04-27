@@ -6,13 +6,13 @@ import { Context } from "@/Context/TransactionContext.jsx";
 
 const MonthlyBarChart = () => {
   const currentYear = new Date().getFullYear();
-  const {totalAmount} = useContext(Context)
+  const {transactions} = useContext(Context)
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [data, setData] = useState([]);
   const [yearsAvailable, setYearsAvailable] = useState([]);
 
   useEffect(() => {
-    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    // const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
     const uniqueYears = Array.from(new Set(transactions.map((t) => new Date(t.date).getFullYear())));
     if (!uniqueYears.includes(currentYear)) {
       uniqueYears.push(currentYear);

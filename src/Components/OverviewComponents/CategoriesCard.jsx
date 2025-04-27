@@ -1,10 +1,9 @@
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { Context } from '@/Context/TransactionContext';
-import { useContext } from 'react';
+
 
 const CategoryCard = ({ category, type, amount, percentage }) => {
-  const { Percentage } = useContext(Context);
+
   const isIncome = type.toLowerCase() === 'income';
 
   return (

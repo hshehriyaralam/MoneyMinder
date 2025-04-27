@@ -60,7 +60,6 @@ const TransactionContext = ({ children }) => {
   const maxValue = transactions.length > 0 ? Math.max(...transactions.map(t => Number(t.amount))) : 0;
   const minValue = transactions.length > 0 ? Math.min(...transactions.map(t => Number(t.amount))) : 0;
 
-  const GetCategories = transactions.map((t) => t.category);
   
   const Percentage = transactions.map((t) => {
     if (t.type.toLowerCase() === 'income') {
@@ -71,10 +70,28 @@ const TransactionContext = ({ children }) => {
       return 0;
     }
   });
+  // const GetCategories = transactions.map((t) => t.category);
+  const ExpenseCategories = expenseTransaction.map((t) => t.category)
+  const ExpenseCategoriesAmount  = expenseTransaction.map((t) => t.amount)
 
-  const totalAmount = transactions.map((t) => t.amount);
+  const expenseSummary = {}
+  expenseTransaction.forEach((t) => {
+    if(expenseSummary[t.category]){
+      expenseSummary[t.category]  += Math.abs(t.amount)
+    }else{
+      expenseSummary[t.category] = Math.abs(t.amount)
 
- 
+    }
+  })
+
+  
+  // console.log("GetCategories",ExpenseCategories);
+  // console.log("ExpenseCategoriesAmount",ExpenseCategoriesAmount);
+  // console.log("expenseSummary",expenseSummary);
+  
+
+
+
   const ALL = {
     transactions,
     incomeTransaction,
@@ -88,9 +105,10 @@ const TransactionContext = ({ children }) => {
     setEditTransaction,
     maxValue,
     minValue,
-    GetCategories,
+    // GetCategories,
     Percentage,
-    totalAmount,
+    expenseSummary,
+    ExpenseCategoriesAmount,
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;
