@@ -71,7 +71,7 @@ const TransactionContext = ({ children }) => {
     }
   });
   // const GetCategories = transactions.map((t) => t.category);
-  const ExpenseCategories = expenseTransaction.map((t) => t.category)
+  // const ExpenseCategories = expenseTransaction.map((t) => t.category)
   const ExpenseCategoriesAmount  = expenseTransaction.map((t) => t.amount)
 
   const expenseSummary = {}
@@ -84,10 +84,20 @@ const TransactionContext = ({ children }) => {
     }
   })
 
+  const IncomeCategoriesAmount = incomeTransaction.map(t => t.amount)
+  const IncomeSummary = {}
+  incomeTransaction.forEach((t) => {
+    if(IncomeSummary[t.category]){
+      IncomeSummary[t.category] += Math.abs(t.amount)
+    }else{
+      IncomeSummary[t.category] = Math.abs(t.amount)
+    }
+  })
+
+  console.log("IncomeCategories",IncomeCategoriesAmount)
+  console.log("incomeSummary",IncomeSummary)
   
-  // console.log("GetCategories",ExpenseCategories);
-  // console.log("ExpenseCategoriesAmount",ExpenseCategoriesAmount);
-  // console.log("expenseSummary",expenseSummary);
+  
   
 
 
@@ -109,6 +119,8 @@ const TransactionContext = ({ children }) => {
     Percentage,
     expenseSummary,
     ExpenseCategoriesAmount,
+    IncomeCategoriesAmount,
+    IncomeSummary,
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;
