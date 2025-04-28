@@ -23,14 +23,14 @@ const ExpensePieChart = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col items-start items-center bg-background/50 shadow-xl p-10">
+    <div className="w-full flex flex-col border border-black rounded-lg items-start items-center bg-background/50 shadow-xl p-10">
       <h2 className="text-2xl font-bold ">Expense Distribution</h2>
       <div className="w-full h-[450px]"> 
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
-              dataKey="value"
+              dataKey="value" 
               nameKey="name"
               cx="50%"
               cy="50%"
