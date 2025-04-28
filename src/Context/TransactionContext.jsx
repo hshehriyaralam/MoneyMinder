@@ -94,8 +94,6 @@ const TransactionContext = ({ children }) => {
     }
   })
 
-  console.log("IncomeCategories",IncomeCategoriesAmount)
-  console.log("incomeSummary",IncomeSummary)
   
   
   

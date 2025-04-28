@@ -2,8 +2,8 @@ import React from 'react'
 
 const Setting = () => {
   return (
-    <div>
-      Setting
+    <div className='w-full   flex justify-center items-center'>
+      <h1 className='font-bold text-5xl my-30 text-gray-300 '>Comming Soon</h1>
     </div>
   )
 }
