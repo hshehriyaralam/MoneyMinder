@@ -30,7 +30,7 @@ const App = () => {
         <header className="fixed w-full z-50 shadow-md">
           <Header />
         </header>
-        <div className="flex flex-1 pt-16 bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5]">
+        <div className="flex flex-1 pt-16 bg-[#dedcd8]">
           <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
             <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>

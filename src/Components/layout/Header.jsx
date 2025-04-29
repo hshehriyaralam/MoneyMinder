@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="w-full p-3 flex justify-between items-center bg-[#0D4D66] shadow-md md:p-3 lg:p-2">
+    <header className="w-full p-3 flex justify-between items-center bg-[#dedcd8] shadow-md md:p-3 lg:p-2">
       <div className="flex items-center  ">
         <Link to={'/'}>
         <img src={logo4} alt="Logo" className="w-20 md:w-16 lg:w-28 " />

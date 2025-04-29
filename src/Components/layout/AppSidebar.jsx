@@ -66,7 +66,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
       bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5] border-none  
         `} 
       >
-            <SidebarContent   className="h-full bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5]" >
+            <SidebarContent   className="h-full bg-[#dedcd8]" >
               <SidebarGroup >
                 <div className="flex justify-between items-center mt-3   text-white ">
                   
