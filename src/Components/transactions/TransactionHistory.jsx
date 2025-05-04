@@ -95,7 +95,7 @@ function TransactionHistory({ limit, Name }) {
         duration={1.9}
         animation="slideLeft"
         by="character"
-        className="text-center text-4xl sm:text-4xl font-lexend font-bold text-white"
+        className="text-center text-4xl sm:text-4xl font-lexend font-bold text-[#0e3fac]"
       >
         {Name}
       </TextAnimate>
@@ -108,24 +108,33 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       <div className="overflow-x-auto shadow-2xl mt-4">
-        <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-600 rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-gray-100">
-          <div>Amount</div>
+        <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-[#4b5563] rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-[#4b5563]">
           <div>Category</div>
+          <div>Amount</div>
+          <div>Type</div>
           <div>Date</div>
           <div>Time</div>
           <div>Description</div>
-          <div>Type</div>
           <div>Actions</div>
         </div>
 
-        <div className="divide-y-1 py-3 divide-gray-200">
+        <div className="divide-y-1 py-3 divide-[#4b5563] text-[#4b5563]   ">
           {visibleTransactions.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-1 md:grid-cols-7 gap-y-3 rounded-b-lg md:gap-y-0 md:items-end md:mt-3 text-center p-4 text-[15px] sm:text-base"
+              className="grid grid-cols-1 md:grid-cols-7 gap-y-3 rounded-b-lg md:gap-y-0 md:items-end   md:mt-3 p-4 md:text-[15px] text-1xl  mx-8 md:mx-0 text-center "
             >
-              <div className={`font-semibold md:text-[17px] text-[20px] ${
-                item.type === "income" ? "text-green-700" : "text-red-700"
+      
+
+              {/* Category */}
+              <div className="flex items-start justify-center md:justify-start md:mx-8 mx-0 text-[#4b5563]">
+                <span>{getCategoryIcon(item.category)}</span>
+                {item.category}
+              </div>
+
+                   {/* amount */}
+                   <div className={`font-semibold md:text-[17px] text-[18px] ${
+                item.type === "income" ? "text-[#11bb52]" : "text-[#e70c0c]"
               }`}>
                 {item.type === "income" ? "+" : "-"}$
                 <CountUp 
@@ -138,34 +147,10 @@ function TransactionHistory({ limit, Name }) {
                 />
               </div>
 
-              <div className="flex items-center justify-center gap-2">
-                <span>{getCategoryIcon(item.category)}</span>
-                {item.category}
-              </div>
-
-              <div className="text-black">
-                <DecryptedText 
-                  text={formatDate(item.date)} 
-                  animateOn="view" 
-                  revealDirection="center" 
-                />
-              </div>
-
-              <div className="text-black">
-                <DecryptedText 
-                  text={formatTime(item.time)} 
-                  animateOn="view" 
-                  revealDirection="left" 
-                />
-              </div>
-
-              <div className="text-black truncate">
-                {item.description}
-              </div>
-
-              <div>
+               {/* Type */}
+               <div>
                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                  item.type === "income" ? "bg-green-700" : "bg-red-700"
+                  item.type === "income" ? "bg-[#11bb52]" : "bg-[#e70c0c]"
                 }`}>
                   <ShinyText 
                     text={`${item.type}`} 
@@ -176,7 +161,31 @@ function TransactionHistory({ limit, Name }) {
                 </span>
               </div>
 
-              <div className="flex justify-center items-center space-x-3">
+              {/* Date */}
+              <div className="text-[#4b5563]">
+                <DecryptedText 
+                  text={formatDate(item.date)} 
+                  animateOn="view" 
+                  revealDirection="center" 
+                />
+              </div>
+              {/* Time */}
+              <div className="text-[#4b5563]">
+                <DecryptedText 
+                  text={formatTime(item.time)} 
+                  animateOn="view" 
+                  revealDirection="left" 
+                />
+              </div>
+
+              {/* Description */}
+              <div className="text-[#4b5563] text-sm truncate">
+                {item.description}
+              </div>
+             
+
+              {/* Actions */}
+              <div className="flex md:justify-center  items-center justify-center space-x-3">
                 <Button
                   Name={"Edit"}
                   onClick={() => {

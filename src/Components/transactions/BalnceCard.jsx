@@ -25,13 +25,13 @@ const BalanceCard = () => {
             delay={150}
             animateBy="words"
             direction="right"
-            className="text-3xl md:text-4xl font-semibold text-[#1E3A5F] mb-4 md:mb-6 text-center"
+            className="text-3xl md:text-3xl font-semibold text-[#1f2937] mb-4 md:mb-6 text-center"
           />
         </div>
         <div className="flex justify-center space-x-4 md:space-x-8 flex-wrap w-full">
           <div className="text-center w-1/2 md:w-auto">
-            <p className="text-lg font-semibold text-green-500">Income</p>
-            <p className="text-xl md:text-2xl font-bold text-green-500">
+            <p className="text-lg font-semibold text-[#11bb52]">Income</p>
+            <p className="text-xl md:text-2xl font-bold text-[#11bb52]">
               +$
               <CountUp
                 from={0}
@@ -44,8 +44,8 @@ const BalanceCard = () => {
             </p>
           </div>
           <div className="text-center w-1/2 md:w-auto">
-            <p className="text-lg font-semibold text-red-600">Expense</p>
-            <p className="text-xl md:text-2xl font-bold text-red-600">
+            <p className="text-lg font-semibold text-[#e70c0c]">Expense</p>
+            <p className="text-xl md:text-2xl font-bold text-[#e70c0c]">
               -$
               <CountUp
                 from={0}

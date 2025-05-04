@@ -17,13 +17,13 @@ export const theme = {
     },
 
     // 🎨 Primary UI Colors
-    primary: "#2563eb",        // Buttons, Links, Headings
+    primary: "#0e3fac",        // Buttons, Links, Headings
     primaryHover: "#1d4ed8",   // Button hover state
     accent: "#149a65",         // Accent Color (optional use)
 
     // ✅ Semantic Status Colors
-    success: "#10b981",        // Green for income/success
-    error: "#ef4444",          // Red for expense/error
+    success: "#11bb52",        // Green for income/success
+    error: "#e70c0c",          // Red for expense/error
     warning: "#FF9900",        // Orange-Yellow (for warning)
 
     // 💳 Income/Expense Backgrounds

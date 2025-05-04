@@ -27,8 +27,8 @@ const IncomeCard = () => {
   >
     <div className="bg-transparent rounded-lg p-4 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-full md:w-[500px] md:h-62 h-auto flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-4 md:gap-y-2">
       <div className="flex-1 text-center">
-        <h1 className="text-[#0c2e5e] text-[22px] font-bold">Total Income</h1>
-        <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-green-600 mb-4">
+        <h1 className="text-[#1f2937] text-[22px] font-bold">Total Income</h1>
+        <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-[#11bb52] mb-4">
           +$
           <CountUp
             from={0}

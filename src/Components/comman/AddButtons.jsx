@@ -22,7 +22,7 @@ const StyledWrapper = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: green;
+    background-color: #11bb52;
     border: none;
     font-weight: 600;
     display: flex;
@@ -44,10 +44,10 @@ const StyledWrapper = styled.div`
   }
 
   .button:hover {
-    width: 140px;
+    width: 120px;
     border-radius: 50px;
     transition-duration: 0.4s;
-    background-color:rgb(18, 43, 74);
+    background-color:#1f2937;
     align-items: center;
   }
 
