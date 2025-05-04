@@ -11,4 +11,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    host: true,         // 👈 allows access via IP
+    port: 5173,         // 👈 default Vite port (optional)
+  },
 })

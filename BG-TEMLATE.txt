@@ -10,3 +10,12 @@ person fill form   https://lottiefiles.com/animation/boy-is-working-on-checklist
 Signup form animatations https://lottiefiles.com/animation/sign-up-form-8431985
 Explore all btn  https://uiverse.io/Creatlydev/silly-cat-86
 Explore all btn  https://uiverse.io/vinodjangid07/chilly-newt-81
+
+
+
+
+schema main har jaga isAdmin : true kr dya hai
+Home all Notes visible kr dya hai 
+Header se Porject Link ko remove kr dya hai 
+Prfile se delete acoount ki functionality hata di hai
+post update page se handle submit main response.ok main navigate ko hata dya jo data.slug pr navigate ho rha tHa

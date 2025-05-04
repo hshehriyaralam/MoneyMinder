@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 const Context = createContext();
 
+
 const TransactionContext = ({ children }) => {
   const getStoredValue = (key, defaultValue) => {
     try {
@@ -11,8 +12,7 @@ const TransactionContext = ({ children }) => {
       console.error(`Error parsing localStorage key "${key}":`, error);
       return defaultValue;
     }
-  };
-
+  }; 
   const [transactions, setTransactions] = useState(() =>
     getStoredValue("transactions", [])
   );
@@ -28,7 +28,6 @@ const TransactionContext = ({ children }) => {
       id: Date.now(),
       createdAt: new Date().toISOString()
     };
-
     if (editTransaction) {
       setTransactions((prev) =>
         prev.map((t) => (t.id === editTransaction.id ? newTransaction : t))
@@ -70,6 +69,7 @@ const TransactionContext = ({ children }) => {
       return 0;
     }
   });
+  
   // const GetCategories = transactions.map((t) => t.category);
   // const ExpenseCategories = expenseTransaction.map((t) => t.category)
   const ExpenseCategoriesAmount  = expenseTransaction.map((t) => t.amount)

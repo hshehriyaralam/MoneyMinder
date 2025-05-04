@@ -4,15 +4,16 @@ import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import ButtonComponent from "../comman/VerseButton.jsx";
 import logo4 from "../../assets/images/Growth.png"
 import { Link } from 'react-router-dom';
+import { color } from 'framer-motion';
 
 const Header = () => {
   return (
-    <header className="w-full p-3 flex justify-between items-center bg-[#dedcd8] shadow-md md:p-3 lg:p-2">
+    <header className={`w-full p-3 flex justify-between items-center bg-[#dedcd8] shadow-md md:p-3 lg:p-2`}>
       <div className="flex items-center  ">
         <Link to={'/'}>
         <img src={logo4} alt="Logo" className="w-20 md:w-16 lg:w-28 " />
         </Link>
-        <h1 className="text-2xl md:text-2xl font-extrabold text-[#777877] tracking-wide font-sans  text-[#009087]">
+        <h1 className={`text-2xl md:text-2xl font-extrabold  tracking-wide font-sans  text-[#1E293B]`}>
           MoneyMinder
         </h1>
       </div>

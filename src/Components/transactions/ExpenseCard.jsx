@@ -5,9 +5,11 @@ import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "../../assets/images/9610082-removebg-preview.png";
 import { useNavigate } from 'react-router-dom';
 import { Context } from '@/Context/TransactionContext';
+import {theme} from  "../theme/theme.js"
 
 const ExpenseCard = () => {
   const {expenseAmount} = useContext(Context)
+  
   const Navigate = useNavigate()
   return (
     <AnimatedContent
@@ -20,7 +22,9 @@ const ExpenseCard = () => {
         scale={1.1}
         threshold={0.2}
       >
-    <div className="bg-transparent rounded-lg p-4 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-full md:w-[500px] md:h-62 h-auto flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-4 md:gap-y-2">
+    <div 
+    style={{color : theme.colors.inputText}}
+    className="bg-transparent rounded-lg p-4 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-full md:w-[500px] md:h-62 h-auto flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-4 md:gap-y-2">
       <div className="flex-1 text-center">
         <h1 className="text-[#0c2e5e] text-[22px] font-bold">Total Expense</h1>
         <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-red-600 mb-4">

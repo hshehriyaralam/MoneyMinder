@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "react-scripts start",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -27,7 +28,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
-    "framer-motion": "^12.7.4",
+    "framer-motion": "^12.9.4",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "lottie-react": "^2.4.1",

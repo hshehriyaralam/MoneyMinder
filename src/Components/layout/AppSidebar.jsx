@@ -1,9 +1,30 @@
 
 import { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { Home, Plus, List, Settings, PieChart, Menu, ChevronLeft } from "lucide-react";
+import { 
+  Home,        // Dashboard icon
+  Plus,        // Add Transaction icon
+  List,        // Transactions icon
+  Settings,    // Settings icon
+  PieChart,    // Analytics icon
+  Menu,        // (Optional: Could be used for a menu or additional section)
+  ChevronLeft,  // (Optional: Could be used for navigation or back functionality)
+  Layout,
+  User,
+} from "lucide-react";
 import Dock from "@/Components/layout/Dock";
-import { RiDashboardLine, RiExchangeFundsLine, RiFileList3Line, RiPieChart2Line, RiSettings3Line } from "react-icons/ri";
+
+import { 
+  RiDashboardLine,    // Dashboard icon
+  RiExchangeFundsLine, // Add Transaction icon
+  RiFileList3Line,    // Transactions icon
+  RiSettings3Line,    // Settings icon (General)
+  RiPieChart2Line,    // Analytics icon
+  RiInformationFill,  // Overview icon (General)
+  RiSettings5Line,    // Settings icon (Alternative)
+  RiAccountCircleLine, // Profile icon
+  RiBook2Line         // Overview icon (Alternative)
+} from 'react-icons/ri';
 
 
 import {
@@ -23,8 +44,9 @@ const items = [
   { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
   { title: "Transactions", url: "/Transactions", icon: List },
   { title: "Analytics", url: "/Analytics", icon: PieChart },
-  { title: "Overview", url: "/Overview", icon: Settings }, 
+  { title: "Overview", url: "/Overview", icon: Layout }, 
   { title: "Settings", url: "/Setting", icon: Settings },
+  { title: "Profile", url: "/Profile  ", icon: User },
 ]; 
 
 const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
@@ -37,9 +59,9 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Dashboard", url: "/", icon: <RiDashboardLine size={20} />, onClick: () => navigate("/") },
     { title: "Add Transaction", url: "/AddTransaction", icon: <RiExchangeFundsLine size={20} />, onClick: () => navigate("/AddTransaction") },
     { title: "Transactions", url: "/Transactions", icon: <RiFileList3Line size={20} />, onClick: () => navigate("/Transactions") },
-    { title: "Settings", url: "/Setting", icon: <RiSettings3Line size={20} />, onClick: () => navigate("/Setting") },
+    { title: "Settings", url: "/Setting", icon: <RiSettings5Line size={20} />, onClick: () => navigate("/Setting") },
     { title: "Analytics", url: "/Analytics", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Analytics") },
-    { title: "Overview", url: "/Overview", icon: <RiPieChart2Line size={20} />, onClick: () => navigate("/Overview") },
+    { title: "Overview", url: "/Overview", icon: <RiBook2Line size={20} />, onClick: () => navigate("/Overview") },
   ];
 
   useEffect(() => {
@@ -63,17 +85,17 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-      bg-gradient-to-b from-[#0D4D66] to-[#9FBFC5] border-none  
+     bg-[#dedcd8] border-none  
         `} 
       >
             <SidebarContent   className="h-full bg-[#dedcd8]" >
               <SidebarGroup >
-                <div className="flex justify-between items-center mt-3   text-white ">
+                <div className="flex justify-between items-center mt-3 text-[#1E293B]">
                   
                   <Button
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     variant="ghost"
-                    className="rounded  bg-[#09435a] hover:bg-[#4b8ca6]   "
+                    className="rounded  bg-[#1E293B] hover:bg-[#1E293B]   "
                   >
                     {isCollapsed ? <Menu className="w-4 h-4 text-white relative " /> : <ChevronLeft className="w-4 h-4  text-white  " />}
                   </Button>
@@ -86,7 +108,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
                           <Link
                             to={item.url}
                             className={`flex items-center  px-3 py-1 rounded-lg transition-all duration-300 
-                              ${active === item.url ? "bg-[#09435a] text-white shadow-md px-1" : "hover:bg-[#4b8ca6] hover:text-black"}
+                              ${active === item.url ? "bg-[#1f2937] text-white shadow-md px-1" : "hover:bg-[#1f2937] hover:text-white"}
                             `}
                           >
                             <item.icon className={`w-4 h-4 ${active === item.url ? "text-white" : "text-white-600"}`} />

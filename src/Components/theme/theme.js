@@ -1,6 +1,5 @@
 export const theme = {
   colors: {
-    // 🧱 Base Background Colors
     background: {
       base: "#dedcd8",      // App ka overall background
       light: "#FFFFFF",     // White
