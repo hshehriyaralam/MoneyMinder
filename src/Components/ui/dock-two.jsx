@@ -69,4 +69,4 @@ const Dock = React.forwardRef(({ items, className }, ref) => {
 })
 Dock.displayName = "Dock"
 
-export { Dock }
+export default Dock 

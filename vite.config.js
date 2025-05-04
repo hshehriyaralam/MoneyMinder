@@ -12,7 +12,7 @@ export default defineConfig({
     },
   },
   server: {
-    host: true,         // 👈 allows access via IP
-    port: 5173,         // 👈 default Vite port (optional)
+    host: true,
+    port: 5173,
   },
 })

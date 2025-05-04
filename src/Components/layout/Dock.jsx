@@ -1,168 +1,74 @@
-"use client";
+import * as React from "react"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
-import {
-  Children,
-  cloneElement,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-
-function DockItem({
-  children,
-  className = "",
-  onClick,
-  mouseX,
-  spring,
-  distance,
-  magnification,
-  baseItemSize,
-}) {
-  const ref = useRef(null);
-  const isHovered = useMotionValue(0);
-
-  const mouseDistance = useTransform(mouseX, (val) => {
-    const rect = ref.current?.getBoundingClientRect() ?? {
-      x: 0,
-      width: baseItemSize,
-    };
-    return val - rect.x - baseItemSize / 2;
-  });
-
-  const targetSize = useTransform(
-    mouseDistance,
-    [-distance, 0, distance],
-    [baseItemSize, magnification, baseItemSize]
-  );
-  const size = useSpring(targetSize, spring);
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{
-        width: size,
-        height: size,
-      }}
-      onHoverStart={() => isHovered.set(1)}
-      onHoverEnd={() => isHovered.set(0)}
-      onFocus={() => isHovered.set(1)}
-      onBlur={() => isHovered.set(0)}
-      onClick={onClick}
-      className={`relative inline-flex items-center justify-center bg-[#0D4D66] border-gray-300 border-2 text-black shadow-md rounded-full ${className}`}
-      tabIndex={0}
-      role="button"
-      aria-haspopup="true"
-    >
-      {Children.map(children, (child) =>
-        cloneElement(child, { isHovered })
-      )}
-    </motion.div>
-  );
-}
-
-function DockLabel({ children, className = "", ...rest }) {
-  const { isHovered } = rest;
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const unsubscribe = isHovered.on("change", (latest) => {
-      setIsVisible(latest === 1);
-    });
-    return () => unsubscribe();
-  }, [isHovered]);
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: -10 }}
-          exit={{ opacity: 0, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className={`${className} absolute -top-6 left-1/2 w-fit h-fit  rounded-md border border-2 border-gray-300  px-2 py-0.5 text-xs text-white font-bold`}
-          role="tooltip"
-          style={{ x: "-50%" }}
-        >
-          {children}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function DockIcon({ children, className = "" }) {
-  return (
-    <div className={`flex items-center text-gray-300 justify-center bg-transparent bg-opacity-20 border-gray-300 border-2 p-2 rounded-full ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-export default function Dock({
-  items,
-  className = "",
-  spring = { mass: 0.1, stiffness: 150, damping: 12 },
-  magnification = 70,
-  distance = 200,
-  panelHeight = 64,
-  dockHeight = 256,
-  baseItemSize = 50,
-}) {
-  const mouseX = useMotionValue(Infinity);
-  const isHovered = useMotionValue(0);
-
-  const maxHeight = useMemo(
-    () => Math.max(dockHeight, magnification + magnification / 2 + 4),
-    [magnification, dockHeight]
-  );
-  const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
-  const height = useSpring(heightRow, spring);
-
-  return (
-    <motion.div
-  style={{ height, scrollbarWidth: "none" }}
-  className="mx-2 flex flex-col items-center max-w-full"
->
-  <h2 className="text-lg font-bold text-black mb-2">Application Dock</h2>
-  <motion.div
-    onMouseMove={({ pageX }) => {
-      isHovered.set(1);
-      mouseX.set(pageX);
-    }}
-    onMouseLeave={() => {
-      isHovered.set(0);
-      mouseX.set(Infinity);
-    }}
-    className={`${className} absolute bottom-2 left-1/2 transform -translate-x-1/2 flex items-end w-fit gap-4 rounded-2xl border-gray-300 border-2 pb-2 px-4 bg-gray-100`}
-    style={{ height: panelHeight }}
-    role="toolbar"
-    aria-label="Application dock"
-  >
-    {items.map((item, index) => (
-      <DockItem
-        key={index}
-        onClick={item.onClick}
-        className={item.className}
-        mouseX={mouseX}
-        spring={spring}
-        distance={distance}
-        magnification={magnification}
-        baseItemSize={baseItemSize}
+const DockIconButton = React.forwardRef(
+  ({ icon: Icon, label, onClick, className }, ref) => {
+    return (
+      <motion.button
+        ref={ref}
+        whileHover={{ scale: 1.1, y: -2 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={onClick}
+        className={cn(
+          "relative group p-3 rounded-lg",
+          "hover:bg-secondary transition-colors",
+          className
+        )}
       >
-        <DockIcon>{item.icon}</DockIcon>
-        <DockLabel>{item.label}</DockLabel>
-      </DockItem>
-    ))}
-  </motion.div>
-</motion.div>
+        <Icon className="w-5 h-5 text-foreground" />
+        <span
+          className={cn(
+            "absolute -top-8 left-1/2 -translate-x-1/2",
+            "px-2 py-1 rounded text-xs",
+            "bg-popover text-popover-foreground",
+            "opacity-0 group-hover:opacity-100",
+            "transition-opacity whitespace-nowrap pointer-events-none"
+          )}
+        >
+          {label}
+        </span>
+      </motion.button>
+    )
+  }
+)
+DockIconButton.displayName = "DockIconButton"
 
-  );
+// Floating animation config
+const floatingAnimation = {
+  initial: { y: 0 },
+  animate: {
+    y: [-2, 2, -2],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
 }
+const Dock = React.forwardRef(({ items, className }, ref) => {
+  return (
+    <div ref={ref} className={cn("fixed -bottom-24  w-full z-50 flex items-center justify-center p-2", className)}>
+      <div className="w-full max-w-4xl h-64 rounded-2xl flex items-center justify-center relative">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={floatingAnimation}
+          className={cn(
+            "flex items-center gap-2 p-2 rounded-2xl",
+            "backdrop-blur-lg border shadow-lg",
+            "bg-background/90 border-border",
+            "hover:shadow-xl transition-shadow duration-300"
+          )}
+        >
+          {items.map((item) => (
+            <DockIconButton key={item.label}  onClick={item.onclick} {...item} />
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  )
+})  
+Dock.displayName = "Dock"
+
+export default Dock 
