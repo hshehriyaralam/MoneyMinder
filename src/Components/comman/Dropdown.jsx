@@ -27,7 +27,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
 
   return (
     <div className="w-[60%] space-y-2">
-      <label className="block text-sm font-medium text-gray-300">
+      <label className="block text-sm font-medium text-[#4b5563]">
         Select Category
       </label>
       <div className="relative">
@@ -69,7 +69,7 @@ const CategoryDropdown = ({ selectedCategory, setSelectedCategory }) => {
             placeholder="Enter custom category"
             value={customCategory}
             onChange={(e) => setCustomCategory(e.target.value)}
-            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#325788] focus:border-transparent text-sm bg-transparent text-white"
+            className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#325788] focus:border-transparent text-sm bg-transparent text-[#4b5563]"
           />
           <button
             onClick={handleAddCustomCategory}

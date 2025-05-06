@@ -25,15 +25,15 @@ function DropDown({ selectedCategory, setSelectCategory }) {
           >
             <SelectTrigger
               id="select-category"
-              className="relative ps-9"
+              className="relative ps-9  text-[#4b5563]"
               aria-label="Select Category"
             >
-              <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-gray-300">
+              <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-[#4b5563]">
                 <BadgeDollarSign size={16} strokeWidth={2} aria-hidden="true" />
               </div>
               <SelectValue placeholder="Select Category" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent  className="text-black backdrop-blur" >
               <SelectItem value="All">All</SelectItem>
               <SelectItem value="income">Income</SelectItem>
               <SelectItem value="expense">Expense</SelectItem>

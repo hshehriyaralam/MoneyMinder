@@ -10,6 +10,7 @@ export const theme = {
 
     // 🖋️ Text Colors
     text: {
+      tarnsaction:"#2d5385",
       light: "#1E293B",     // Dark Gray
       dark: "#F8FAFC",      // Light Gray
       card: "#1f2937",      // Card text

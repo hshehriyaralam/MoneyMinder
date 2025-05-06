@@ -12,7 +12,7 @@ const Filters = ({ onSelectValue, selectedCategory, setSelectCategory }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-y-3 my-3      md:flex md:flex-row  md:justify-between">
+    <div className="flex flex-col items-center justify-center gap-y-3 gap-x-10  my-3 md:flex md:flex-row  md:justify-end">
       <ElasticSlider
         minValue={`${minValue}`}
         maxValue={`${maxValue}`}

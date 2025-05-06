@@ -3,7 +3,7 @@ import TransactionHistory from '@/Components/transactions/TransactionHistory'
 const Transaction = () => {
   return (
     <div className='w-full p-0 m-0' >
-      <TransactionHistory Name={"ALL Transactions"}  limit={'all'}  />
+      <TransactionHistory Name={"All Transactions"}  limit={'all'}  />
     </div>
   )
 }

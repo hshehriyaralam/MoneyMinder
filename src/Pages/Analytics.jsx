@@ -33,7 +33,7 @@ const Analytics = () => {
       {/* Analytics Page Content */}
       <div id="analytics-page">
   <MontlyBarChart />
-  <div className="w-full p-5 mx-auto">
+  <div className="w-6xl p-5 mx-auto">
     <ExpensePieChart />
   </div>
   <div className="w-full p-2 border-1 rounded-lg border-black">

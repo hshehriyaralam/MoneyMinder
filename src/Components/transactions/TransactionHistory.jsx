@@ -89,13 +89,13 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6">
+    <div className="w-full p-4 sm:p-6  mb-24">
       <TextAnimate
         delay={0.4}
         duration={1.9}
         animation="slideLeft"
         by="character"
-        className="text-center text-4xl sm:text-4xl font-lexend font-bold text-[#0e3fac]"
+        className="text-center text-3xl  md:text-3xl font-lexend font-bold text-[#2d5385]"
       >
         {Name}
       </TextAnimate>
@@ -202,7 +202,9 @@ function TransactionHistory({ limit, Name }) {
           ))}
 
           {limit === 6 && (
-            <div className="flex justify-end pr-6 mt-5 my-5">
+            <div
+            onClick={() => Navigate('/Transactions')}
+            className="flex justify-end pr-6 mt-5 my-5 cursor-pointer">
               <Explore 
                 Name={"Explore All"} 
                 onClick={() => Navigate('/Transactions')} 
@@ -213,7 +215,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
-        <div className="flex list-none text-gray-900 font-bold justify-center mt-4">
+        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-4">
           <Pagination>
             <PaginationItem>
               <PaginationPrevious 
@@ -223,10 +225,11 @@ function TransactionHistory({ limit, Name }) {
             </PaginationItem>
 
             {Array.from({ length: totalPage }, (_, index) => (
-              <PaginationItem className="cursor-pointer" key={index}>
+              <PaginationItem className="cursor-pointer " key={index}>
                 <PaginationLink
                   onClick={() => handlePageChange(index + 1)}
                   isActive={currentPage === index + 1}
+                  className={"font-semibold"}
                 >
                   {index + 1}
                 </PaginationLink>
@@ -244,7 +247,7 @@ function TransactionHistory({ limit, Name }) {
       )}
 
       {sortedTransactions.length === 0 && (
-        <div className="text-center py-10 text-gray-700">
+        <div className="text-center py-10 text-[#4b5563]">
           No transactions found. Add your first transaction!
         </div>
       )}

@@ -49,9 +49,9 @@ const MonthlyBarChart = () => {
   };
 
   return (
-    <Card className="bg-background/50 shadow-xl">
+    <Card className="bg-background/900 shadow-xl">
       <CardHeader className="flex flex-col gap-4">
-        <CardTitle className="text-xl font-bold text-center">Monthly Overview</CardTitle>
+        <CardTitle className="text-xl font-bold text-center text-[#1f2937]">Monthly Overview</CardTitle>
 
         <Select value={selectedYear.toString()} onValueChange={(value) => setSelectedYear(Number(value))}>
           <SelectTrigger className="w-28 mx-auto text-sm">{selectedYear}</SelectTrigger>
@@ -67,19 +67,19 @@ const MonthlyBarChart = () => {
       <CardContent className="h-[250px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barCategoryGap="30%" barSize={30}>
-            <XAxis dataKey="month" stroke="#cbd5e1" fontSize={15} />
-            <YAxis stroke="#cbd5e1" fontSize={15} />
+            <XAxis dataKey="month" stroke="black" fontSize={15} />
+            <YAxis stroke="black" fontSize={15} />
             <Tooltip 
-              cursor={{ fill: 'rgba(255,255,255,0.1)' }}
-              contentStyle={{ backgroundColor: "#1f2937", borderColor: "#374151" }}
-              labelStyle={{ color: "#fff" }}
-              itemStyle={{ color: "#d1d5db" }}
+              cursor={{ fill: 'transparent' }}
+              contentStyle={{ backgroundColor: "transparent", borderColor: "#2d5385", borderRadius: "20px" }}
+              labelStyle={{ color: "#4b5563" }}
+              itemStyle={{ color: "#2d5385"  }}
             />
-            <Bar dataKey="income" fill="#22c55e" radius={[10, 10, 0, 0]}>
-              <LabelList dataKey="income" position="top" formatter={(value) => value !== 0 ? `+${value}` : ''} fill="#22c55e" fontSize={12} />
+            <Bar dataKey="income" fill="#11bb52" radius={[10, 10, 0, 0]}>
+              <LabelList dataKey="income" position="top" formatter={(value) => value !== 0 ? `+${value}` : ''} fill="#11bb52" fontSize={12} fontWeight={600} />
             </Bar>
             <Bar dataKey="expense" fill="#ef4444" radius={[10, 10, 0, 0]}>
-              <LabelList dataKey="expense" position="top" formatter={(value) => value !== 0 ? `-${value}` : ''} fill="#ef4444" fontSize={12} />
+              <LabelList dataKey="expense" position="top" formatter={(value) => value !== 0 ? `-${value}` : ''} fill="#e70c0c" fontSize={12} fontWeight={600} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

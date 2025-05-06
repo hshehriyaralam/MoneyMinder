@@ -55,7 +55,7 @@ const Dock = React.forwardRef(({ items, className }, ref) => {
           animate="animate"
           variants={floatingAnimation}
           className={cn(
-            "flex items-center gap-2 p-2 rounded-2xl",
+            "flex items-center  p-2 rounded-2xl",
             "backdrop-blur-lg border shadow-lg",
             "bg-background/90 border-border",
             "hover:shadow-xl transition-shadow duration-300"

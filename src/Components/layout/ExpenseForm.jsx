@@ -90,9 +90,9 @@ const ExpenseForm = () => {
       scale={1.1}
       threshold={0.2}
     >
-      <div className={`h-auto flex items-center justify-center bg-transparent p-4 mb-20 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
+      <div className={`h-auto flex items-center justify-center bg-transparent p-4 mb-35 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
         <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
-          <h1 className="text-[#0c2e5e] text-[28px] text-center mt-2 font-bold">
+          <h1 className="text-[#1f2937] text-[26px] text-center mt-2 font-bold">
             {editTransaction ? "Edit Expense" : "Add Expense"}
           </h1>
           <div className="flex flex-col md:flex-row items-center">
@@ -103,18 +103,18 @@ const ExpenseForm = () => {
               <CategoryDropdown selectedCategory={category} setSelectedCategory={setCategory} />
               <div className="flex gap-x-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300">Date :</label>
+                  <label className="block text-sm font-medium text-[#4b5563]">Date :</label>
                   <input
-                    className="w-[100%] border-b text-sm border-gray-300 rounded-xl mt-1 py-1 px-3 outline-none text-gray-300 focus:border-1 focus:border-blue-900"
+                    className="w-[100%] border-b-2 text-sm border-gray-900 rounded-xl mt-1 py-1 px-3 outline-none text-black focus:border-1 focus:border-blue-900"
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300">Time :</label>
+                  <label className="block text-sm font-medium text-[#4b5563]">Time :</label>
                   <input
-                    className="w-[100%] space-y-2 border-b text-sm border-gray-300 rounded-xl mt-1 py-1 px-3 outline-none text-gray-300 focus:border-1 focus:border-blue-900"
+                    className="w-[100%] space-y-2 border-b-2 text-sm border-gray-900 rounded-xl mt-1 py-1 px-3 outline-none text-black focus:border-1 focus:border-blue-900"
                     type="time"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
@@ -149,10 +149,10 @@ const ExpenseForm = () => {
       {showErrorModal && (
         <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-intent rounded-lg p-6 shadow-xl w-96">
-            <h2 className="text-xl font-bold text-[#1E3A5F] mb-4 text-center">
+            <h2 className="text-xl font-bold text-[#1f2937] mb-4 text-center">
               Please Fill in All Required Fields
             </h2>
-            <ul className="list-disc list-inside text-left text-gray-100">
+            <ul className="list-disc list-inside text-left text-[#4b5563]">
               {missingFields.map((field, index) => (
                 <li key={index}>{field}</li>
               ))}

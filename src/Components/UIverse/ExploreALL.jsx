@@ -35,7 +35,7 @@ const StyledWrapper = styled.div`
     border-radius: 10rem;
     font-size:12px;
     font-weight: 600;
-    padding: 0.60rem 1rem;
+    padding: 0.60rem 1.5rem;
     padding-left: 15px;
     white-space: nowrap;
     overflow: hidden;

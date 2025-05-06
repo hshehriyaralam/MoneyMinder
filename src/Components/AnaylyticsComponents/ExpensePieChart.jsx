@@ -62,11 +62,11 @@ const ExpensePieChart = () => {
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div className="w-full flex flex-col border border-black rounded-lg items-start items-center bg-background/50 shadow-xl p-10">
+    <div className="w-full flex flex-col  border border-black rounded-lg items-start items-center bg-background/50 shadow-xl p-10  ">
       {/* Shadcn Dropdown for selecting month */}
       <div className="mb-6">
         <Select onValueChange={handleMonthChange} value={selectedMonth}>
-          <SelectTrigger className="w-56 border-2 border-gray-300 rounded-md p-2 hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <SelectTrigger className="w-56 border-2 border-gray-900 bg-transparent backdrop-blur rounded-md p-2 hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
             <SelectValue placeholder="Select Month" />
           </SelectTrigger>
           <SelectContent className="rounded-md shadow-lg">
@@ -86,7 +86,7 @@ const ExpensePieChart = () => {
 
       {/* If there are no transactions for the selected month, show a message */}
       {noTransactions ? (
-        <div className="text-xl font-bold text-red-500">
+        <div className="text-xl font-bold text-[#2d5385]">
           No transactions available for this month.
         </div>
       ) : (

@@ -34,7 +34,7 @@ const StyledWrapper = styled.div`
     padding: 10px 0;
     appearance: none;
     font-size: 15px;
-    color: #dadde2;
+    color: black
     font-family: 'Lexend Deca', sans-serif;
   }
 
@@ -67,13 +67,13 @@ const StyledWrapper = styled.div`
     display: inline-block;
     font-size: 16px;
     min-width: 5px;
-    color: rgb(215, 219, 226);
+    color: #4b5563;
     transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .form-control input:focus + label span,
   .form-control input:valid + label span {
-    color: #fff;
+    color: #4b5563;
     transform: translateY(-30px);
   }
 `;

@@ -19,7 +19,7 @@ const StyledWrapper = styled.div`
     border: none;
     color:rgb(217, 225, 233);
     cursor: pointer;
-    background-color:rgb(33, 75, 130);
+    background-color:#2d5385;
     transition: all 0.2s ease;
   }
 

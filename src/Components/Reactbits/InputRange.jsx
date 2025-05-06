@@ -57,9 +57,9 @@ function Slider({
         step={stepSize}
         value={value}
         onChange={handleChange}
-        className="w-full h-2 bg-cyan-900 rounded-lg appearance-none cursor-pointer"
+        className="w-full h-2 bg-[#2d5385] rounded-lg appearance-none cursor-pointer"
       />
-      <p className="text-gray-200 text-sm font-medium">{value}</p>
+      <p className="text-[#4b5563] text-sm font-medium">{value}</p>
      </div>
   );
 }
