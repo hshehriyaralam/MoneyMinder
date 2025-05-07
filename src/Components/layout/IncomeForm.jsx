@@ -90,7 +90,7 @@ const IncomeForm = () => {
     scale={1.1}
     threshold={0.2}
   >
-    <div className={`h-auto flex  items-center justify-center bg-transparent p-4 mb-35 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
+    <div className={`h-auto flex  items-center justify-center bg-transparent p-4 mb-35 md:mb-5 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg shadow-2xl p-1 flex flex-col">
       <h1 className="text-[#1f2937] text-[26px] text-center mt-2 font-bold">
         {editTransaction ? "Edit Income" : "Add Income"}</h1>

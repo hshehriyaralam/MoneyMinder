@@ -89,7 +89,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6  mb-24">
+    <div className="w-full p-4 sm:p-6  mb-24  md:mb-0">
       <TextAnimate
         delay={0.4}
         duration={1.9}

@@ -3,27 +3,26 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 import { Context } from '@/Context/TransactionContext';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; // Import Shadcn Select
 import dayjs from 'dayjs';
+import { PaddingIcon } from '@radix-ui/react-icons';
 
 const ExpensePieChart = () => {
   const { transactions, expenseSummary, expenseAmount } = useContext(Context);
-  const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM')); // Default current month
+  const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM'));
   const [filteredExpenseSummary, setFilteredExpenseSummary] = useState(expenseSummary);
-  const [noTransactions, setNoTransactions] = useState(false); // New state to track if there are no transactions
+  const [noTransactions, setNoTransactions] = useState(false); 
 
   useEffect(() => {
-    // Filtering transactions by the selected month
+
     const filteredTransactions = transactions.filter((transaction) => {
       const transactionMonth = dayjs(transaction.createdAt).format('YYYY-MM');
       return transactionMonth === selectedMonth;
     });
 
     if (filteredTransactions.length === 0) {
-      setNoTransactions(true); // Set to true if there are no transactions for the selected month
+      setNoTransactions(true); 
     } else {
-      setNoTransactions(false); // Otherwise, set it to false
+      setNoTransactions(false); 
     }
-
-    // Grouping expenses by category for the selected month
     const newExpenseSummary = {};
     filteredTransactions.forEach((transaction) => {
       if (transaction.type === 'expense') {
@@ -40,7 +39,7 @@ const ExpensePieChart = () => {
 
     setFilteredExpenseSummary(newExpenseSummary);
 
-  }, [selectedMonth, transactions]); // Re-run effect when selectedMonth or transactions change
+  }, [selectedMonth, transactions]);
 
   const COLORS = [
     '#FF6347', '#9d891f', '#1a841a', '#FF4500', '#8A2BE2', '#0c6863',
@@ -48,7 +47,6 @@ const ExpensePieChart = () => {
     '#DC143C', '#FF1493', '#FF6347', '#ADFF2F'
   ];
 
-  // Function to handle month change
   const handleMonthChange = (value) => {
     setSelectedMonth(value);
   };
@@ -62,85 +60,145 @@ const ExpensePieChart = () => {
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div className="w-full flex flex-col  border border-black rounded-lg items-start items-center bg-background/50 shadow-xl p-10  ">
-      {/* Shadcn Dropdown for selecting month */}
-      <div className="mb-6">
-        <Select onValueChange={handleMonthChange} value={selectedMonth}>
-          <SelectTrigger className="w-56 border-2 border-gray-900 bg-transparent backdrop-blur rounded-md p-2 hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
-            <SelectValue placeholder="Select Month" />
-          </SelectTrigger>
-          <SelectContent className="rounded-md shadow-lg">
-            {/* Generating the last 12 months */}
-            {Array.from({ length: 12 }).map((_, index) => {
-              const month = dayjs().subtract(index, 'month');
-              const monthStr = month.format('YYYY-MM');
-              return (
-                <SelectItem key={monthStr} value={monthStr}>
-                  {month.format('MMMM YYYY')}
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="max-w-full rounded-2xl shadow-2xl bg-[#1e1e1e]/300 border  p-4">
+      <h1 className='text-xl font-bold text-left m-3 text-[#1f2937]'>Monthly Expense Insights</h1>
+      <div className="my-5 ">
+      <Select onValueChange={handleMonthChange} value={selectedMonth}>
+  <SelectTrigger className="w-48 mx-auto text-sm text-black backdrop-blur">
+    <SelectValue placeholder="Select Month" />
+  </SelectTrigger>
+  <SelectContent 
+    className="rounded-md shadow-lg bg-transparent backdrop-blur" 
+    style={{
+      maxHeight: '200px',
+      overflowY: 'auto', 
+    }}
+  >
+    {Array.from({ length: 12 }).map((_, index) => {
+      const month = dayjs().subtract(index, 'month');
+      const monthStr = month.format('YYYY-MM');
+      return (
+        <SelectItem 
+          key={monthStr} 
+          value={monthStr} 
+          style={{
+            padding: '6px 12px',
+            fontSize: '14px',
+          }}
+        >
+          {month.format('MMMM YYYY')}
+        </SelectItem>
+      );
+    })}
+  </SelectContent>
+</Select>
 
-      {/* If there are no transactions for the selected month, show a message */}
+      </div>
       {noTransactions ? (
         <div className="text-xl font-bold text-[#2d5385]">
           No transactions available for this month.
         </div>
       ) : (
-        <div className="w-full h-[450px]">
+        <div className="max-w-full h-[450px] ">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie
-                data={data}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={160}
-                innerRadius={80}
-                fill="#8884d8"
-                labelLine={true}
-                label={({ percentage }) => `${percentage}%`}
-                labelLineStyle={{ stroke: '#ffffff', strokeWidth: 10 }}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip
-                formatter={(value, name, props) => [
-                  `₹${value} (${props.payload.percentage}%)`,
-                  name,
-                ]}
-                contentStyle={{
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
-                  borderRadius: "8px",
-                  border: "none",
-                  color: "white",
-                  fontSize: "12px",
-                }}
-              />
-              <Legend
-                iconSize={10}
+            <Legend
+                iconSize={12}
                 layout="vertical"
-                verticalAlign="middle"
-                align="left"
+                verticalAlign="right"
+                align="middle"
                 wrapperStyle={{
-                  fontSize: "18px",
+                  fontSize: "14px",
                   color: "white",
-                }}
+                  margin : "10px 10px"
+                     }}
                 formatter={(value, entry) => {
                   const categoryAmount = filteredExpenseSummary[entry.payload.name];
                   return (
-                    <span style={{ color: COLORS[entry.index % COLORS.length] }}>
-                      {value} - ₹{categoryAmount}
+                    <span style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      padding: '0px 6px',
+                      borderRadius: '8px',
+                      color: '#581845',
+                      fontSize: '14px',  
+                      fontWeight: 'bold',
+                      boxShadow: 'none',
+                      transition: 'transform 0.3s ease',
+                    }} 
+                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'} 
+                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                      <span style={{ color: COLORS[entry.index % COLORS.length], fontSize: '14px', paddingRight : "5px" }}>{value}</span> 
+                        {'  -  '} 
+                      <span style={{ color: '#a4f01c', fontSize: '14px', paddingLeft: "5px"}}>${categoryAmount}</span>
                     </span>
+                    
+                    
                   );
                 }}
               />
+<Pie
+   isAnimationActive={true}
+   animationDuration={1200}
+  animationEasing="ease-in-out"
+  data={data}
+  dataKey="value"
+  nameKey="name"
+  cx="50%"
+  cy="70%"
+  outerRadius={100}
+  innerRadius={6}
+  fill="#8884d8"
+  labelLine={false}
+  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="#fff"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={10}
+      >
+        {(percent * 100).toFixed(0)}%
+      </text>
+    );
+  }}
+>
+  {data.map((entry, index) => (
+     <Cell
+        key={`cell-${index}`}
+        fill={COLORS[index % COLORS.length]}
+        style={{ transition: 'all 0.3s ease-in-out', cursor: 'pointer' }}
+        onMouseOver={(e) => (e.currentTarget.style.opacity = '0.8')}
+        onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+      />
+  ))}
+</Pie>
+
+<Tooltip
+  formatter={(value, name) => {
+    const formattedValue = Number(value) ? `₹${value}` : '';
+    return [formattedValue, name];
+  }}
+  contentStyle={{
+    backgroundColor: "white",
+    borderColor: "#a4f01c",
+    borderRadius: "12px",
+    color: "white",
+    fontSize: "13px",
+    padding: "10px"
+  }}
+/>
+
+
+            
             </PieChart>
           </ResponsiveContainer>
         </div>

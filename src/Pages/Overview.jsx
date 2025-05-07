@@ -28,20 +28,20 @@ const Overview = () => {
   });
 
   return (
-    <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4">
+    <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4   mb-15 md:mb-0">
       <TextAnimate
         delay={0.4}
         duration={1.9}
         animation="slideLeft"
         by="character"
-        className="text-center text-4xl sm:text-5xl font-lexend font-bold text-white"
+        className="text-center text-4xl  font-lexend font-bold text-[#2d5385]"
       >
         {"Overview"}
       </TextAnimate>
       <div className="w-full flex justify-center">
         <SavingCard />
       </div>
-      <div className="w-full flex flex-wrap gap-6">
+      <div className="w-full flex flex-wrap gap-6 ">
   {categoryWithPercentage.length > 0 ? (
     categoryWithPercentage.map((item, index) => (
       <div key={index} className="flex-1 min-w-[250px] max-w-[400px]">
@@ -54,7 +54,7 @@ const Overview = () => {
       </div>
     ))
   ) : (
-    <p className="text-center w-full text-gray-300">No transaction history.</p>
+    <p className="text-center w-full text-[#2d5385]">No transaction history.</p>
   )}
 </div>
 

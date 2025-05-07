@@ -44,8 +44,8 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Dashboard", url: "/", icon: Home },
     { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
     { title: "Transactions", url: "/Transactions", icon: List },
-    { title: "Analytics", url: "/Analytics", icon: PieChart },
     { title: "Overview", url: "/Overview", icon: Layout }, 
+    { title: "Analytics", url: "/Analytics", icon: PieChart },
     { title: "Settings", url: "/Setting", icon: Settings },
     { title: "Profile", url: "/Profile  ", icon: User },
   ]; 
@@ -54,8 +54,8 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { icon: Home, label: "Dashbaord" , onclick: () => navigate('/')},
     { icon: Plus, label: "Add" ,  onclick:()  => navigate("/AddTransaction") },
     { icon: List, label: "Transactions",onclick:()  => navigate("/Transactions") },
-    { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },
+    { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
     { icon: Settings, label: "Settings",onclick:()  => navigate("/Setting")},
     { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
   ]
