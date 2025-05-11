@@ -46,7 +46,6 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Transactions", url: "/Transactions", icon: List },
     { title: "Overview", url: "/Overview", icon: Layout }, 
     { title: "Analytics", url: "/Analytics", icon: PieChart },
-    { title: "Settings", url: "/Setting", icon: Settings },
     { title: "Profile", url: "/Profile  ", icon: User },
   ]; 
 
@@ -56,8 +55,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { icon: List, label: "Transactions",onclick:()  => navigate("/Transactions") },
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },
     { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
-    { icon: Settings, label: "Settings",onclick:()  => navigate("/Setting")},
-    { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
+       { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
   ]
   useEffect(() => {
     setActive(location.pathname);
@@ -80,10 +78,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-     bg-[#EDEDED] border-none  
+     bg-[#F5F7FA] border-none  
         `} 
       > 
-            <SidebarContent   className="h-full bg-[#EDEDED]" >
+            <SidebarContent   className="h-full bg-[#F5F7FA]" >
               <SidebarGroup >
                 <div className="flex justify-between items-center mt-3 text-[#1E293B]">
                   
