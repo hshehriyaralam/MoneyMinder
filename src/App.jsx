@@ -3,14 +3,15 @@ import React, { useState,useEffect } from 'react';
 import Dashboard from './Pages/Dashboard';
 import AddTransaction from './Pages/AddTransaction';
 import Analytics from './Pages/Analytics';
-import Setting from './Pages/Setting';
+import SignUp from './Pages/SignUp'
 import Transaction from './Pages/Transaction';
 import Header from './Components/layout/Header';
 import AppSidebar from './Components/layout/AppSidebar';
 import ScrollTop from './Components/comman/ScrollTop';
 import Overview from './Pages/Overview';
 import {theme} from "./Components/theme/theme.js"
-import Profile from './Pages/Profile';
+import Profile from './Pages/Profile.jsx';
+import Login from './Pages/Login.jsx';
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -32,7 +33,7 @@ const App = () => {
         <header className="fixed w-full z-50 shadow-md">
           <Header />
         </header>
-        <div className="flex flex-1 pt-16 bg-[#F5F7FA] " >
+        <div className="flex flex-1 pt-16 bg-[#f7f7fa] " >
           <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
             <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </div>
@@ -45,7 +46,8 @@ const App = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />
               <Route path="/Transactions" element={<Transaction />} />
-              <Route path="/Setting" element={<Setting />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/Login" element={<Login />} />
               <Route path="/Analytics" element={<Analytics />} />
               <Route path="/Overview" element={<Overview />} />
               <Route path="/Profile" element={<Profile />} />

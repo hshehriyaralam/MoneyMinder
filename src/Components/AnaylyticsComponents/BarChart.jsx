@@ -10,6 +10,8 @@ const MonthlyBarChart = () => {
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [data, setData] = useState([]);
   const [yearsAvailable, setYearsAvailable] = useState([]);
+  const [noTransactions, setNoTransactions] = useState(false); 
+  
 
   useEffect(() => {
     // const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
@@ -21,6 +23,7 @@ const MonthlyBarChart = () => {
     setYearsAvailable(uniqueYears);
 
     generateData(selectedYear);
+
   }, []);
 
   useEffect(() => {
@@ -28,25 +31,36 @@ const MonthlyBarChart = () => {
   }, [selectedYear]);
 
   const generateData = (year) => {
-    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
-      month: new Date(0, i).toLocaleString('default', { month: 'short' }),
-      income: 0,
-      expense: 0
-    }));
-    transactions.forEach((t) => {
-      const tDate = new Date(t.date);
-      if (tDate.getFullYear() === year) {
-        const monthIndex = tDate.getMonth();
-        if (t.type === 'income') {
-          monthlyData[monthIndex].income += Number(t.amount);
-        } else {
-          monthlyData[monthIndex].expense += Number(t.amount);
-        }
-      }
-    });
-    setData(monthlyData);
-  };
+  const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+  
+  const monthlyData = Array.from({ length: 12 }, (_, i) => ({
+    month: new Date(0, i).toLocaleString('default', { month: 'short' }),
+    income: 0,
+    expense: 0
+  }));
+
+  const filteredTransactions = transactions.filter((t) => new Date(t.date).getFullYear() === year);
+
+  if (filteredTransactions.length === 0) {
+    setNoTransactions(true);
+    setData(monthlyData); 
+    return;
+  } else {
+    setNoTransactions(false);
+  }
+
+  filteredTransactions.forEach((t) => {
+    const tDate = new Date(t.date);
+    const monthIndex = tDate.getMonth();
+    if (t.type === 'income') {
+      monthlyData[monthIndex].income += Number(t.amount);
+    } else {
+      monthlyData[monthIndex].expense += Number(t.amount);
+    }
+  });
+
+  setData(monthlyData);
+};
 
   return (
     <Card className="bg-background/900 shadow-xl">
@@ -64,7 +78,12 @@ const MonthlyBarChart = () => {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="h-[250px]">
+        {noTransactions ? (
+          <div className="text-xl font-bold mx-20 text-[#2d5385]">
+          No transactions available for this year.
+        </div>
+      ) : (
+        <CardContent className="h-[250px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} barCategoryGap="30%" barSize={30}>
             <XAxis dataKey="month" stroke="black" fontSize={15} />
@@ -84,6 +103,7 @@ const MonthlyBarChart = () => {
           </BarChart>
         </ResponsiveContainer>
       </CardContent>
+        )}
     </Card>
   );
 };

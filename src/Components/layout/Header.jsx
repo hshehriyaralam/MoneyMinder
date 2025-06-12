@@ -9,7 +9,7 @@ import logo from "../../assets/images/logo2.png"
 
 const Header = () => {
   return (
-    <header className={`w-full p-3 flex justify-between items-center bg-[#F5F7FA] shadow-md md:p-3 lg:p-2`}>
+    <header className={`w-full p-3 flex justify-between items-center bg-[#f7f7fa] shadow-md md:p-3 lg:p-2`}>
       <div className="flex items-center  ">
         <Link to={'/'}>
         <img src={logo4} alt="Logo" className="w-20 md:w-16 lg:w-28 " />

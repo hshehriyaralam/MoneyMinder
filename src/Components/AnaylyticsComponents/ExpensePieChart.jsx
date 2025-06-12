@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Context } from '@/Context/TransactionContext';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; // Import Shadcn Select
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; 
 import dayjs from 'dayjs';
 import { PaddingIcon } from '@radix-ui/react-icons';
 
@@ -18,11 +18,10 @@ const ExpensePieChart = () => {
       return transactionMonth === selectedMonth;
     });
 
-    if (filteredTransactions.length === 0) {
-      setNoTransactions(true); 
-    } else {
-      setNoTransactions(false); 
-    }
+   const hasExpense = filteredTransactions.some(txn => txn.type === 'expense')
+    setNoTransactions(!hasExpense)
+
+
     const newExpenseSummary = {};
     filteredTransactions.forEach((transaction) => {
       if (transaction.type === 'expense') {

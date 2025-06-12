@@ -10,7 +10,9 @@ import {
   Menu,   
   ChevronLeft,  
   Layout,
-  User
+  User,
+  KeyRound,
+
 } from "lucide-react";
 import {
   Sidebar,
@@ -46,7 +48,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Transactions", url: "/Transactions", icon: List },
     { title: "Overview", url: "/Overview", icon: Layout }, 
     { title: "Analytics", url: "/Analytics", icon: PieChart },
-    { title: "Profile", url: "/Profile  ", icon: User },
+    { title: "Profile", url: "/Profile", icon: User },
+    { title: "SinUp", url: "/SignUp", icon: KeyRound },
+    { title: "Login", url: "/Login", icon: KeyRound },
+
   ]; 
 
   const itemsDocks = [
@@ -55,7 +60,8 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { icon: List, label: "Transactions",onclick:()  => navigate("/Transactions") },
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },
     { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
-       { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
+    { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
+    { icon: User, label: "Sign Up",onclick:()  => navigate("/SignUp") },
   ]
   useEffect(() => {
     setActive(location.pathname);
@@ -78,10 +84,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-     bg-[#F5F7FA] border-none  
+     bg-[#f7f7fa] border-none  
         `} 
       > 
-            <SidebarContent   className="h-full bg-[#F5F7FA]" >
+            <SidebarContent   className="h-full bg-[#f7f7fa]" >
               <SidebarGroup >
                 <div className="flex justify-between items-center mt-3 text-[#1E293B]">
                   
