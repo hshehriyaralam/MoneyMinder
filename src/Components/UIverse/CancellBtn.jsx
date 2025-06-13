@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CancellButton = ({handleBack}) => {
+const CancellButton = ({handleBack, value}) => {
   return (
     <StyledWrapper>
       <button className="button"  onClick={handleBack} >
-        Go Back
+        {value}
       </button>
     </StyledWrapper>
   );
