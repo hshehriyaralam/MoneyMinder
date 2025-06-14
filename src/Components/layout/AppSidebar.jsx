@@ -62,6 +62,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
     { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
     { icon: User, label: "Sign Up",onclick:()  => navigate("/SignUp") },
+    { icon: User, label: "Login",onclick:()  => navigate("/Login") },
   ]
   useEffect(() => {
     setActive(location.pathname);

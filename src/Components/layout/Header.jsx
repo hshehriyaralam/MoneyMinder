@@ -1,11 +1,7 @@
 import React from 'react';
-import { theme } from '../theme/theme.js';
-import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
-import ButtonComponent from "../comman/VerseButton.jsx";
 import logo4 from "../../assets/images/Growth.png"
 import { Link } from 'react-router-dom';
-import { color } from 'framer-motion';
-import logo from "../../assets/images/logo2.png"
+
 
 const Header = () => {
   return (
@@ -19,8 +15,6 @@ const Header = () => {
         </h1>
       </div>
         <div className="flex mx-3 gap-2 sm:gap-2 md:gap-3">
-        {/* <InteractiveHoverButtonDemo Name={'Sign Up'} /> */}
-        {/* <ButtonComponent Name={'Login'} /> */}
       </div>
     </header>
   );
