@@ -5,7 +5,7 @@ import Input from "../comman/InputVerse.jsx"
 import GoogleButton from "../UIverse/GoogleButto.jsx"
 import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import axios from 'axios'
-import { Navigate } from 'react-router-dom'
+
 
 
 const SignUpForm = () => {

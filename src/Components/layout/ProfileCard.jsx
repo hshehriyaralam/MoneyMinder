@@ -1,7 +1,15 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingDown, PieChart, ArrowUp, ArrowDown } from 'lucide-react';
+import axios from 'axios';
 
-const ProfileCard = () => {
+const ProfileCard =  () => {
+
+
+
+
+
+
+
   // User data
   const [user, setUser] = useState({
     fullName: 'John Doe',
@@ -27,8 +35,8 @@ const ProfileCard = () => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
-  const [tempName, setTempName] = useState(user.fullName);
-  const [tempEmail, setTempEmail] = useState(user.email);
+  const [tempName, setTempName] = useState('');
+  const [tempEmail, setTempEmail] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -66,6 +74,33 @@ const ProfileCard = () => {
 
   // Check for changes
   const hasChanges = tempName !== user.fullName || tempEmail !== user.email;
+
+
+
+  // fetch Data 
+const fetchUser = async () => {
+  try{
+
+    const response = await axios.get('/api/user/fetch-user', {
+      withCredentials : true
+    })
+    
+    const fullName = response.data.user.fullName;
+    const email = response.data.user.email;
+    setTempName(fullName)
+    setTempEmail(email)
+
+    
+  }catch(error){    
+    console.log("fetchUser failed",error.message);
+    
+  }
+}
+
+
+  useEffect(() => {
+    fetchUser()
+  })
 
   return (
     <div className="min-h-screen w-full bg-gray-50 p-3 flex items-center justify-center">
@@ -109,7 +144,7 @@ const ProfileCard = () => {
                     autoFocus
                   />
                 ) : (
-                  <span className="flex-1 font-medium text-lg">{user.fullName}</span>
+                  <span className="flex-1 font-medium text-lg">{tempName}</span>
                 )}
                 <button 
                   onClick={() => setIsEditingName(!isEditingName)}
@@ -133,7 +168,7 @@ const ProfileCard = () => {
                     autoFocus
                   />
                 ) : (
-                  <span className="flex-1 font-medium text-lg">{user.email}</span>
+                  <span className="flex-1 font-medium text-lg">{tempEmail}</span>
                 )}
                 <button 
                   onClick={() => setIsEditingEmail(!isEditingEmail)}
