@@ -3,19 +3,8 @@ import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingD
 import axios from 'axios';
 
 const ProfileCard =  () => {
-
-
-
-
-
-
-
   // User data
-  const [user, setUser] = useState({
-    fullName: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: null
-  });
+  const [user, setUser] = useState('');
 
   // Financial data
   const financialData = {
@@ -35,49 +24,16 @@ const ProfileCard =  () => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
-  const [tempName, setTempName] = useState('');
-  const [tempEmail, setTempEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [updateName, setUpdateName] = useState('')
+  const [updateEmail, setUpdateEmail] = useState('')
+  const [picture, setPicture]  = useState('')
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Handle image upload
-  const handleAvatarUpload = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.match('image.*')) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setUser({...user, avatar: event.target.result});
-      };
-      reader.readAsDataURL(file);
-      setSelectedFile(file.name);
-    }
-  };
 
-  // Save profile changes
-  const saveChanges = () => {
-    setUser({
-      ...user,
-      fullName: tempName,
-      email: tempEmail
-    });
-    setIsEditingName(false);
-    setIsEditingEmail(false);
-  };
-
-  // Cancel editing
-  const cancelChanges = () => {
-    setTempName(user.fullName);
-    setTempEmail(user.email);
-    setIsEditingName(false);
-    setIsEditingEmail(false);
-  };
-
-  // Check for changes
-  const hasChanges = tempName !== user.fullName || tempEmail !== user.email;
-
-
-
-  // fetch Data 
+    // fetch Data 
 const fetchUser = async () => {
   try{
 
@@ -87,8 +43,10 @@ const fetchUser = async () => {
     
     const fullName = response.data.user.fullName;
     const email = response.data.user.email;
-    setTempName(fullName)
-    setTempEmail(email)
+    setFullName(fullName)
+    setEmail(email)
+    setUpdateEmail(email)
+    setUpdateName(fullName)
 
     
   }catch(error){    
@@ -98,9 +56,57 @@ const fetchUser = async () => {
 }
 
 
+
+  // Save profile changes
+  const saveChanges = async (e) => {
+    e.preventDefault()
+    console.log("edit")
+    const updateData = {}
+    if(updateName.trim() !==  "")updateData.fullName = fullName;
+    if(updateEmail.trim() !==  "")updateData.email = email;
+
+    if(Object.keys(updateData).length == 0){
+      alert("Please fill at least one field to update");
+      return;
+    }
+
+    try{
+      await axios.put(`/api/user/edit-user`,updateData, {
+        withCredentials : true,
+      } 
+    )
+    window.location.reload()
+
+    }catch(error){
+      alert("Update failed")
+      console.log("Update Data failed", error.message);
+      
+    }
+
+
+  }
+
+  // Cancel editing
+  const cancelChanges = () => {
+    setFullName(fullName);
+    setEmail(email);
+    setUpdateName(fullName)
+    setUpdateEmail(email)
+    setIsEditingName(false);
+    setIsEditingEmail(false);
+  };
+
+  // Check for changes
+  const hasChanges = fullName !== user.fullName || email !== user.email;
+
+
+
+
+
+
   useEffect(() => {
     fetchUser()
-  })
+  },[])
 
   return (
     <div className="min-h-screen w-full bg-gray-50 p-3 flex items-center justify-center">
@@ -138,13 +144,13 @@ const fetchUser = async () => {
                 {isEditingName ? (
                   <input
                     type="text"
-                    value={tempName}
-                    onChange={(e) => setTempName(e.target.value)}
+                    value={updateName}
+                    onChange={(e) => setUpdateName(e.target.value)}
                     className="flex-1 outline-none text-lg"
                     autoFocus
                   />
                 ) : (
-                  <span className="flex-1 font-medium text-lg">{tempName}</span>
+                  <span className="flex-1 font-medium text-lg">{fullName}</span>
                 )}
                 <button 
                   onClick={() => setIsEditingName(!isEditingName)}
@@ -162,13 +168,13 @@ const fetchUser = async () => {
                 {isEditingEmail ? (
                   <input
                     type="email"
-                    value={tempEmail}
-                    onChange={(e) => setTempEmail(e.target.value)}
+                    value={updateEmail}
+                    onChange={(e) => setUpdateEmail(e.target.value)}
                     className="flex-1 outline-none text-lg"
                     autoFocus
                   />
                 ) : (
-                  <span className="flex-1 font-medium text-lg">{tempEmail}</span>
+                  <span className="flex-1 font-medium text-lg">{email}</span>
                 )}
                 <button 
                   onClick={() => setIsEditingEmail(!isEditingEmail)}
