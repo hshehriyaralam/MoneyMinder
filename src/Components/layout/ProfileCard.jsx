@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingDown, PieChart, ArrowUp, ArrowDown } from 'lucide-react';
 import axios from 'axios';
+import { Image } from 'antd';
 
 const ProfileCard =  () => {
   // User data
@@ -43,10 +44,12 @@ const fetchUser = async () => {
     
     const fullName = response.data.user.fullName;
     const email = response.data.user.email;
+    const profilePicture = response.data.user.profilePicture;
     setFullName(fullName)
     setEmail(email)
     setUpdateEmail(email)
     setUpdateName(fullName)
+    setPicture(profilePicture)
 
     
   }catch(error){    
@@ -56,34 +59,66 @@ const fetchUser = async () => {
 }
 
 
+//iamge Upload
+const handleiamgeUpload = async (e) => {
+  e.preventDefault()
+  if(!selectedFile){
+    alert("Please select an image first");
+    return
+  }
+  
+  const formData = new FormData()
+  formData.append('profilePicture', selectedFile)
+  
+  try{
+      const response = await axios.post(`/api/user/upload-profile`, formData, {
+        withCredentials : true,
+
+        headers : {
+          'Content-Type' : 'multipart/form-data'
+        }
+      }, 
+      
+    )
+    setPicture(response.data.profilePicture)
+    setSelectedFile(false)
+    setShowImageModal(false)
+    window.location.reload()
+    
+  }catch(error){
+      console.error('Image upload failed:', error.message);
+      alert("Image upload failed")
+  }
+}
+
+
 
   // Save profile changes
   const saveChanges = async (e) => {
     e.preventDefault()
-    console.log("edit")
-    const updateData = {}
-    if(updateName.trim() !==  "")updateData.fullName = fullName;
-    if(updateEmail.trim() !==  "")updateData.email = email;
-
+    const updateData = {};
+    if(updateName.trim() !==  "")updateData.fullName = updateName;
+    if(updateEmail.trim() !==  "")updateData.email = updateEmail;
+    
     if(Object.keys(updateData).length == 0){
       alert("Please fill at least one field to update");
       return;
     }
-
+    
     try{
-      await axios.put(`/api/user/edit-user`,updateData, {
+       await axios.put(`/api/user/edit-user`,updateData, {
         withCredentials : true,
       } 
     )
     window.location.reload()
-
-    }catch(error){
+    setUpdateEmail(updateData.email)
+    setUpdateName(updateData.fullName)
+    setFullName(updateData.fullName)
+    setEmail(updateData.email)
+    }catch(error){ 
       alert("Update failed")
       console.log("Update Data failed", error.message);
-      
     }
-
-
   }
 
   // Cancel editing
@@ -111,29 +146,57 @@ const fetchUser = async () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 p-3 flex items-center justify-center">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-md overflow-hidden">
-        {/* Header */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 text-white text-center">
           <h1 className="text-xl font-bold">Profile</h1>
         </div>
-
-        {/* Profile Section */}
         <div className="p-6">
           {/* Profile Picture */}
-          <div className="flex justify-center mb-5">
-            <div 
-              className="relative w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden cursor-pointer shadow-sm"
-              onClick={() => setShowImageModal(true)}
-            >
-              {user.avatar ? (
-                <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
-              ) : (
-                <User className="w-14 h-14 text-gray-500" />
-              )}
-              <div className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow">
-                <Camera className="w-4 h-4 text-blue-500" />
-              </div>
-            </div>
-          </div>
+          <div className="flex justify-center mb-5 relative">
+  <div className="w-28 h-28 rounded-full bg-gray-200 overflow-hidden shadow-md">
+    {picture && picture.trim() !== '' ? (
+      <Image
+        src={picture}
+        alt="Profile"
+        className="w-full h-full object-cover object-top"
+      />
+    ) : (
+      <User className="w-14 h-14 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+    )}
+  </div>
+
+  {/* Camera Icon Overlapping Bottom-Right */}
+  <button
+    onClick={() => setShowImageModal(true)}
+    className="absolute bottom-[2px] right-[calc(50%-60px)] bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition z-10"
+  >
+    <Camera className="w-5 h-5 text-blue-500" />
+  </button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* //////////////////////////////////////////////////////////////////////////////////////// */}
+
+
+
+
+
+
+
+
+
+          
 
           {/* Profile Info */}
           <div className="space-y-5 mb-6">
@@ -156,7 +219,7 @@ const fetchUser = async () => {
                   onClick={() => setIsEditingName(!isEditingName)}
                   className="ml-3 text-blue-500 hover:bg-blue-50 p-1 rounded-full"
                 >
-                  {isEditingName ? <Check size={20} /> : <Edit size={20} />}
+                  {isEditingName ? <Check size={20} onClick={saveChanges} /> : <Edit size={20} />}
                 </button>
               </div>
             </div>
@@ -180,7 +243,7 @@ const fetchUser = async () => {
                   onClick={() => setIsEditingEmail(!isEditingEmail)}
                   className="ml-3 text-blue-500 hover:bg-blue-50 p-1 rounded-full"
                 >
-                  {isEditingEmail ? <Check size={20} /> : <Edit size={20} />}
+                  {isEditingEmail ? <Check size={20} onClick={saveChanges}  /> : <Edit size={20} />}
                 </button>
               </div>
             </div>
@@ -207,6 +270,25 @@ const fetchUser = async () => {
             )}
           </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* ////////////////////////////////////////////// */}
           {/* Financial Overview - Vertical List */}
           <div className="space-y-4 mb-6">
             <h2 className="text-xl font-bold text-gray-800 mb-3">Financial Summary</h2>
@@ -315,8 +397,8 @@ const fetchUser = async () => {
 
         {/* Image Upload Modal */}
         {showImageModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-88">
+          <div className="fixed inset-0 bg-transparent backdrop-blur flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-lg p-6 w-88">
               <div className="flex justify-between items-center mb-5">
                 <h3 className="text-lg font-bold">Update Profile Picture</h3>
                 <button 
@@ -330,7 +412,7 @@ const fetchUser = async () => {
               <input 
                 type="file" 
                 ref={fileInputRef}
-                onChange={handleAvatarUpload}
+                onChange={(e) => setSelectedFile(e.target.files[0])}
                 accept="image/*"
                 className="hidden"
               />
@@ -341,7 +423,7 @@ const fetchUser = async () => {
                 <div className="flex flex-col items-center justify-center gap-2">
                   <Camera className="w-7 h-7 text-gray-400" />
                   <p className="text-gray-600 text-md">
-                    {selectedFile ? selectedFile : 'Click to select an image'}
+                    {selectedFile && `${(selectedFile.size / 1024).toFixed(1)} KB`}
                   </p>
                   <p className="text-xs text-gray-400">JPG, PNG (max 5MB)</p>
                 </div>
@@ -355,12 +437,8 @@ const fetchUser = async () => {
                   Cancel
                 </button>
                 <button 
-                  onClick={() => {
-                    if (fileInputRef.current.files[0]) {
-                      handleAvatarUpload({ target: { files: [fileInputRef.current.files[0]] } });
-                    }
-                    setShowImageModal(false);
-                  }}
+                onClick={handleiamgeUpload}
+                 
                   className="px-5 py-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-md flex items-center gap-1"
                 >
                   <Check size={18} />
