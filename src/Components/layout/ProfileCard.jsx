@@ -32,6 +32,7 @@ const ProfileCard =  () => {
   const [picture, setPicture]  = useState('')
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [uploading , setUploading] = useState(false)
 
 
     // fetch Data 
@@ -71,6 +72,7 @@ const handleiamgeUpload = async (e) => {
   formData.append('profilePicture', selectedFile)
   
   try{
+    setUploading(true)
       const response = await axios.post(`/api/user/upload-profile`, formData, {
         withCredentials : true,
 
@@ -88,6 +90,8 @@ const handleiamgeUpload = async (e) => {
   }catch(error){
       console.error('Image upload failed:', error.message);
       alert("Image upload failed")
+  }finally{
+    setUploading(false)
   }
 }
 
@@ -106,6 +110,7 @@ const handleiamgeUpload = async (e) => {
     }
     
     try{
+      setUploading(true)
        await axios.put(`/api/user/edit-user`,updateData, {
         withCredentials : true,
       } 
@@ -118,6 +123,8 @@ const handleiamgeUpload = async (e) => {
     }catch(error){ 
       alert("Update failed")
       console.log("Update Data failed", error.message);
+    }finally{
+      setUploading(false)
     }
   }
 
@@ -263,8 +270,7 @@ const handleiamgeUpload = async (e) => {
                   disabled={!hasChanges}
                   className={`px-5 py-1.5 text-md text-white rounded-md flex items-center gap-1 ${hasChanges ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
-                  <Check size={18} />
-                  Save Changes
+                  {uploading ? "Updating..." : (  <Check size={18} />, "Save Changes")}
                 </button>
               </div>
             )}
@@ -438,11 +444,10 @@ const handleiamgeUpload = async (e) => {
                 </button>
                 <button 
                 onClick={handleiamgeUpload}
-                 
+                 disabled={uploading}
                   className="px-5 py-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-md flex items-center gap-1"
                 >
-                  <Check size={18} />
-                  Update
+                  {uploading ? "Uplaoding..." : (<Check size={18} />, "Update")}
                 </button>
               </div>
             </div>

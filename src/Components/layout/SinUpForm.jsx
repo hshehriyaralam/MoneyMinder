@@ -5,6 +5,7 @@ import Input from "../comman/InputVerse.jsx"
 import GoogleButton from "../UIverse/GoogleButto.jsx"
 import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import axios from 'axios'
+import { useGoogleLogin } from '@react-oauth/google';
 
 
 
@@ -49,9 +50,36 @@ const SignUpForm = () => {
    
   }
   
-  const ContinueGoogle = () =>  {
-    alert("Google")
-  }
+  const ContinueGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try{
+        console.log('Google Token Response',tokenResponse)
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers : {
+            Authorization : `Bearer ${tokenResponse.access_token}`
+          }
+        })
+
+        console.log("userInfo",res.data)
+        console.log("access_token",tokenResponse.access_token);
+        
+        const backendRes =  await axios.post(`/api/user/google-auth`, {
+          userInfo : res.data
+        },{
+          withCredentials : true
+        })
+         console.log("Backend Google Auth Response:",backendRes.data);
+         alert("SuccessFuly Login with Google")
+      }catch(error){
+         console.log('Google Login Failed', error.message);
+        alert('Google Login Failed: ' + error.message);
+      }
+    },
+      onError: (error) => {
+      console.log('Google Login Error', error);
+      alert('Google Login Failed');
+    },
+  })
   return (
    <div className="h-screen bg-transparent flex  justify-center items-center  ">
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg shadow-2xl overflow-hidden flex flex-col p-2 ">
@@ -101,7 +129,7 @@ const SignUpForm = () => {
           </p>
             </div>
           {/* Continue with Google */}
-          <div className='mx-3  mt-0'>
+          <div className='mx-3  mt-0 my-10'>
           <GoogleButton onClick={ContinueGoogle} />
           </div>
           
