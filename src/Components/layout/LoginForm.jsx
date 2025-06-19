@@ -16,21 +16,21 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const Navigate = useNavigate()
 
-  // const fetchUser = async () => {
-  // try{
-  //   const response = await axios.get('/api/user/fetch-user', {
-  //     withCredentials : true
-  //   })
-  //   const email = response.data.user.email;
-  //   if(email){
-  //     Navigate('/Dashbaord')
-  //   }
+  const fetchUser = async () => {
+  try{
+    const response = await axios.get('/api/user/fetch-user', {
+      withCredentials : true
+    })
+    const email = response.data.user.email;
+    if(email){
+      Navigate('/Dashbaord')
+    }
     
-  // }catch(error){    
-  //   console.log("fetchUser failed",error.message);
+  }catch(error){    
+    console.log("fetchUser failed",error.message);
     
-  // }
-  // }
+  }
+  }
 
   
 
@@ -52,8 +52,10 @@ const handleLogin = async (e) => {
 
 
   }catch(error){
-      console.log("SignUp failed",error.message);
-      alert("Login failed: " , error.message);
+      console.log("Login failed",error.message);
+      if(error.message == 'Request failed with status code 401'){
+        alert('Invalid Email and Password')
+      }
     
   }
 }
@@ -90,9 +92,9 @@ const handleLogin = async (e) => {
     },
   })
   
-  // useEffect(() => {
-  //   fetchUser()
-  // },[])
+  useEffect(() => {
+    fetchUser()
+  },[])
   
 
   return (

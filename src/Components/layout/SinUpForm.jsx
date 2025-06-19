@@ -125,7 +125,7 @@ const SignUpForm = () => {
               </div>
              <p className="text-[12px] text-[#1f2937] mx-6 mt-2  ">
             Already have an account?{" "}
-            <Link to="/Login" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
+            <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
             </div>
           {/* Continue with Google */}
