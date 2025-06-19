@@ -70,13 +70,13 @@ const IncomeForm = () => {
     });
     
     resetForm();
-    Navigate('/');
+    Navigate('/Dashbaord');
   };
 
   const handleBack = (e) => {    
     e.preventDefault();
     setEditTransaction(null);
-    Navigate('/');
+    Navigate('/Dashbaord');
   };
 
   return (

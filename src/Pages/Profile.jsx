@@ -3,7 +3,7 @@ import React from 'react'
 
 const Profile = () => {
   return (
-    <div>
+    <div className='md:0 mb-35'>
       <ProfileCard />
     </div>
   )

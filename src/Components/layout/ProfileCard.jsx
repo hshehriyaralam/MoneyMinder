@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingDown, PieChart, ArrowUp, ArrowDown } from 'lucide-react';
 import axios from 'axios';
 import { Image } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
 
 const ProfileCard =  () => {
   // User data
@@ -33,6 +35,7 @@ const ProfileCard =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const [uploading , setUploading] = useState(false)
+  const Navigate = useNavigate()
 
 
     // fetch Data 
@@ -137,6 +140,20 @@ const handleiamgeUpload = async (e) => {
     setIsEditingName(false);
     setIsEditingEmail(false);
   };
+
+ 
+  //LogOUt
+  const handleLogOut = async () => {
+    try{
+      await axios.post(`/api/user/logout`, {} ,{
+        withCredentials :true
+      })
+      Navigate('/')
+
+    }catch(error){
+       console.error("Logout failed:", error.message);
+    }
+  }
 
   // Check for changes
   const hasChanges = fullName !== user.fullName || email !== user.email;
@@ -393,7 +410,7 @@ const handleiamgeUpload = async (e) => {
         {/* Footer */}
         <div className="p-5 border-t flex justify-end">
           <button
-            onClick={() => console.log('Logging out...')}
+            onClick={handleLogOut}
             className="px-7 py-2.5 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors flex items-center gap-2 text-md"
           >
             <LogOut size={18} />

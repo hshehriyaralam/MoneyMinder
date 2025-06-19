@@ -9,13 +9,32 @@ import Header from './Components/layout/Header';
 import AppSidebar from './Components/layout/AppSidebar';
 import ScrollTop from './Components/comman/ScrollTop';
 import Overview from './Pages/Overview';
-import {theme} from "./Components/theme/theme.js"
 import Profile from './Pages/Profile.jsx';
 import Login from './Pages/Login.jsx';
+import axios from 'axios';
+
 
 const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+
+  //   const fetchUser = async () => {
+  // try{
+  //   const response = await axios.get('/api/user/fetch-user', {
+  //     withCredentials : true
+  //   })
+  //   const email = response.data.user.email;
+  //   if(email){
+  //     window.location.href('/Dashbaord')
+  //   }else{
+  //     window.location.href('/')
+
+  //   }
+  // }catch(error){    
+  //   console.log("fetchUser failed",error.message);
+    
+  // }
+  // }
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,6 +44,8 @@ const App = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+
 
   return (
     <Router>
@@ -43,11 +64,11 @@ const App = () => {
             }`}
           >
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Login />} />
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/Dashbaord" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />
               <Route path="/Transactions" element={<Transaction />} />
-              <Route path="/SignUp" element={<SignUp />} />
-              <Route path="/Login" element={<Login />} />
               <Route path="/Analytics" element={<Analytics />} />
               <Route path="/Overview" element={<Overview />} />
               <Route path="/Profile" element={<Profile />} />

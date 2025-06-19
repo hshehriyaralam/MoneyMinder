@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useFetcher, useNavigate } from 'react-router-dom'
 import AnimateLogin from "../comman/Ainimate-LOgin.jsx"
 import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx"
@@ -16,6 +16,24 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const Navigate = useNavigate()
 
+  // const fetchUser = async () => {
+  // try{
+  //   const response = await axios.get('/api/user/fetch-user', {
+  //     withCredentials : true
+  //   })
+  //   const email = response.data.user.email;
+  //   if(email){
+  //     Navigate('/Dashbaord')
+  //   }
+    
+  // }catch(error){    
+  //   console.log("fetchUser failed",error.message);
+    
+  // }
+  // }
+
+  
+
 
 const handleLogin = async (e) => {
   e.preventDefault()
@@ -30,7 +48,7 @@ const handleLogin = async (e) => {
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
-  Navigate('/')
+  Navigate('/Dashbaord')
 
 
   }catch(error){
@@ -60,6 +78,7 @@ const handleLogin = async (e) => {
         })
          console.log("Backend Google Auth Response:",backendRes.data);
          alert("SuccessFuly Login with Google")
+         Navigate('/Dashbaord')
       }catch(error){
          console.log('Google Login Failed', error.message);
         alert('Google Login Failed: ' + error.message);
@@ -70,6 +89,12 @@ const handleLogin = async (e) => {
       alert('Google Login Failed');
     },
   })
+  
+  // useEffect(() => {
+  //   fetchUser()
+  // },[])
+  
+
   return (
     <div className="h-screen bg-transparent flex  justify-center items-center  ">
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg shadow-2xl overflow-hidden flex flex-col p-2">

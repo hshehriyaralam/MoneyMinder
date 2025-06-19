@@ -43,26 +43,26 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   const items = [
-    { title: "Dashboard", url: "/", icon: Home },
+    { title: "Dashboard", url: "/Dashbaord", icon: Home },
     { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
     { title: "Transactions", url: "/Transactions", icon: List },
     { title: "Overview", url: "/Overview", icon: Layout }, 
     { title: "Analytics", url: "/Analytics", icon: PieChart },
     { title: "Profile", url: "/Profile", icon: User },
     { title: "SinUp", url: "/SignUp", icon: KeyRound },
-    { title: "Login", url: "/Login", icon: KeyRound },
+    { title: "Login", url: "/", icon: KeyRound },
 
   ]; 
 
   const itemsDocks = [
-    { icon: Home, label: "Dashbaord" , onclick: () => navigate('/')},
+    { icon: Home, label: "Dashbaord" , onclick: () => navigate('/Dashbaord')},
     { icon: Plus, label: "Add" ,  onclick:()  => navigate("/AddTransaction") },
     { icon: List, label: "Transactions",onclick:()  => navigate("/Transactions") },
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },
     { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
     { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
     { icon: User, label: "Sign Up",onclick:()  => navigate("/SignUp") },
-    { icon: User, label: "Login",onclick:()  => navigate("/Login") },
+    { icon: User, label: "Login",onclick:()  => navigate("/") },
   ]
   useEffect(() => {
     setActive(location.pathname);

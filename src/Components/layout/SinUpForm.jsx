@@ -39,7 +39,7 @@ const SignUpForm = () => {
       setEmail('')
       setPassword('')
       console.log("SignUp successfully");
-      Navigate('/Login')
+      Navigate('/')
 
 
     }catch(error){
