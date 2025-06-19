@@ -6,6 +6,8 @@ import GoogleButton from "../UIverse/GoogleButto.jsx"
 import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import axios from 'axios'
 import { useGoogleLogin } from '@react-oauth/google';
+import { useAlert } from "../../Context/AlertContext.jsx";
+
 
 
 
@@ -15,6 +17,7 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('') 
   const  Navigate = useNavigate()
+  const { showAlert } = useAlert();
 
 
   const handleSignUp = async (e) => {
@@ -24,11 +27,11 @@ const SignUpForm = () => {
       //check email format
       const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       if(!isEmailValid){
-        alert("Please enter a valid email format");
+        showAlert("error", "Please Enter Valid email")
         return;
       }
 
-      await axios.post(`/api/user/signup`, {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/signup`, {
         fullName : fullName,
         email  : email,
         password : password
@@ -44,8 +47,14 @@ const SignUpForm = () => {
 
     }catch(error){
        console.log("SignUp failed",error.message);
-      alert("SignUp failed: " + error.message);
-      
+       if(error.response?.status === 400){
+        showAlert("error", "ALL filed is Required");
+      }else if(error.response?.status === 409){
+        showAlert("error", "User Already Exist");
+      }else{
+        showAlert("error", "Something Went Wrong");
+
+      }
     }
    
   }

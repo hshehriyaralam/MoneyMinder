@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Image } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { TextAnimate } from '../magicui/text-animate';
+import LogOutButton from "../UIverse/LogOutBtn.jsx"
+import { useAlert } from "../../Context/AlertContext.jsx";
+
 
 
 
@@ -38,13 +41,15 @@ const ProfileCard =  () => {
   const fileInputRef = useRef(null);
   const [uploading , setUploading] = useState(false)
   const Navigate = useNavigate()
+  const { showAlert } = useAlert();
+  
 
 
     // fetch Data 
 const fetchUser = async () => {
   try{
 
-    const response = await axios.get('/api/user/fetch-user', {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/fetch-user`, {
       withCredentials : true
     })
     
@@ -69,7 +74,7 @@ const fetchUser = async () => {
 const handleiamgeUpload = async (e) => {
   e.preventDefault()
   if(!selectedFile){
-    alert("Please select an image first");
+    showAlert("error", "Please select an image first");
     return
   }
   
@@ -78,7 +83,7 @@ const handleiamgeUpload = async (e) => {
   
   try{
     setUploading(true)
-      const response = await axios.post(`/api/user/upload-profile`, formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/upload-profile`, formData, {
         withCredentials : true,
 
         headers : {
@@ -94,7 +99,9 @@ const handleiamgeUpload = async (e) => {
     
   }catch(error){
       console.error('Image upload failed:', error.message);
-      alert("Image upload failed")
+      if(error.response?.status === 400){
+        showAlert("errro", "No file uploaded")
+      }
   }finally{
     setUploading(false)
   }
@@ -110,13 +117,13 @@ const handleiamgeUpload = async (e) => {
     if(updateEmail.trim() !==  "")updateData.email = updateEmail;
     
     if(Object.keys(updateData).length == 0){
-      alert("Please fill at least one field to update");
+        showAlert("error", "ALL filed is Required");
       return;
     }
     
     try{
       setUploading(true)
-       await axios.put(`/api/user/edit-user`,updateData, {
+       await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/user/edit-user`,updateData, {
         withCredentials : true,
       } 
     )
@@ -126,8 +133,8 @@ const handleiamgeUpload = async (e) => {
     setFullName(updateData.fullName)
     setEmail(updateData.email)
     }catch(error){ 
-      alert("Update failed")
       console.log("Update Data failed", error.message);
+      showAlert("error", "No valid field for update")
     }finally{
       setUploading(false)
     }
@@ -147,7 +154,7 @@ const handleiamgeUpload = async (e) => {
   //LogOUt
   const handleLogOut = async () => {
     try{
-      await axios.post(`/api/user/logout`, {} ,{
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/logout`, {} ,{
         withCredentials :true
       })
       Navigate('/')
@@ -376,13 +383,7 @@ return (
 
         {/* Footer - Logout */}
         <div className="p-6 border-t flex justify-end">
-          <button
-            onClick={handleLogOut}
-            className="px-7 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors flex items-center gap-3 text-base"
-          >
-            <LogOut size={20} />
-            Logout
-          </button>
+          <LogOutButton  onClick={handleLogOut} />
         </div>
 
         {/* Image Upload Modal */}

@@ -6,6 +6,7 @@ import GoogleButton from "../UIverse/GoogleButto.jsx"
 import ButtonComponent from "../comman/VerseButton.jsx";
 import axios from 'axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useAlert } from "../../Context/AlertContext.jsx";
 
 
 
@@ -15,10 +16,11 @@ const LoginForm = () => {
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
   const Navigate = useNavigate()
+  const { showAlert } = useAlert();
 
   const fetchUser = async () => {
   try{
-    const response = await axios.get('/api/user/fetch-user', {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/fetch-user`, {
       withCredentials : true
     })
     const email = response.data.user.email;
@@ -38,7 +40,7 @@ const LoginForm = () => {
 const handleLogin = async (e) => {
   e.preventDefault()
   try{
-    await  axios.post(`/api/user/login`, {
+    await  axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/login`, {
       email : email,
       password : password
     }, 
@@ -48,13 +50,18 @@ const handleLogin = async (e) => {
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
+  showAlert("success", "Login Successfully")
   Navigate('/Dashbaord')
 
 
   }catch(error){
       console.log("Login failed",error.message);
-      if(error.message == 'Request failed with status code 401'){
-        alert('Invalid Email and Password')
+      if(error.response?.status === 401){
+        showAlert("error", "Invalid Email Or Password");
+      }else if(error.response?.status === 404){
+        showAlert("error", "This Email is not Registerd");
+      }else{
+        showAlert("error", "Some Thing Wens Wrong");
       }
     
   }
@@ -73,22 +80,26 @@ const handleLogin = async (e) => {
         console.log("userInfo",res.data)
         console.log("access_token",tokenResponse.access_token);
         
-        const backendRes =  await axios.post(`/api/user/google-auth`, {
+        const backendRes =  await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/google-auth`, {
           userInfo : res.data
         },{
           withCredentials : true
         })
          console.log("Backend Google Auth Response:",backendRes.data);
-         alert("SuccessFuly Login with Google")
          Navigate('/Dashbaord')
       }catch(error){
          console.log('Google Login Failed', error.message);
-        alert('Google Login Failed: ' + error.message);
+        if(error.response?.status === 400 ){
+            showAlert("error", "Missing User Info From Google");
+        }else if(error.response?.status === 401){
+            showAlert("error", "Invalid Google Token")
+        }
       }
     },
       onError: (error) => {
       console.log('Google Login Error', error);
-      alert('Google Login Failed');
+      showAlert("error", "Google Login Failed");
+      
     },
   })
   
