@@ -108,7 +108,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       <div className="overflow-x-auto shadow-2xl mt-4">
-        <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-gray-[#4b5563] rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-[#4b5563]">
+        <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-[#4b5563] rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-[#4b5563]">
           <div>Category</div>
           <div>Amount</div>
           <div>Type</div>
