@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextAnimate } from '../magicui/text-animate';
 import LogOutButton from "../UIverse/LogOutBtn.jsx"
 import { useAlert } from "../../Context/AlertContext.jsx";
+import { Trash2 } from "lucide-react";
 
 
 
@@ -40,6 +41,7 @@ const ProfileCard =  () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const [uploading , setUploading] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const Navigate = useNavigate()
   const { showAlert } = useAlert();
   
@@ -164,6 +166,23 @@ const handleiamgeUpload = async (e) => {
     }
   }
 
+
+  const handleDelete = async () => {
+    //  if (!window.confirm("Are you sure you want to delete your account?")) return;
+    try{
+       await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/user/delete-user`, {
+        withCredentials :true
+      })
+      setShowDeleteConfirm(false);
+      Navigate('/')
+    }catch(error){
+      showAlert("error", "Failed to delete account")
+      if(error.response?.status === 404){
+        showAlert('error', "User Not Registered")
+      }
+    }
+  }
+
   // Check for changes
   const hasChanges = fullName !== user.fullName || email !== user.email;
 
@@ -283,6 +302,45 @@ return (
                   </button>
                 </div>
               )}
+              <div className="pt-6 border-t mt-6">
+                <div className="flex flex-col items-center gap-3">
+                  <p className="text-sm text-red-600">Once you delete your account, there is no going back.</p>
+                  <button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="px-6 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors shadow flex items-center gap-2"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Delete Account
+                  </button>
+                </div>
+              </div>
+
+{showDeleteConfirm && (
+  <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex justify-center items-center">
+    <div className="bg-white p-6 rounded-md shadow-md w-[90%] max-w-md">
+      <h3 className="text-lg font-semibold text-gray-800 mb-3">Confirm Account Deletion</h3>
+      <p className="text-sm text-gray-600 mb-6">
+        Are you sure you want to permanently delete your account? This action cannot be undone.
+      </p>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setShowDeleteConfirm(false)}
+          className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleDelete}
+          className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-1"
+        >
+          <Trash2 className="w-4 h-4" />
+          Confirm Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
             </div>
           </div>
 

@@ -18,25 +18,6 @@ const LoginForm = () => {
   const Navigate = useNavigate()
   const { showAlert } = useAlert();
 
-  const fetchUser = async () => {
-  try{
-    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/user/fetch-user`, {
-      withCredentials : true
-    })
-    const email = response.data.user.email;
-    if(email){
-      Navigate('/Dashbaord')
-    }
-    
-  }catch(error){    
-    console.log("fetchUser failed",error.message);
-    
-  }
-  }
-
-  
-
-
 const handleLogin = async (e) => {
   e.preventDefault()
   try{
@@ -50,7 +31,6 @@ const handleLogin = async (e) => {
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
-  showAlert("success", "Login Successfully")
   Navigate('/Dashbaord')
 
 
@@ -103,11 +83,6 @@ const handleLogin = async (e) => {
     },
   })
   
-  useEffect(() => {
-    fetchUser()
-  },[])
-  
-
   return (
     <div className="h-screen bg-transparent flex  justify-center items-center  ">
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg shadow-2xl overflow-hidden flex flex-col p-2">
