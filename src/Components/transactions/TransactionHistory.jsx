@@ -121,7 +121,7 @@ function TransactionHistory({ limit, Name }) {
         <div className="divide-y-1 py-3 divide-[#4b5563] text-[#4b5563]   ">
           {visibleTransactions.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="grid grid-cols-1 md:grid-cols-7 gap-y-3 rounded-b-lg md:gap-y-0 md:items-end   md:mt-3 p-4 md:text-[15px] text-1xl  mx-8 md:mx-0 text-center "
             >
       
@@ -195,7 +195,7 @@ function TransactionHistory({ limit, Name }) {
                 />
                 <DeleteButton 
                   Name={"Delete"} 
-                  onClick={() => removeTransaction(item.id)} 
+                  onClick={() => removeTransaction(item._id)} 
                 />
               </div>
             </div>

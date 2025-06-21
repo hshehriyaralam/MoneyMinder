@@ -22,11 +22,12 @@ const BalanceCard = () => {
         <div className="flex justify-center items-center my-2">
           <BlurText
             text={`$${BalanceAmount}`}
-            delay={150}
+            delay={200}
             animateBy="words"
             direction="right"
             className="text-3xl md:text-3xl font-semibold text-[#1f2937] mb-4 md:mb-6 text-center"
           />
+           
         </div>
         <div className="flex justify-center space-x-4 md:space-x-8 flex-wrap w-full">
           <div className="text-center w-1/2 md:w-auto">
