@@ -7,7 +7,7 @@ import { TextAnimate } from '../magicui/text-animate';
 import LogOutButton from "../UIverse/LogOutBtn.jsx"
 import { useAlert } from "../../Context/AlertContext.jsx";
 import { Trash2 } from "lucide-react";
-import deleteAccount from "../UIverse/DeleteAccount.jsx"
+
 
 
 

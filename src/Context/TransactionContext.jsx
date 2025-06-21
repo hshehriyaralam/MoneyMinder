@@ -1,12 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useAlert } from "./AlertContext.jsx";
+
 
 const Context = createContext();
 
 
 const TransactionContext = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
-  const [editTransaction, setEditTransaction] = useState(null);
+  const [editTransaction, setEditTransaction] = useState(null)
+    const { showAlert } = useAlert();
+  
 
  
   const fetchTransactions = async () => {
@@ -14,7 +18,7 @@ const TransactionContext = ({ children }) => {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/fetch-amounts`, {
         withCredentials : true
       });
-      setTransactions(response.data.data); // assuming your backend returns { data: [...] }
+      setTransactions(response.data.data);
     } catch (error) {
       console.error("Error fetching transactions:", error.message);
     }
@@ -22,62 +26,45 @@ const TransactionContext = ({ children }) => {
 
   const addTransaction = async (transaction) => {
    try{
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/add-amount`,transaction, {
+
+    
+    if(editTransaction){
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/edit/${editTransaction._id}`, 
+      transaction,
+      {withCredentials : true}
+    )
+    const updatedTransaction  = response.data.data;
+    setTransactions((prev) => prev.map((t) => t._id === updatedTransaction._id ? updatedTransaction : t ))
+    setEditTransaction(null)
+    }else{
+       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/add-amount`,transaction, {
       withCredentials : true,
     } )
     const newTransaction = response.data.data
-    setTransactions((prev) => [newTransaction, ...prev])
+    setTransactions((prev) => [newTransaction , ...prev])
+    }
    }catch(error){
     console.error("Error adding transaction:", error.message);
-    alert("add Amount failed")
+    showAlert('error', "add Amount Failed")
    }
+  }
+
+
+  const removeTransaction = async (id) => {
+    try{
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/delete/${id}`, {
+        withCredentials : true
+      })
+      setTransactions((prev) => prev.filter((t) => t._id !== id))
+    }catch(error){
+      console.error("Error deleting transaction:", error.message)
+      alert("Failed to delete transaction")
+    }
   }
 
   useEffect(() => {
     fetchTransactions()
   },[transactions])
-
-
-  
-    const removeTransaction = (id) => {
-    setTransactions((prev) => prev.filter((transaction) => transaction.id !== id));
-  };
- 
-  // const getStoredValue = (key, defaultValue) => {
-  //   try {
-  //     const storedValue = localStorage.getItem(key);
-  //     return storedValue ? JSON.parse(storedValue) : defaultValue;
-  //   } catch (error) {
-  //     console.error(`Error parsing localStorage key "${key}":`, error);
-  //     return defaultValue;
-  //   }
-  // }; 
-  
-  // const [transactions, setTransactions] = useState(() =>
-  //   getStoredValue("transactions", [])
-  // );
-
-  // useEffect(() => {
-  //   localStorage.setItem("transactions", JSON.stringify(transactions));
-  // }, [transactions])
-
-  // const addTransaction = (transaction) => {
-  //   const newTransaction = { 
-  //     ...transaction, 
-  //     id: Date.now(),
-  //     createdAt: new Date().toISOString()
-  //   };
-  //   if (editTransaction) {
-  //     setTransactions((prev) =>
-  //       prev.map((t) => (t.id === editTransaction.id ? newTransaction : t))
-  //     );
-  //     setEditTransaction(null);
-  //   } else {
-  //     setTransactions((prev) => [newTransaction, ...prev]);
-  //   }
-  // };
-
-
 
   const incomeTransaction = transactions.filter((t) => t.type === "income");
   const expenseTransaction = transactions.filter((t) => t.type === "expense");
