@@ -14,7 +14,6 @@ const MonthlyBarChart = () => {
   
 
   useEffect(() => {
-    // const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
     const uniqueYears = Array.from(new Set(transactions.map((t) => new Date(t.date).getFullYear())));
     if (!uniqueYears.includes(currentYear)) {
       uniqueYears.push(currentYear);
@@ -31,8 +30,7 @@ const MonthlyBarChart = () => {
   }, [selectedYear]);
 
   const generateData = (year) => {
-  const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-  
+
   const monthlyData = Array.from({ length: 12 }, (_, i) => ({
     month: new Date(0, i).toLocaleString('default', { month: 'short' }),
     income: 0,

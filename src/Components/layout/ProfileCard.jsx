@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingDown, PieChart, ArrowUp, ArrowDown } from 'lucide-react';
 import axios from 'axios';
 import { Image } from 'antd';
@@ -7,21 +7,25 @@ import { TextAnimate } from '../magicui/text-animate';
 import LogOutButton from "../UIverse/LogOutBtn.jsx"
 import { useAlert } from "../../Context/AlertContext.jsx";
 import { Trash2 } from "lucide-react";
-
-
-
-
+import { Context } from '../../Context/TransactionContext.jsx';
 
 const ProfileCard =  () => {
-  // User data
-  const [user, setUser] = useState('');
 
+  const { monthlyIncomes,
+          monthlyExpenses,
+          topExpenseCategories,
+          topExpenseAmount, 
+          monthlyBalance,
+          transactions
+        } = useContext(Context)
+  
   // Financial data
   const financialData = {
-    monthlyIncome: 7500,
-    monthlyExpenses: 4200,
-    monthlySavings: 3300,
-    topCategory: 'Food',
+    monthlyIncome: monthlyIncomes,
+    monthlyExpenses: monthlyExpenses,
+    monthlySavings: monthlyBalance,
+    topCategory: topExpenseCategories,
+    topExpenseAmount : topExpenseAmount,
     transactions: [
       { id: 1, amount: -120, category: 'Food', date: 'Jun 15, 2025', type: 'expense' },
       { id: 2, amount: 7500, category: 'Salary', date: 'Jun 1, 2025', type: 'income' },
@@ -29,8 +33,9 @@ const ProfileCard =  () => {
       { id: 4, amount: -350, category: 'Transport', date: 'Jun 10, 2025', type: 'expense' }
     ]
   };
-
+  
   // UI states
+  const [user, setUser] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -186,11 +191,6 @@ const handleiamgeUpload = async (e) => {
 
   // Check for changes
   const hasChanges = fullName !== user.fullName || email !== user.email;
-
-
-
-
-
 
   useEffect(() => {
     fetchUser()
@@ -404,7 +404,7 @@ return (
               </div>
               <div className="text-right">
                 <p className="text-lg font-bold text-purple-600">{financialData.topCategory}</p>
-                <p className="text-xs text-gray-500">${Math.max(...financialData.transactions.filter(t => t.type === 'expense').map(t => Math.abs(t.amount))).toLocaleString()}</p>
+                <p className="text-xs text-gray-500">${financialData.topExpenseAmount}</p>
               </div>
             </div>
           </div>
@@ -414,7 +414,7 @@ return (
         <div className="px-6 pb-6">
           <h2 className="text-[#1f2937] text-[24px]   font-bold mb-4">Recent Transactions</h2>
           <div className="space-y-3">
-            {financialData.transactions.map((txn) => (
+            {transactions.slice(0,4).map((txn) => (
               <div
                 key={txn.id}
                 className={`p-4 rounded-lg flex justify-between items-center ${txn.type === 'income' ? 'bg-green-50' : 'bg-red-50'} shadow-sm hover:shadow-md transition`}
