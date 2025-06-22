@@ -22,12 +22,12 @@ const BlurText = ({
   // Default animations based on direction
   const defaultFrom =
     direction === 'top'
-      ? { filter: 'blur(10px)', opacity: 0, transform: 'translate3d(0,-50px,0)' }
-      : { filter: 'blur(10px)', opacity: 0, transform: 'translate3d(0,50px,0)' };
+      ? { filter: 'blur(5px)', opacity: 0, transform: 'translate3d(0,-50px,0)' }
+      : { filter: 'blur(5px)', opacity: 0, transform: 'translate3d(0,50px,0)' };
 
   const defaultTo = [
     {
-      filter: 'blur(5px)',
+      filter: 'blur(0px)',
       opacity: 0.5,
       transform: direction === 'top' ? 'translate3d(0,5px,0)' : 'translate3d(0,-5px,0)',
     },

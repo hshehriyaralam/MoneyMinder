@@ -5,13 +5,11 @@ import {
   Home,
   Plus,
   List,
-  Settings,
   PieChart,
   Menu,   
   ChevronLeft,  
   Layout,
   User,
-  KeyRound,
 
 } from "lucide-react";
 import {
@@ -26,15 +24,6 @@ import {
 } from "@/Components/ui/sidebar";
 import { Button } from "@/Components/ui/button";
 
-const itemsDocks = [
-  { title: "Dashboard", url: "/", icon: Home },
-  { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
-  { title: "Transactions", url: "/Transactions", icon: List },
-  { title: "Analytics", url: "/Analytics", icon: PieChart },
-  { title: "Overview", url: "/Overview", icon: Layout }, 
-  { title: "Settings", url: "/Setting", icon: Settings },
-  { title: "Profile", url: "/Profile  ", icon: User },
-]; 
 
 const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const navigate = useNavigate();
@@ -49,8 +38,6 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { title: "Overview", url: "/Overview", icon: Layout }, 
     { title: "Analytics", url: "/Analytics", icon: PieChart },
     { title: "Profile", url: "/Profile", icon: User },
-    { title: "SinUp", url: "/SignUp", icon: KeyRound },
-    { title: "Login", url: "/", icon: KeyRound },
 
   ]; 
 
@@ -61,8 +48,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },
     { icon: PieChart, label: "Analytics",onclick:()  => navigate("/Analytics") },
     { icon: User, label: "Profile",onclick:()  => navigate("/Profile") },
-    { icon: User, label: "Sign Up",onclick:()  => navigate("/SignUp") },
-    { icon: User, label: "Login",onclick:()  => navigate("/") },
+
   ]
   useEffect(() => {
     setActive(location.pathname);

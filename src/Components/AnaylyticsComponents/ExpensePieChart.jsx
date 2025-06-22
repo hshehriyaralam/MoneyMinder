@@ -95,7 +95,7 @@ const ExpensePieChart = () => {
       </div>
       {noTransactions ? (
         <div className="text-xl font-bold text-[#2d5385]">
-          No transactions available for this month.
+          No Expense transactions available for this month.
         </div>
       ) : (
         <div className="max-w-full h-[450px] ">
@@ -166,38 +166,34 @@ const ExpensePieChart = () => {
         fontSize={10}
       >
         {(percent * 100).toFixed(0)}%
-      </text>
-    );
-  }}
->
-  {data.map((entry, index) => (
-     <Cell
-        key={`cell-${index}`}
-        fill={COLORS[index % COLORS.length]}
-        style={{ transition: 'all 0.3s ease-in-out', cursor: 'pointer' }}
-        onMouseOver={(e) => (e.currentTarget.style.opacity = '0.8')}
-        onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
-      />
-  ))}
-</Pie>
-
-<Tooltip
-  formatter={(value, name) => {
-    const formattedValue = Number(value) ? `₹${value}` : '';
-    return [formattedValue, name];
-  }}
-  contentStyle={{
-    backgroundColor: "white",
-    borderColor: "#a4f01c",
-    borderRadius: "12px",
-    color: "white",
-    fontSize: "13px",
-    padding: "10px"
-  }}
-/>
-
-
-            
+        </text>
+        )
+          }}
+        >
+            {data.map((entry, index) => (
+              <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                  style={{ transition: 'all 0.3s ease-in-out', cursor: 'pointer' }}
+                  onMouseOver={(e) => (e.currentTarget.style.opacity = '0.8')}
+                  onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+                />
+            ))}
+          </Pie>
+            <Tooltip
+              formatter={(value, name) => {
+                const formattedValue = Number(value) ? `₹${value}` : '';
+                return [formattedValue, name];
+              }}
+              contentStyle={{
+                backgroundColor: "white",
+                borderColor: "#a4f01c",
+                borderRadius: "12px",
+                color: "white",
+                fontSize: "13px",
+                padding: "10px"
+              }}
+            />
             </PieChart>
           </ResponsiveContainer>
         </div>

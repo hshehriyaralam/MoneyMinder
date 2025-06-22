@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useFetcher, useNavigate } from 'react-router-dom'
+import React, { useContext,  useRef, useState } from 'react'
+import { Link,  useNavigate } from 'react-router-dom'
 import AnimateLogin from "../comman/Ainimate-LOgin.jsx"
 import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx"
 import ButtonComponent from "../comman/VerseButton.jsx";
 import axios from 'axios';
-import { useGoogleLogin } from '@react-oauth/google';
 import { useAlert } from "../../Context/AlertContext.jsx";
+import { Context } from '@/Context/TransactionContext.jsx';
 
 
 
@@ -17,7 +17,8 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const Navigate = useNavigate()
   const { showAlert } = useAlert();
-
+  const {triggerTransactionRefresh} = useContext(Context)
+  
 const handleLogin = async (e) => {
   e.preventDefault()
   try{
@@ -28,6 +29,7 @@ const handleLogin = async (e) => {
   {
     withCredentials : true
   })
+  triggerTransactionRefresh()
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
@@ -41,48 +43,53 @@ const handleLogin = async (e) => {
       }else if(error.response?.status === 404){
         showAlert("error", "This Email is not Registerd");
       }else{
-        showAlert("error", "Some Thing Wens Wrong");
+        showAlert("error", "Server Failed");
       }
     
   }
 }
 
-   const ContinueGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try{
-        console.log('Google Token Response',tokenResponse)
-        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers : {
-            Authorization : `Bearer ${tokenResponse.access_token}`
-          }
-        })
 
-        console.log("userInfo",res.data)
-        console.log("access_token",tokenResponse.access_token);
-        
-        const backendRes =  await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/google-auth`, {
-          userInfo : res.data
-        },{
-          withCredentials : true
-        })
-         console.log("Backend Google Auth Response:",backendRes.data);
-         Navigate('/Dashbaord')
-      }catch(error){
-         console.log('Google Login Failed', error.message);
-        if(error.response?.status === 400 ){
-            showAlert("error", "Missing User Info From Google");
-        }else if(error.response?.status === 401){
-            showAlert("error", "Invalid Google Token")
-        }
+const handleGoogleLogin = () => {
+  if (email || password) {
+    showAlert('error', 'Please clear email and password first');
+    return;
+  }
+
+  // TokenClient init only now — NOT on page load
+  const tokenClient = window.google.accounts.oauth2.initTokenClient({
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    scope: 'email profile openid',
+    callback: async (tokenResponse) => {
+      try {
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        });
+
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/google-auth`, {
+          userInfo: res.data
+        }, {
+          withCredentials: true,
+        });
+        triggerTransactionRefresh()
+        Navigate('/Dashbaord');
+        showAlert('success', 'Successfully Login with Google');
+      } catch (err) {
+        console.error('Google login error:', err);
+        showAlert('error', 'Google login failed');
       }
     },
-      onError: (error) => {
-      console.log('Google Login Error', error);
-      showAlert("error", "Google Login Failed");
-      
-    },
-  })
+  });
+
+  // Now request token
+  tokenClient.requestAccessToken();
+};
+
   
+
+ 
   return (
     <div className="h-screen bg-transparent flex  justify-center items-center  ">
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg shadow-2xl overflow-hidden flex flex-col p-2">
@@ -127,7 +134,7 @@ const handleLogin = async (e) => {
             </div>
           {/* Continue with Google */}
           <div className='mx-1  mt-0'>
-          <GoogleButton onClick={ContinueGoogle} />
+          <GoogleButton onClick={handleGoogleLogin}  disabled={email || password} />
           </div>
           
         </form>

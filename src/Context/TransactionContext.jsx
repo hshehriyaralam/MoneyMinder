@@ -10,13 +10,24 @@ const TransactionContext = ({ children }) => {
   // UI States
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState(null)
+  const [refreshKey, setrefreshKey] = useState(0)
   const { showAlert } = useAlert();
   
+
+  // Triger Function for Refersh  Key
+  const triggerTransactionRefresh  = () => {
+    setrefreshKey(prev => prev + 1)
+  }
+
+
   // Tranasctions Get From DB 
   const fetchTransactions = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/transactions/fetch-amounts`, {
-        withCredentials : true
+        withCredentials : true,
+          headers: {
+          'Cache-Control': 'no-cache',
+  },
       });
       setTransactions(response.data.data);
     } catch (error) {
@@ -65,7 +76,7 @@ const TransactionContext = ({ children }) => {
 
   useEffect(() => {
     fetchTransactions()
-  },[transactions])
+  },[refreshKey])
 
   // Income , Expense , income Amount, expense amounts and Balance  Variables
   const incomeTransaction = transactions.filter((t) => t.type === "income");
@@ -177,6 +188,7 @@ const TransactionContext = ({ children }) => {
     BalanceAmount,
     editTransaction,
     setEditTransaction,
+    setTransactions,
     maxValue,
     minValue,
     Percentage,
@@ -188,7 +200,8 @@ const TransactionContext = ({ children }) => {
     monthlyExpenses,
     topExpenseCategories,
     topExpenseAmount,
-    monthlyBalance
+    monthlyBalance,
+    triggerTransactionRefresh
   };
 
   return <Context.Provider value={ALL}>{children}</Context.Provider>;

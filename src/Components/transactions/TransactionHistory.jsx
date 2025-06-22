@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '@/Context/TransactionContext';
 import { useNavigate } from 'react-router-dom';
-import { TextAnimate } from '../magicui/text-animate';
 import CountUp from '../comman/CountUp';
 import DecryptedText from '../Reactbits/DecryptedText';
 import ShinyText from '../Reactbits/ShinnyText';
@@ -10,6 +9,8 @@ import DeleteButton from "../UIverse/DeleteButton";
 import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
 import Filters from '../layout/Filters';
+import SplitText from "../Reactbits/SplitText.jsx"
+
 
 
 function TransactionHistory({ limit, Name }) {
@@ -90,15 +91,18 @@ function TransactionHistory({ limit, Name }) {
 
   return (
     <div className="w-full p-4 sm:p-6  mb-24  md:mb-0">
-      <TextAnimate
-        delay={0.4}
-        duration={1.9}
-        animation="slideLeft"
-        by="character"
-        className="text-center text-3xl  md:text-3xl font-lexend font-bold text-[#2d5385]"
-      >
-        {Name}
-      </TextAnimate>
+      <div className='flex justify-center'>
+      <SplitText
+        text={`${Name}`}
+        className="text-3xl md:text-[32px] font-lexend font-bold text-[#2d5385]"
+        delay={150}
+        animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+        animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+        easing="easeOutCubic"
+        threshold={0.2}
+        rootMargin="-50px"
+        />
+        </div>
       <div className='mx-10'>
         { limit === 'all' &&   (<Filters 
         onSelectValue={setFilterValue} 

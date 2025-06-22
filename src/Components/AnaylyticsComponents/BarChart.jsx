@@ -11,10 +11,14 @@ const MonthlyBarChart = () => {
   const [data, setData] = useState([]);
   const [yearsAvailable, setYearsAvailable] = useState([]);
   const [noTransactions, setNoTransactions] = useState(false); 
-  
 
+
+  
+  
+  
   useEffect(() => {
-    const uniqueYears = Array.from(new Set(transactions.map((t) => new Date(t.date).getFullYear())));
+    if (transactions.length > 0) {
+      const uniqueYears = Array.from(new Set(transactions.map((t) => new Date(t.date).getFullYear())));
     if (!uniqueYears.includes(currentYear)) {
       uniqueYears.push(currentYear);
     }
@@ -22,8 +26,8 @@ const MonthlyBarChart = () => {
     setYearsAvailable(uniqueYears);
 
     generateData(selectedYear);
-
-  }, []);
+  }
+}, [transactions]);
 
   useEffect(() => {
     generateData(selectedYear);
@@ -31,14 +35,14 @@ const MonthlyBarChart = () => {
 
   const generateData = (year) => {
 
-  const monthlyData = Array.from({ length: 12 }, (_, i) => ({
-    month: new Date(0, i).toLocaleString('default', { month: 'short' }),
+    const monthlyData = Array.from({ length: 12 }, (_, i) => ({
+      month: new Date(0, i).toLocaleString('default', { month: 'short' }),
     income: 0,
     expense: 0
   }));
-
-  const filteredTransactions = transactions.filter((t) => new Date(t.date).getFullYear() === year);
-
+  
+  const filteredTransactions = transactions.filter((t) => new Date(t.date).getFullYear() === year)
+  
   if (filteredTransactions.length === 0) {
     setNoTransactions(true);
     setData(monthlyData); 
@@ -46,7 +50,7 @@ const MonthlyBarChart = () => {
   } else {
     setNoTransactions(false);
   }
-
+  
   filteredTransactions.forEach((t) => {
     const tDate = new Date(t.date);
     const monthIndex = tDate.getMonth();
@@ -59,6 +63,7 @@ const MonthlyBarChart = () => {
 
   setData(monthlyData);
 };
+
 
   return (
     <Card className="bg-background/900 shadow-xl">

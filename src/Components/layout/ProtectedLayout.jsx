@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { fetchUserUtils } from '../../utils/auth.js';
+import Loader from "../UIverse/Loader.jsx"
 
 const ProtectedLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -8,20 +9,24 @@ const ProtectedLayout = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const user = await fetchUserUtils(); // ✅ wait for promise
+      const user = await fetchUserUtils(); 
       if (!user) {
-        navigate('/'); // redirect to login
+        navigate('/'); 
       } else {
-        setLoading(false); // ✅ only render children when user is valid
+        setLoading(false); 
       }
     };
 
     checkUser();
   }, [navigate]);
 
-  if (loading) return <div className="text-center mt-10">Checking user...</div>;
+  {loading && (
+  <div className="w-full h-screen flex items-center justify-center">
+    <Loader />
+  </div>
+)}
 
-  return <Outlet />; // ✅ safe to render nested routes now
+  return <Outlet />; 
 };
 
 export default ProtectedLayout;

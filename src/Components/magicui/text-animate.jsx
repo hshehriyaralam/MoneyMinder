@@ -243,7 +243,7 @@ export function TextAnimate({
   startOnView = true,
   once = false,
   by = "word",
-  animation = "fadeIn",
+  animation = "show",
   ...props
 }) {
   const MotionComponent = motion.create(Component);

@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import BlurText from "../comman/BlurText.jsx";
 import CashPick1 from "../../assets/images/cash-amount2.png";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
 import { Context } from '@/Context/TransactionContext.jsx';
+import SplitText from "../Reactbits/SplitText.jsx"
+
+
 
 const BalanceCard = () => {
   const {incomeAmount,expenseAmount,BalanceAmount}  = useContext(Context)
@@ -20,13 +22,16 @@ const BalanceCard = () => {
           pauseBetweenAnimations={1}
         />
         <div className="flex justify-center items-center my-2">
-          <BlurText
-            text={`$${BalanceAmount}`}
-            delay={200}
-            animateBy="words"
-            direction="right"
-            className="text-3xl md:text-3xl font-semibold text-[#1f2937] mb-4 md:mb-6 text-center"
-          />
+            <SplitText
+                  text={`$${BalanceAmount}`}
+                  className=" text-3xl md:text-[26px] font-lexend font-bold text-[#1f2937]"
+                  delay={150}
+                  animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+                  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                  easing="easeOutCubic"
+                  threshold={0.2}
+                  rootMargin="-50px"
+                  />
            
         </div>
         <div className="flex justify-center space-x-4 md:space-x-8 flex-wrap w-full">

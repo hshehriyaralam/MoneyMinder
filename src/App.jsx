@@ -39,11 +39,9 @@ const AppContent = ({ isMobile, isCollapsed, setIsCollapsed }) => {
           }`}
         >
           <Routes>
-            {/* Public routes */}
             <Route path="/" element={<Login />} />
             <Route path="/SignUp" element={<SignUp />} />
-
-            {/* Protected routes wrapped once */}
+            
             <Route element={<ProtectedLayout />}>
               <Route path="/Dashbaord" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />

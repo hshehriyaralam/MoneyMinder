@@ -3,11 +3,12 @@ import { User, Edit, Check, X, Camera, LogOut, DollarSign, TrendingUp, TrendingD
 import axios from 'axios';
 import { Image } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { TextAnimate } from '../magicui/text-animate';
 import LogOutButton from "../UIverse/LogOutBtn.jsx"
 import { useAlert } from "../../Context/AlertContext.jsx";
 import { Trash2 } from "lucide-react";
 import { Context } from '../../Context/TransactionContext.jsx';
+import SplitText from "../Reactbits/SplitText"
+
 
 const ProfileCard =  () => {
 
@@ -16,7 +17,9 @@ const ProfileCard =  () => {
           topExpenseCategories,
           topExpenseAmount, 
           monthlyBalance,
-          transactions
+          transactions,
+          setTransactions,
+          triggerTransactionRefresh
         } = useContext(Context)
   
   // Financial data
@@ -166,6 +169,7 @@ const handleiamgeUpload = async (e) => {
         withCredentials :true
       })
       Navigate('/')
+      triggerTransactionRefresh()
 
     }catch(error){
        console.error("Logout failed:", error.message);
@@ -174,7 +178,7 @@ const handleiamgeUpload = async (e) => {
 
 
   const handleDelete = async () => {
-    //  if (!window.confirm("Are you sure you want to delete your account?")) return;
+
     try{
        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/user/delete-user`, {
         withCredentials :true
@@ -199,30 +203,31 @@ const handleiamgeUpload = async (e) => {
 return (
   <div className="min-h-screen w-full bg-gray-50 p-4 flex items-center justify-center">
       <div className="w-full max-w-5xl bg-transparent rounded-2xl shadow-2xl overflow-hidden">
-        <div className=" p-6 text-white text-center bg-gradient-to-r from-blue-500 to-purple-600 ">
-           <TextAnimate
-                  delay={0.4}
-                  duration={1.9}
-                  animation="slideLeft"
-                  by="character"
-                  className="text-center text-3xl  md:text-3xl font-lexend font-bold text-white"
-                >
-               Profile
-                </TextAnimate>
+        <div className=" p-6  text-center  ">
+          <SplitText
+        text={`Profile`}
+        className="text-3xl md:text-[35px] font-lexend font-bold text-[#2d5385]"
+        delay={150}
+        animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+        animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+        easing="easeOutCubic"
+        threshold={0.2}
+        rootMargin="-50px"
+        />
         </div>
 
         <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Profile Info */}
           <div>
             <div className="flex justify-center mb-6 relative">
-              <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden shadow-md">
-                {picture && picture.trim() !== '' ? (
-                  <Image
-                    src={picture}
-                    alt="Profile"
-                    className="w-full h-full object-cover object-top"
-                  />
-                ) : (
+             <div className="w-26 h-26 rounded-full bg-gray-200 overflow-hidden shadow-lg flex items-center justify-center relative">
+                  {picture && picture.trim() !== '' ? (
+                    <Image
+                      src={picture}
+                      alt="Profile"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
                   <User className="w-16 h-16 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                 )}
               </div>
@@ -416,7 +421,7 @@ return (
           <div className="space-y-3">
             {transactions.slice(0,4).map((txn) => (
               <div
-                key={txn.id}
+                key={txn._id}
                 className={`p-4 rounded-lg flex justify-between items-center ${txn.type === 'income' ? 'bg-green-50' : 'bg-red-50'} shadow-sm hover:shadow-md transition`}
               >
                 <div className="flex items-center gap-4">
@@ -499,6 +504,6 @@ return (
     </div>
 );
 
-};
+}; 
 
 export default ProfileCard;

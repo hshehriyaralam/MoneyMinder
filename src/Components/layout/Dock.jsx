@@ -16,7 +16,7 @@ const DockIconButton = React.forwardRef(
           className
         )}
       >
-        <Icon className="w-5 h-5 text-foreground" />
+        <Icon className="w-8 h-5 text-foreground" />
         <span
   className={cn(
     "absolute -top-7 left-1/2 -translate-x-1/2"  ,

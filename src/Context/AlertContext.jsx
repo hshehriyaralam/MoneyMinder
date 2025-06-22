@@ -15,7 +15,7 @@ export const AlertProvider = ({ children }) => {
     setAlert({ visible: true, type, message, progress: 100 });
 
     let interval;
-    const step = 100 / (duration / 50); // 50ms interval
+    const step = 100 / (duration / 50); 
 
     interval = setInterval(() => {
       setAlert((prev) => {
