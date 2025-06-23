@@ -26,7 +26,7 @@ const AppContent = ({ isMobile, isCollapsed, setIsCollapsed }) => {
         </header>
       )}
 
-      <div className="flex flex-1 pt-16 bg-[#f7f7fa]">
+      <div className="flex flex-1 pt-16 bg-[#FAF9F6]">
         {!isAuthPage && (
           <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40">
             <AppSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />

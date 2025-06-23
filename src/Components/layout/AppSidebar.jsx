@@ -71,10 +71,10 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
         className={`fixed top-20 left-0 h-screen shadow-xl transition-all duration-300 z-50 
           ${isCollapsed ? "w-16" : "w-60"} 
           hidden md:block 
-     bg-[#f7f7fa] border-none  
+     bg-[#FAF9F6] border-none  
         `} 
       > 
-            <SidebarContent   className="h-full bg-[#f7f7fa]" >
+            <SidebarContent   className="h-full bg-[#FAF9F6]" >
               <SidebarGroup >
                 <div className="flex justify-between items-center mt-3 text-[#1E293B]">
                   
