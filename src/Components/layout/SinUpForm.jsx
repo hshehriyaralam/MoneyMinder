@@ -98,9 +98,9 @@ const handleGoogleLogin = () => {
   // Now request token
   tokenClient.requestAccessToken();
 }
-useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }, []);
+// useEffect(() => {
+//     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+//   }, []);
 
   return (
  <div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">

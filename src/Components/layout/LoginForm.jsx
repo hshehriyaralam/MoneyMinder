@@ -87,9 +87,9 @@ const handleGoogleLogin = () => {
   tokenClient.requestAccessToken();
 };
 
-useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  }, []);
+// useEffect(() => {
+//     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+//   }, []);
 
   
 
