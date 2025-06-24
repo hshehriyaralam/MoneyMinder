@@ -95,10 +95,10 @@ const handleGoogleLogin = () => {
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg  overflow-hidden flex flex-col p-2">
 
     <div className="flex flex-col md:flex-row  p-4  ">
-      <div className="md:w-1/2  flex items-center justify-center p-6 ">
+      <div className="md:w-1/2  flex items-center justify-center p-10 ">
             <AnimateLogin />
       </div>
-      <div className="md:w-1/2  py-4 p-6 px-6 md:px-4  mx-auto     mt-0  ">
+      <div className="md:w-1/2  py-4 p-6 px-6 md:px-4  mx-auto  mt-0  ">
       <h2 className="text-[#1f2937] text-[30px] mx-15 font-bold mt-5">Login</h2>
           {/* Email */}
         <form className="space-y-5  " onSubmit={handleLogin}>

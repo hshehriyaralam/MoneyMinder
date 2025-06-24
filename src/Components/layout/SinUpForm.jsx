@@ -102,7 +102,7 @@ const handleGoogleLogin = () => {
    <div className="h-screen bg-transparent flex  justify-center items-center  ">
   <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg  overflow-hidden flex flex-col p-2 ">
     <div className="flex flex-col md:flex-row  p-4  ">
-      <div className="md:w-1/2  flex items-center justify-center      ">
+      <div className="md:w-1/2  flex items-center justify-center  p-10    ">
             <AnimateSignUp />
       </div>
       <div className="md:w-1/2  p-6 px-4 mx-auto   "  >
