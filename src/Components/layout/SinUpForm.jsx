@@ -113,7 +113,7 @@ useEffect(() => {
       </div>
 
       <div className="md:w-1/2  md:px-4 mx-auto  overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold text-center  md:mx-20">Sign Up</h2>
+        <h2 className="text-[#1f2937] text-[26px] font-bold text-center  md:mx-16">Sign Up</h2>
 
         <form className="space-y-4" onSubmit={handleSignUp}>
           <Input
@@ -141,7 +141,7 @@ useEffect(() => {
             <InteractiveHoverButtonDemo type={'submit'} Name={'Sign Up'} />
           </div>
 
-          <p className="text-[12px] text-[#1f2937]  mx-6">
+          <p className="text-[12px] text-[#1f2937]  mx-8">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
