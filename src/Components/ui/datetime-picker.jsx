@@ -2,8 +2,8 @@
 import React, { forwardRef, useCallback } from "react";
 import { useTimescape } from "timescape/react";
 
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Input } from "./input";
+import { cn } from "../../lib/utils.js"
 // @source: https://github.com/dan-lee/timescape?tab=readme-ov-file
 
 const timePickerInputBase =

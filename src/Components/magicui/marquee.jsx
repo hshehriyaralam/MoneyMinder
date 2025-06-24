@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "../../utils/auth.js";
 
 export function Marquee({
   className,

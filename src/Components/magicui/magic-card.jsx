@@ -1,7 +1,7 @@
 "use client";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import React, { useCallback, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../utils/auth.js";
 
 export function MagicCard({
   children,

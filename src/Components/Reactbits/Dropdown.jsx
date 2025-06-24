@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../ui/select";
 import { BadgeDollarSign } from "lucide-react";
 
 function DropDown({ selectedCategory, setSelectCategory }) {

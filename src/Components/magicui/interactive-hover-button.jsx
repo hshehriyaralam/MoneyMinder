@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../utils/auth.js";
 
 export const InteractiveHoverButton = React.forwardRef(({ children, className, ...props }, ref) => {
   return (

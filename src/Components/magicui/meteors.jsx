@@ -1,5 +1,5 @@
 "use client";;
-import { cn } from "@/lib/utils";
+import { cn } from "../../utils/auth.js";
 import React, { useEffect, useState } from "react";
 
 export const Meteors = ({
