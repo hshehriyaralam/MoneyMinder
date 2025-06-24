@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Context } from '@/Context/TransactionContext';
+import { Context } from '../../Context/TransactionContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import CountUp from '../comman/CountUp';
 import DecryptedText from '../Reactbits/DecryptedText';

@@ -1,8 +1,8 @@
 import React from "react";
-import BalanceCard from "@/Components/transactions/BalnceCard";
-import IncomeCard from "@/Components/transactions/IncomeCard";
-import ExpenseCard from "@/Components/transactions/ExpenseCard";
-import TransactionHistory from "@/Components/transactions/TransactionHistory";
+import BalanceCard from "../Components/transactions/BalnceCard.jsx";
+import IncomeCard from "../Components/transactions/IncomeCard.jsx";
+import ExpenseCard from '../Components/transactions/ExpenseCard.jsx'
+import TransactionHistory from "../Components/transactions/TransactionHistory.jsx";
 
 
 

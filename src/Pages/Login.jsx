@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import LoginForm from '@/Components/layout/LoginForm.jsx';
+import LoginForm from '../Components/layout/LoginForm.jsx';
 
 
 

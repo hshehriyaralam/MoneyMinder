@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Context } from '@/Context/TransactionContext';
+import { Context } from '../../Context/TransactionContext.jsx';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; 
 import dayjs from 'dayjs';
-import { PaddingIcon } from '@radix-ui/react-icons';
 
 const ExpensePieChart = () => {
   const { transactions, expenseSummary, expenseAmount } = useContext(Context);

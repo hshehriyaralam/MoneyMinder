@@ -6,7 +6,7 @@ import GoogleButton from "../UIverse/GoogleButto.jsx"
 import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import axios from 'axios'
 import { useAlert } from "../../Context/AlertContext.jsx";
-import { Context } from '@/Context/TransactionContext.jsx';
+import { Context } from '../../Context/TransactionContext.jsx';
 
 
 

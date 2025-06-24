@@ -3,7 +3,7 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import MontlyBarChart from '../Components/AnaylyticsComponents/BarChart';
 import ExpensePieChart from '../Components/AnaylyticsComponents/ExpensePieChart';
-import SavingLinBar from '@/Components/AnaylyticsComponents/SavingLinBar';
+import SavingLinBar from '../Components/AnaylyticsComponents/SavingLinBar.jsx';
 import DownloadButton from "../Components/UIverse//DownloadButton.jsx"
 
 const Analytics = () => {

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import IncomeForm from '@/Components/layout/IncomeForm'
+import IncomeForm from '../Components/layout/IncomeForm'
 import SplitText from "../Components/Reactbits/SplitText"
-import Toggle from '@/Components/UIverse/Toggle'
-import ExpenseForm from '@/Components/layout/ExpenseForm'
+import Toggle from '../Components/UIverse/Toggle'
+import ExpenseForm from '../Components/layout/ExpenseForm'
 import { useSearchParams} from 'react-router-dom'
-import { Context } from '@/Context/TransactionContext'
+import { Context } from  '../Context/TransactionContext.jsx'
 
 const AddTransaction = () => {
   const [searchParams,setSearchParams] = useSearchParams()

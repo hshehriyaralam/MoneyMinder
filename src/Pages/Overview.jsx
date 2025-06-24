@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { TextAnimate } from '@/Components/magicui/text-animate';
-import SavingCard from '@/Components/OverviewComponents/SavingCard';
-import CategoriesCard from '@/Components/OverviewComponents/CategoriesCard';
-import { Context } from '@/Context/TransactionContext';
+import { TextAnimate } from '../Components/magicui/text-animate';
+import SavingCard from '../Components/OverviewComponents/SavingCard';
+import CategoriesCard from '../Components/OverviewComponents/CategoriesCard';
+import { Context } from '../Context/TransactionContext.jsx';
 
 const Overview = () => {
   const { transactions } = useContext(Context);

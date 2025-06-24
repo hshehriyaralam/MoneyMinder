@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Context } from '@/Context/TransactionContext';
+import { Context } from '../../Context/TransactionContext.jsx';
 
 const ExpensePieChart = () => {
   const { IncomeSummary, incomeAmount } = useContext(Context);

@@ -3,7 +3,7 @@ import CashPick1 from "../../assets/images/cash-amount2.png";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
-import { Context } from '@/Context/TransactionContext.jsx';
+import { Context } from '../../Context/TransactionContext.jsx';
 import SplitText from "../Reactbits/SplitText.jsx"
 
 

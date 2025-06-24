@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Context } from '@/Context/TransactionContext';
+import { Context } from '../../Context/TransactionContext.jsx';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; 
 import dayjs from 'dayjs';

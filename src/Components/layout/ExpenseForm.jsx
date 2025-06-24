@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
+import AnimatedAvatar from "../comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../ExpenseComponents/Dropdown";
 import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
-import { Context } from "@/Context/TransactionContext";
+import { Context } from "../../Context/TransactionContext.jsx";
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../comman/AnimatedContent";
 

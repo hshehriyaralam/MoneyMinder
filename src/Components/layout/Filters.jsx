@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import ElasticSlider from "../Reactbits/InputRange";
-import { Context } from "@/Context/TransactionContext";
+import { Context } from "../../Context/TransactionContext.jsx";
 import DropDown from "../Reactbits/Dropdown";
 const Filters = ({ onSelectValue, selectedCategory, setSelectCategory }) => {
   const [selectValue, setSelectValue] = useState(100);

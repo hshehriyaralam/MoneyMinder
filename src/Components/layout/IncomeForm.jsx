@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import AnimatedAvatar from "@/Components/comman/AnimateAvtar";
+import AnimatedAvatar from "../comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../comman/Dropdown";
 import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
-import { Context } from "@/Context/TransactionContext";
+import { Context } from "../../Context/TransactionContext.jsx";
 import AnimatedContent from "../comman/AnimatedContent";
 
 const IncomeForm = () => {

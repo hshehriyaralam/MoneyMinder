@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Select, SelectTrigger, SelectContent, SelectItem } from "../ui/select";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList } from "recharts";
 import { Context } from "../../Context/TransactionContext.jsx";
 

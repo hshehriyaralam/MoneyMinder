@@ -4,7 +4,7 @@ import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "../../assets/images/9610082-removebg-preview.png";
 import { useNavigate } from 'react-router-dom';
-import { Context } from '@/Context/TransactionContext';
+import { Context } from '../../Context/TransactionContext.jsx';
 import {theme} from  "../theme/theme.js"
 
 const ExpenseCard = () => {
