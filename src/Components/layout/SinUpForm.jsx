@@ -99,65 +99,56 @@ const handleGoogleLogin = () => {
   tokenClient.requestAccessToken();
 };
   return (
-   <div className="h-screen bg-transparent flex  justify-center items-center  ">
-  <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg  overflow-hidden flex flex-col  ">
-    <div className="flex flex-col md:flex-row   ">
-      <div className="md:w-1/2  flex items-center justify-center">
-            <AnimateSignUp />
+ <div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
+  <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col">
+    <div className="flex flex-col md:flex-row overflow-hidden">
+      
+      <div className="md:w-1/2 flex items-center justify-center p-4">
+        <AnimateSignUp />
       </div>
-      <div className="md:w-1/2  px-4 mx-auto   "  >
-      <h2 className="text-[#1f2937] text-[30px] mx-15 font-bold  ">Sign Up</h2>
-        <form className="space-y-4" onSubmit={handleSignUp} >
-          {/* Name */}
-           <div>
-              <Input
-              type={'string'}
-              label={"Full Name"}
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              />
-            </div>
-          {/* Email */}
-          <div>
-              <Input
-              type={'email'}
-              label={"Email"}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          {/* Password */}
-         <div>
-              <Input
-              type={'password'}
-              label={"Password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
 
-            <div>
-              <div className='mt-2  md:mx-5 mx-0' >
-          <InteractiveHoverButtonDemo type={'submit'}  Name={'Sign Up'} />
-              </div>
-             <p className="text-[12px] text-[#1f2937] mx-6 m  ">
+      <div className="md:w-1/2 px-4 mx-auto py-6 overflow-y-auto max-h-screen">
+        <h2 className="text-[#1f2937] text-[26px] font-bold mb-4 text-center">Sign Up</h2>
+
+        <form className="space-y-4" onSubmit={handleSignUp}>
+          <Input
+            type={'string'}
+            label={"Full Name"}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+
+          <Input
+            type={'email'}
+            label={"Email"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <Input
+            type={'password'}
+            label={"Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <div className="mt-2">
+            <InteractiveHoverButtonDemo type={'submit'} Name={'Sign Up'} />
+          </div>
+
+          <p className="text-[12px] text-[#1f2937] text-center">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
-            </div>
-          {/* Continue with Google */}
-          <div className='mx-3  mt-0 '>
-          <GoogleButton onClick={handleGoogleLogin} />
+
+          <div className="mt-2">
+            <GoogleButton onClick={handleGoogleLogin} />
           </div>
-          
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
   );
 };
 
