@@ -98,9 +98,6 @@ const handleGoogleLogin = () => {
   // Now request token
   tokenClient.requestAccessToken();
 }
-useEffect(() => {
-  window.scrollTo({ bottom : document.body.scrollHeight, behavior : 'smooth'})
-},[])
 
 
   return (
@@ -113,7 +110,7 @@ useEffect(() => {
       </div>
 
       <div className="md:w-1/2  md:px-4 mx-auto  overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold text-center  md:mx-16">Sign Up</h2>
+        <h2 className="text-[#1f2937] text-[26px] font-bold md:text-left   md:mx-12   text-center mx-0">Sign Up</h2>
 
         <form className="space-y-4" onSubmit={handleSignUp}>
           <Input

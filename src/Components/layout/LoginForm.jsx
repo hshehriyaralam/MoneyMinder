@@ -86,9 +86,7 @@ const handleGoogleLogin = () => {
   // Now request token
   tokenClient.requestAccessToken();
 };
-useEffect(() => {
-  window.scrollTo({ bottom : document.body.scrollHeight, behavior : 'smooth'})
-},[])
+
 
 
   
@@ -107,7 +105,7 @@ useEffect(() => {
 
       {/* Right Side - Form */}
       <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold   text-center md:mx-16 ">
+        <h2 className="text-[#1f2937] text-[26px] font-bold md:text-left   md:mx-12   text-center mx-0 ">
           Login
         </h2>
 
