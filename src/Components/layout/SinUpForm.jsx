@@ -99,8 +99,8 @@ const handleGoogleLogin = () => {
   tokenClient.requestAccessToken();
 }
 useEffect(() => {
-  window.scrollTo({ top : document.body.scrollHeight, behavior : 'smooth'})
-}),[]
+  window.scrollTo({ bottom : document.body.scrollHeight, behavior : 'smooth'})
+},[])
 
 
   return (
@@ -113,7 +113,7 @@ useEffect(() => {
       </div>
 
       <div className="md:w-1/2  md:px-4 mx-auto  overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold text-center  md:mx-12">Sign Up</h2>
+        <h2 className="text-[#1f2937] text-[26px] font-bold text-center  md:mx-20">Sign Up</h2>
 
         <form className="space-y-4" onSubmit={handleSignUp}>
           <Input
@@ -141,7 +141,7 @@ useEffect(() => {
             <InteractiveHoverButtonDemo type={'submit'} Name={'Sign Up'} />
           </div>
 
-          <p className="text-[12px] text-[#1f2937]">
+          <p className="text-[12px] text-[#1f2937]  mx-6">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
