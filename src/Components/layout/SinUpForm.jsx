@@ -110,7 +110,7 @@ const handleGoogleLogin = () => {
       </div>
 
       <div className="md:w-1/2  md:px-4 mx-auto  overflow-y-auto max-h-screen">
-       <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-16">
+       <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
   Sign Up
 </h2>
 
