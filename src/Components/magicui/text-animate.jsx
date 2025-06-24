@@ -1,5 +1,5 @@
 "use client";;
-import { cn } from "../../utils/auth.js";
+import { cn } from "../../lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 const staggerTimings = {
