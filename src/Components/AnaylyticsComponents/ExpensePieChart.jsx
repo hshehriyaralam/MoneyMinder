@@ -58,7 +58,7 @@ const ExpensePieChart = () => {
     .sort((a, b) => b.value - a.value);
 
   return (
-    <div className="max-w-full rounded-2xl shadow-2xl bg-[#1e1e1e]/300 border  p-4">
+    <div className="max-w-full rounded-2xl shadow-2xl bg-[#FAF9F6] border  p-4">
       <h1 className='text-xl font-bold text-left m-3 text-[#1f2937]'>Monthly Expense Insights</h1>
       <div className="my-5 ">
       <Select onValueChange={handleMonthChange} value={selectedMonth}>

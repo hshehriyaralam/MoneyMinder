@@ -43,7 +43,7 @@ const SavingLinBar = () => {
   };
 
   return (
-    <div className="p-6 bg-[#1e1e1e]/300 rounded-lg shadow-md">
+    <div className="p-6 bg-[#FAF9F6] rounded-lg shadow-md">
       <h1 className='text-2xl font-bold md:text-left  text-center m-3 text-[#1f2937]'>Savings Analytics</h1>
       
       <div className="mb-6">
