@@ -105,9 +105,9 @@ const handleGoogleLogin = () => {
 
       {/* Right Side - Form */}
       <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold md:text-left   md:mx-12   text-center mx-0 ">
-          Login
-        </h2>
+         <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-16">
+  Login
+</h2>
 
         <form className="space-y-5" onSubmit={handleLogin}>
           {/* Email */}
