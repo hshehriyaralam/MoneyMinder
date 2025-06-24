@@ -87,6 +87,10 @@ const handleGoogleLogin = () => {
   tokenClient.requestAccessToken();
 };
 
+useEffect(() => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }, []);
+
   
 
  
@@ -103,7 +107,7 @@ const handleGoogleLogin = () => {
 
       {/* Right Side - Form */}
       <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold   text-center">
+        <h2 className="text-[#1f2937] text-[26px] font-bold md:mx-6 ">
           Login
         </h2>
 
@@ -125,12 +129,12 @@ const handleGoogleLogin = () => {
           />
 
           {/* Submit Button */}
-          <div className="mt-4">
+          <div className="mt-4 md:mx-4">
             <ButtonComponent Name="Login" type="submit" />
           </div>
 
           {/* Sign Up Link */}
-          <p className="text-[12px] text-[#1f2937] text-center ">
+          <p className="text-[12px] text-[#1f2937] mx-4 ">
             Don't have an account?{" "}
             <Link
               to="/SignUp"

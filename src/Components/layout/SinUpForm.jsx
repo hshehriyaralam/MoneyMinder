@@ -97,7 +97,11 @@ const handleGoogleLogin = () => {
 
   // Now request token
   tokenClient.requestAccessToken();
-};
+}
+useEffect(() => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  }, []);
+  
   return (
  <div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
   <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col">
@@ -108,7 +112,7 @@ const handleGoogleLogin = () => {
       </div>
 
       <div className="md:w-1/2 px-4 mx-auto  overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold  text-center">Sign Up</h2>
+        <h2 className="text-[#1f2937] text-[26px] font-bold  md:mx-6">Sign Up</h2>
 
         <form className="space-y-4" onSubmit={handleSignUp}>
           <Input
@@ -132,11 +136,11 @@ const handleGoogleLogin = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <div className="mt-2">
+          <div className="mt-2 md:mx-4">
             <InteractiveHoverButtonDemo type={'submit'} Name={'Sign Up'} />
           </div>
 
-          <p className="text-[12px] text-[#1f2937] text-center">
+          <p className="text-[12px] text-[#1f2937] mx-4">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
