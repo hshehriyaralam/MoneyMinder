@@ -137,16 +137,16 @@ const handleGoogleLogin = () => {
             </div>
 
             <div>
-              <div className='mt-6  md:mx-5 mx-0' >
+              <div className='mt-2  md:mx-5 mx-0' >
           <InteractiveHoverButtonDemo type={'submit'}  Name={'Sign Up'} />
               </div>
-             <p className="text-[12px] text-[#1f2937] mx-6 mt-1  ">
+             <p className="text-[12px] text-[#1f2937] mx-6 m  ">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
             </div>
           {/* Continue with Google */}
-          <div className='mx-3  mt-0 my-2'>
+          <div className='mx-3  mt-0 '>
           <GoogleButton onClick={handleGoogleLogin} />
           </div>
           

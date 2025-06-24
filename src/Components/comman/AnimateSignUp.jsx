@@ -2,7 +2,7 @@ import animationData from "../../Context/animation-SignUp.json"
 import Lottie from "lottie-react";
 
 const  AnimateSignUp = () => {
-  return <Lottie animationData={animationData} loop={true} className="w-80" />;
+  return <Lottie animationData={animationData} loop={true} className="w-76" />;
 };
 
 export default AnimateSignUp ;
