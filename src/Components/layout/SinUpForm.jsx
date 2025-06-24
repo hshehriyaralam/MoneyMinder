@@ -100,12 +100,12 @@ const handleGoogleLogin = () => {
 };
   return (
    <div className="h-screen bg-transparent flex  justify-center items-center  ">
-  <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg  overflow-hidden flex flex-col p-2 ">
-    <div className="flex flex-col md:flex-row  p-4  ">
-      <div className="md:w-1/2  flex items-center justify-center  p-10    ">
+  <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg  rounded-lg  overflow-hidden flex flex-col  ">
+    <div className="flex flex-col md:flex-row   ">
+      <div className="md:w-1/2  flex items-center justify-center">
             <AnimateSignUp />
       </div>
-      <div className="md:w-1/2  p-6 px-4 mx-auto   "  >
+      <div className="md:w-1/2  p-2 px-4 mx-auto   "  >
       <h2 className="text-[#1f2937] text-[30px] mx-15 font-bold mt-5 ">Sign Up</h2>
         <form className="space-y-6" onSubmit={handleSignUp} >
           {/* Name */}
