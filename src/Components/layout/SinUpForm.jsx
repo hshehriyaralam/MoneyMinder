@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AnimateSignUp from "../comman/AnimateSignUp.jsx"
 import Input from "../comman/InputVerse.jsx"
@@ -101,7 +101,7 @@ const handleGoogleLogin = () => {
 useEffect(() => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }, []);
-  
+
   return (
  <div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
   <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col">
