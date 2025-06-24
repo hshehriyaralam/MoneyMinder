@@ -4,7 +4,7 @@ import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent.jsx';
 import incomeLogo from "../../assets/images/3588982.png";
 import { useNavigate } from 'react-router-dom'
-import {Context} from '@/context/TransactionContext.jsx';
+import {Context} from '../../Context/TransactionContext.jsx';
 
 const IncomeCard = () => {
   const {incomeAmount} = useContext(Context)
