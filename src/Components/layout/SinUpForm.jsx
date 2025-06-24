@@ -107,8 +107,8 @@ const handleGoogleLogin = () => {
         <AnimateSignUp />
       </div>
 
-      <div className="md:w-1/2 px-4 mx-auto py-6 overflow-y-auto max-h-screen">
-        <h2 className="text-[#1f2937] text-[26px] font-bold mb-4 text-center">Sign Up</h2>
+      <div className="md:w-1/2 px-4 mx-auto  overflow-y-auto max-h-screen">
+        <h2 className="text-[#1f2937] text-[26px] font-bold  text-center">Sign Up</h2>
 
         <form className="space-y-4" onSubmit={handleSignUp}>
           <Input
@@ -141,7 +141,7 @@ const handleGoogleLogin = () => {
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
 
-          <div className="mt-2">
+          <div>
             <GoogleButton onClick={handleGoogleLogin} />
           </div>
         </form>
