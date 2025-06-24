@@ -105,9 +105,9 @@ const handleGoogleLogin = () => {
       <div className="md:w-1/2  flex items-center justify-center">
             <AnimateSignUp />
       </div>
-      <div className="md:w-1/2  p-2 px-4 mx-auto   "  >
-      <h2 className="text-[#1f2937] text-[30px] mx-15 font-bold mt-5 ">Sign Up</h2>
-        <form className="space-y-6" onSubmit={handleSignUp} >
+      <div className="md:w-1/2  px-4 mx-auto   "  >
+      <h2 className="text-[#1f2937] text-[30px] mx-15 font-bold  ">Sign Up</h2>
+        <form className="space-y-4" onSubmit={handleSignUp} >
           {/* Name */}
            <div>
               <Input
@@ -140,13 +140,13 @@ const handleGoogleLogin = () => {
               <div className='mt-6  md:mx-5 mx-0' >
           <InteractiveHoverButtonDemo type={'submit'}  Name={'Sign Up'} />
               </div>
-             <p className="text-[12px] text-[#1f2937] mx-6 mt-2  ">
+             <p className="text-[12px] text-[#1f2937] mx-6 mt-1  ">
             Already have an account?{" "}
             <Link to="/" className="text-[#FF9900] hover:underline text-[13px] font-bold">Login</Link>
           </p>
             </div>
           {/* Continue with Google */}
-          <div className='mx-3  mt-0 my-10'>
+          <div className='mx-3  mt-0 my-2'>
           <GoogleButton onClick={handleGoogleLogin} />
           </div>
           
