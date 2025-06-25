@@ -8,7 +8,7 @@ const Login = () => {
   //   window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
   // },[])
   return (
-       <div className="min-h-screen h-screen bg-[#f9f9f9] flex justify-center items-center overflow-hidden">
+    <div>
       <LoginForm />
     </div>
   )

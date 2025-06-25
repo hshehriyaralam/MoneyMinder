@@ -93,54 +93,65 @@ const handleGoogleLogin = () => {
 
  
   return (
-<div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row p-4 h-[90vh]">
-  {/* Left Section - Animate */}
-  <div className="md:w-1/2 flex items-center justify-center">
-    <div className="w-40 h-40 md:w-64 md:h-64">
-      <AnimateLogin />
+<div className="h-screen bg-transparent flex justify-center items-center">
+  <div className="w-full max-w-4xl backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
+    <div className="flex flex-col md:flex-row p-4 h-full">
+      {/* Left Side */}
+      <div className="md:w-1/2 flex items-center justify-center md:p-10 p-4">
+        <div className="w-48 h-48 md:w-64 md:h-64">
+          <AnimateLogin />
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="md:w-1/2 py-4 px-4 mx-auto mt-0">
+        <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
+          Login
+        </h2>
+
+        <form className="space-y-5" onSubmit={handleLogin}>
+          {/* Email */}
+          <Input
+            type="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          {/* Password */}
+          <Input
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {/* Submit Button */}
+          <div className="mt-4 mx-8">
+            <ButtonComponent Name="Login" type="submit" />
+          </div>
+
+          {/* Sign Up Link */}
+          <p className="text-[12px] text-[#1f2937] mx-6 ">
+            Don't have an account?{" "}
+            <Link
+              to="/SignUp"
+              className="text-[#FF9900] hover:underline text-[13px] font-bold"
+            >
+              Sign Up
+            </Link>
+          </p>
+
+          {/* Google Login */}
+          <div className="mt-2">
+            <GoogleButton
+              onClick={handleGoogleLogin}
+              disabled={email || password}
+            />
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-
-  {/* Right Section - Form */}
-  <div className="md:w-1/2 flex flex-col justify-center p-6 overflow-hidden">
-    <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left mb-4">Login</h2>
-
-    <form className="space-y-4" onSubmit={handleLogin}>
-      <Input
-        type="email"
-        label="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <Input
-        type="password"
-        label="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <div className="mt-2">
-        <ButtonComponent Name="Login" type="submit" />
-      </div>
-
-      <p className="text-sm text-[#1f2937] mt-2">
-        Don't have an account?{" "}
-        <Link
-          to="/SignUp"
-          className="text-[#FF9900] hover:underline font-semibold"
-        >
-          Sign Up
-        </Link>
-      </p>
-
-      <div className="mt-2">
-        <GoogleButton
-          onClick={handleGoogleLogin}
-          disabled={email || password}
-        />
-      </div>
-    </form>
   </div>
 </div>
 
