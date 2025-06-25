@@ -8,7 +8,7 @@ const Login = () => {
   //   window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
   // },[])
   return (
-    <div>
+    <div className='w-full h-screen flex items-center justify-center'>
       <LoginForm />
     </div>
   )
