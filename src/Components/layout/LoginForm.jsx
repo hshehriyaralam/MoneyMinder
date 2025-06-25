@@ -93,21 +93,21 @@ const handleGoogleLogin = () => {
 
  
   return (
-<div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
-  <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
-    
-    <div className="flex flex-col md:flex-row p-4">
-      
-      {/* Left Side - Animation */}
-      <div className="md:w-1/2 flex items-center justify-center md:p-10">
-        <AnimateLogin />
+<div className="h-screen bg-transparent flex justify-center items-center">
+  <div className="w-full max-w-4xl backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
+    <div className="flex flex-col md:flex-row p-4 h-full">
+      {/* Left Side */}
+      <div className="md:w-1/2 flex items-center justify-center md:p-10 p-4">
+        <div className="w-48 h-48 md:w-64 md:h-64">
+          <AnimateLogin />
+        </div>
       </div>
 
       {/* Right Side - Form */}
-      <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
-         <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
-  Login
-</h2>
+      <div className="md:w-1/2 py-4 px-4 mx-auto mt-0">
+        <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
+          Login
+        </h2>
 
         <form className="space-y-5" onSubmit={handleLogin}>
           {/* Email */}
