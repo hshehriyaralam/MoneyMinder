@@ -17,7 +17,7 @@ const IncomeForm = () => {
   const [time, setTime] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [missingFields, setMisingFields] = useState([]);
-  const { addTransaction, editTransaction, setEditTransaction } = useContext(Context);
+  const { addTransaction, editTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
 
   useEffect(() => {
     if(editTransaction){
@@ -70,6 +70,7 @@ const IncomeForm = () => {
     });
     
     resetForm();
+    triggerTransactionRefresh()
     Navigate('/Dashbaord');
   };
 

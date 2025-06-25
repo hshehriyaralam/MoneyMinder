@@ -83,9 +83,9 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        Navigate('/Dashbaord');
-        showAlert('success', 'Successfully signup with Google');
         triggerTransactionRefresh()
+        showAlert('success', 'Successfully signup with Google');
+        Navigate('/Dashbaord');
       } catch (err) {
         console.error('Google login error:', err);
         showAlert('error', 'Google login failed');

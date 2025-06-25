@@ -7,6 +7,7 @@ import CancellButton from "../UIverse/CancellBtn";
 import { Context } from "../../Context/TransactionContext.jsx";
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../comman/AnimatedContent";
+import { Context } from "../../Context/TransactionContext.jsx";
 
 const ExpenseForm = () => {
   const Navigate = useNavigate();
@@ -17,7 +18,7 @@ const ExpenseForm = () => {
   const [time, setTime] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
-  const { addTransaction, editTransaction, setEditTransaction } = useContext(Context);
+  const { addTransaction, editTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
 
   useEffect(() => {
     if (editTransaction) {
@@ -70,6 +71,7 @@ const ExpenseForm = () => {
     });
 
     resetForm();
+    triggerTransactionRefresh()
     Navigate('/Dashbaord');
   };
 

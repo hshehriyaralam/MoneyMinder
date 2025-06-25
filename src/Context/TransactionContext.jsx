@@ -68,6 +68,7 @@ const TransactionContext = ({ children }) => {
         withCredentials : true
       })
       setTransactions((prev) => prev.filter((t) => t._id !== id))
+      triggerTransactionRefresh()
     }catch(error){
       console.error("Error deleting transaction:", error.message)
       alert("Failed to delete transaction")

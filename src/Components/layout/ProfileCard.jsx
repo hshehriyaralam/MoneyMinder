@@ -198,7 +198,7 @@ const handleiamgeUpload = async (e) => {
 
   useEffect(() => {
     fetchUser()
-  },[])
+  },[Navigate])
 
 return (
   <div className="min-h-screen w-full bg-gray-50 p-4 flex items-center justify-center">

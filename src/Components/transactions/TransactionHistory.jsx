@@ -15,7 +15,7 @@ import SplitText from "../Reactbits/SplitText.jsx"
 
 function TransactionHistory({ limit, Name }) {
   const Navigate = useNavigate();
-  const { transactions, removeTransaction, setEditTransaction } = useContext(Context);
+  const { transactions, removeTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
   const [filterValue, setFilterValue] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,7 +111,7 @@ function TransactionHistory({ limit, Name }) {
       />)}
       </div>
 
-      <div className="overflow-x-auto shadow-2xl mt-4">
+      <div className="overflow-x-auto  mt-4">
         <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-[#4b5563] rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-[#4b5563]">
           <div>Category</div>
           <div>Amount</div>
