@@ -4,9 +4,9 @@ import LoginForm from '../Components/layout/LoginForm.jsx';
 
 
 const Login = () => {
-  useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-  },[])
+  // useEffect(() => {
+  //   window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+  // },[])
   return (
     <div>
       <LoginForm />

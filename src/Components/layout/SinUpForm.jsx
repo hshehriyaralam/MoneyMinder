@@ -44,12 +44,10 @@ const SignUpForm = () => {
       setFullName('')
       setEmail('')
       setPassword('')
-      console.log("SignUp successfully");
       Navigate('/')
 
 
     }catch(error){
-       console.log("SignUp failed",error.message);
        if(error.response?.status === 400){
         showAlert("error", "ALL filed is Required");
       }else if(error.response?.status === 409){

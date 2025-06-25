@@ -93,7 +93,7 @@ const handleGoogleLogin = () => {
 
  
   return (
-<div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
+<div className="h-screen bg-transparent flex justify-center my-30 overflow-hidden">
   <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
     
     <div className="flex flex-col md:flex-row p-4">
