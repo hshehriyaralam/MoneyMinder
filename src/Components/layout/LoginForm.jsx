@@ -73,9 +73,9 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        triggerTransactionRefresh()
         Navigate('/Dashbaord');
         showAlert('success', 'Successfully Login with Google');
+        triggerTransactionRefresh()
       } catch (err) {
         console.error('Google login error:', err);
         showAlert('error', 'Google login failed');
@@ -93,7 +93,7 @@ const handleGoogleLogin = () => {
 
  
   return (
-<div className="min-h-screen bg-transparent flex justify-center items-center overflow-hidden">
+<div className="h-min-screen bg-transparent flex justify-center items-center overflow-hidden">
   <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
     
     <div className="flex flex-col md:flex-row p-4">
