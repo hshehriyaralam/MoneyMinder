@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6  mb-24  md:mb-0">
+    <div className="w-full p-4 sm:p-6  md:mb-0">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}

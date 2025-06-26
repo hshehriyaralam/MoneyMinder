@@ -49,7 +49,7 @@ const floatingAnimation = {
 }
 const Dock = React.forwardRef(({ items, className }, ref) => {
   return (
-    <div ref={ref} className={cn("fixed -bottom-24  w-full z-50 flex items-center justify-center p-2", className)}>
+    <div ref={ref} className={cn("fixed -bottom-24  w-full z-50 flex items-center justify-center p-2", "pointer-events-none", className)}>
       <div className="w-full max-w-4xl h-64 rounded-2xl flex items-center justify-center relative">
         <motion.div
           initial="initial"
@@ -59,7 +59,8 @@ const Dock = React.forwardRef(({ items, className }, ref) => {
             "flex items-center  p-2 rounded-2xl",
             "backdrop-blur-lg border shadow-lg",
             "bg-background/90 border-border",
-            "hover:shadow-xl  transition-shadow duration-300"
+            "hover:shadow-xl  transition-shadow duration-300",
+            "pointer-events-auto",
           )}
         >
           {items.map((item) => (

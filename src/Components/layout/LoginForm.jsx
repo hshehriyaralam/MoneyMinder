@@ -97,11 +97,8 @@ const handleGoogleLogin = () => {
   <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
     
     <div className="flex flex-col md:flex-row p-4">
-      
-      {/* Left Side - Animation */}
-      <div className="md:w-1/2 flex items-center justify-center md:p-10">
         <AnimateLogin />
-      </div>
+     
 
       {/* Right Side - Form */}
       <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
