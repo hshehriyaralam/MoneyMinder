@@ -145,7 +145,7 @@ const IncomeForm = () => {
                 label={"Description"}
               />
             </div>
-            <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-5">
+            <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-3  z-[9999]">
           <CancellButton  handleBack={handleBack} value={'Go back'} />
           <Button  onclick={handleSubmit} Name={editTransaction ? "Update" : 'Add'} />
             </div>

@@ -56,7 +56,7 @@ const Analytics = () => {
   
 
   return (
-    <div className="w-full min-h-screen p-6 flex flex-col gap-y-3 mb-40 md:mb-0">
+    <div className="w-full min-h-screen p-6 flex flex-col gap-y-3">
       <div id="analytics-page">
   <MontlyBarChart />
   <div className="max-w-4xl h-min-screen p-5 mx-auto ">
@@ -66,7 +66,7 @@ const Analytics = () => {
     <SavingLinBar />
   </div>
 </div>
-      <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2  cursor-pointer'>
+      <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2  z-[9999] cursor-pointer'>
       <DownloadButton  onClick={exportToPDF} />
       </div>
     </div>
