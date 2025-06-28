@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full max-w-full p-4 sm:p-6 md:mb-0 mb-2  shadow-none  md:shadow-xl ">
+    <div className="w-full max-w-full p-4 sm:p-6  shadow-none  md:shadow-xl ">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}
@@ -208,7 +208,7 @@ function TransactionHistory({ limit, Name }) {
           {limit === 6 && (
             <div
             onClick={() => Navigate('/Transactions')}
-            className="flex justify-end pr-6 my-4 cursor-pointer mb-4 ">
+            className="flex justify-end pr-6 my-4 cursor-pointer mb-8">
               <Explore 
                 Name={"Explore All"} 
                 onClick={() => Navigate('/Transactions')} 
@@ -219,7 +219,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
-        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-2 mb-10">
+        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-2 mb-14">
           <Pagination>
             <PaginationItem>
               <PaginationPrevious 
