@@ -51,7 +51,7 @@ const Dock = React.forwardRef(({ items, className }, ref) => {
   return (
     <div ref={ref} className={cn("fixed -bottom-24  w-full z-50 flex items-center justify-center p-2",
       "pointer-events-none", className)}>
-      <div className="w-full max-w-4xl h-64 rounded-2xl flex items-center justify-center relative">
+      <div className="w-full max-w-3xl h-64 rounded-2xl flex items-center justify-center relative">
         <motion.div
           initial="initial"
           animate="animate"

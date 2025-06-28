@@ -91,7 +91,7 @@ const ExpenseForm = () => {
       scale={1.1}
       threshold={0.2}
     >
-      <div className={`h-auto flex items-center justify-center bg-transparent p-4 md:mb-3  mb-10 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
+      <div className={`h-auto flex items-center justify-center bg-transparent p-4 md:mb-3  mb-12 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
         <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg  p-1 flex flex-col">
           <h1 className="text-[#1f2937] text-[26px] text-center mt-2 font-bold">
             {editTransaction ? "Edit Expense" : "Add Expense"}

@@ -202,7 +202,7 @@ const handleiamgeUpload = async (e) => {
 
 return (
   <div className="min-h-screen w-full bg-transparent p-4 flex items-center justify-center  md:mb-0 mb-5">
-      <div className="w-full max-w-5xl bg-transparent rounded-2xl  overflow-hidden">
+      <div className="w-full max-w-5xl bg-transparent rounded-2xl  overflow-hidden md:shadow-2xl">
         <div className=" p-6  text-center  ">
           <SplitText
         text={`Profile`}

@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6 md:mb-0 mb-4">
+    <div className="w-full max-w-full p-4 sm:p-6 md:mb-0 mb-2  shadow-none  md:shadow-xl ">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}
@@ -126,7 +126,7 @@ function TransactionHistory({ limit, Name }) {
           {visibleTransactions.map((item) => (
             <div
               key={item._id}
-              className="grid grid-cols-1 md:grid-cols-7 gap-y-3 rounded-b-lg md:gap-y-0 md:items-end   md:mt-3 p-4 md:text-[15px] text-1xl  mx-8 md:mx-0 text-center "
+              className="grid grid-cols-1 md:grid-cols-7 gap-y-3 rounded-b-lg md:gap-y-0 md:items-end  md:mt-3 p-4 md:text-[15px] text-1xl  mx-8 md:mx-0 text-center "
             >
       
 
@@ -208,7 +208,7 @@ function TransactionHistory({ limit, Name }) {
           {limit === 6 && (
             <div
             onClick={() => Navigate('/Transactions')}
-            className="flex justify-end pr-6 my-4 cursor-pointer ">
+            className="flex justify-end pr-6 my-4 cursor-pointer mb-4 ">
               <Explore 
                 Name={"Explore All"} 
                 onClick={() => Navigate('/Transactions')} 
@@ -219,7 +219,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
-        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-4 mb-5">
+        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-2 mb-10">
           <Pagination>
             <PaginationItem>
               <PaginationPrevious 
