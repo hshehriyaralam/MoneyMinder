@@ -208,7 +208,7 @@ function TransactionHistory({ limit, Name }) {
           {limit === 6 && (
             <div
             onClick={() => Navigate('/Transactions')}
-            className="flex justify-end pr-6 my-4 cursor-pointer mb-8">
+            className="flex justify-end pr-6 my-4 cursor-pointer mb-12 md:mb-2">
               <Explore 
                 Name={"Explore All"} 
                 onClick={() => Navigate('/Transactions')} 
@@ -219,7 +219,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
-        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-2 mb-14">
+        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-2 mb-16 md:mb-6">
           <Pagination>
             <PaginationItem>
               <PaginationPrevious 

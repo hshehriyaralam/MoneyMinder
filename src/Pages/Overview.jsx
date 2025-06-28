@@ -28,7 +28,7 @@ const Overview = () => {
   });
 
   return (
-    <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4 mb-12">
+    <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4  mb-14 md:mb-4">
       <TextAnimate
         delay={0.4}
         duration={1.9}
