@@ -446,7 +446,7 @@ return (
         </div>
 
         {/* Footer - Logout */}
-        <div className="p-6 border-t flex justify-end  z-[9999] md:mb-0  mb-15">
+        <div className="p-6 border-t flex justify-end  z-[9999] md:mb-0 mb-15">
           <LogOutButton  onClick={handleLogOut} />
         </div>
 

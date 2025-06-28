@@ -91,7 +91,7 @@ const IncomeForm = () => {
     scale={1.1}
     threshold={0.2}
   >
-    <div className={`h-auto flex  items-center justify-center bg-transparent p-4 md:mb-3  mb-15 ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
+    <div className={`h-auto flex  items-center justify-center bg-transparent p-4 md:mb-3  mb-20  ${showErrorModal ? "blur-sm pointer-events-none" : ""}`}>
       <div className="w-full max-w-4xl bg-transparent  backdrop-blur-lg rounded-lg  p-1 flex flex-col">
       <h1 className="text-[#1f2937] text-[26px] text-center mt-2 font-bold">
         {editTransaction ? "Edit Income" : "Add Income"}</h1>
@@ -145,7 +145,7 @@ const IncomeForm = () => {
                 label={"Description"}
               />
             </div>
-            <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-3  z-[9999]">
+            <div className="flex gap-3 justify-center md:justify-start md:mx-8 py-3 ">
           <CancellButton  handleBack={handleBack} value={'Go back'} />
           <Button  onclick={handleSubmit} Name={editTransaction ? "Update" : 'Add'} />
             </div>
