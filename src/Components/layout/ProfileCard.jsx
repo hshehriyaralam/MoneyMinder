@@ -201,7 +201,7 @@ const handleiamgeUpload = async (e) => {
   },[Navigate])
 
 return (
-  <div className="min-h-screen w-full bg-gray-50 p-4 flex items-center justify-center">
+  <div className="min-h-screen w-full bg-gray-50 p-4 flex items-center justify-center  md:mb-0 mb-10">
       <div className="w-full max-w-5xl bg-transparent rounded-2xl shadow-2xl overflow-hidden">
         <div className=" p-6  text-center  ">
           <SplitText
@@ -446,7 +446,7 @@ return (
         </div>
 
         {/* Footer - Logout */}
-        <div className="p-6 border-t flex justify-end  z-[9999] md:mb-0 mb-15">
+        <div className="p-6 border-t flex justify-end  my-4">
           <LogOutButton  onClick={handleLogOut} />
         </div>
 

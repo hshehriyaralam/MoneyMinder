@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6  md:mb-3  mb-20">
+    <div className="w-full p-4 sm:p-6 md:mb-0 mb-10 ">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}
@@ -208,7 +208,7 @@ function TransactionHistory({ limit, Name }) {
           {limit === 6 && (
             <div
             onClick={() => Navigate('/Transactions')}
-            className="flex justify-end pr-6 my-10 cursor-pointer ">
+            className="flex justify-end pr-6 my-4 cursor-pointer ">
               <Explore 
                 Name={"Explore All"} 
                 onClick={() => Navigate('/Transactions')} 
