@@ -36,7 +36,7 @@ const AddTransaction = () => {
   </div>
 {isIncome ? <IncomeForm /> : <ExpenseForm /> }
   </div>
-
+ 
 
   )
 }

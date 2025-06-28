@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6">
+    <div className="w-full p-4 sm:p-6   md:mb-2 mb-15">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}
@@ -101,7 +101,7 @@ function TransactionHistory({ limit, Name }) {
         easing="easeOutCubic"
         threshold={0.2}
         rootMargin="-50px"
-        />
+        />md:mb-0  mb-15
         </div>
       <div className='mx-10'>
         { limit === 'all' &&   (<Filters 
@@ -111,7 +111,7 @@ function TransactionHistory({ limit, Name }) {
       />)}
       </div>
 
-      <div className="overflow-x-auto  mt-4">
+      <div className="overflow-x-auto  mt-4 ">
         <div className="hidden md:grid grid-cols-7 py-5 text-center border-b-2 border-[#4b5563] rounded-b-lg bg-transparent bg-opacity-80 backdrop-blur-sm p-3 font-semibold text-[17px] text-[#4b5563]">
           <div>Category</div>
           <div>Amount</div>
