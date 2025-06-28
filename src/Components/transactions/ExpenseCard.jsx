@@ -12,17 +12,7 @@ const ExpenseCard = () => {
   
   const Navigate = useNavigate()
   return (
-    <AnimatedContent
-        distance={300}
-        direction="horizontal"
-        reverse={false}
-        config={{ tension: 80, friction: 20 }}
-        initialOpacity={0.2}
-        animateOpacity
-        scale={1.1}
-        threshold={0.2}
-      >
-    <div 
+       <div 
     style={{color : theme.colors.inputText}}
     className="bg-transparent rounded-lg p-4 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)] transition-all duration-300 w-full md:w-[500px] md:h-62 h-auto flex flex-col md:flex-row md:gap-x-1 items-center justify-center gap-y-4 md:gap-y-2">
       <div className="flex-1 text-center">
@@ -55,7 +45,6 @@ const ExpenseCard = () => {
         <img src={expenseLogo} alt="Expense-Vector" className="w-48 sm:w-56 md:w-56 mt-2 md:mt-0 md:ml-4" />
       </AnimatedContent>
     </div>
-    </AnimatedContent>
   );
 };
 

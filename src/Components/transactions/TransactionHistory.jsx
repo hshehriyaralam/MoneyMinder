@@ -90,7 +90,7 @@ function TransactionHistory({ limit, Name }) {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6 md:mb-0 mb-10 ">
+    <div className="w-full p-4 sm:p-6 md:mb-0 mb-4">
       <div className='flex justify-center'>
       <SplitText
         text={`${Name}`}
@@ -219,7 +219,7 @@ function TransactionHistory({ limit, Name }) {
       </div>
 
       {limit === 'all' && sortedTransactions.length > itemsPerPage && (
-        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-4">
+        <div className="flex list-none text-[#1f2937] font-bold justify-center mt-4 mb-5">
           <Pagination>
             <PaginationItem>
               <PaginationPrevious 

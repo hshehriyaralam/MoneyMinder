@@ -61,7 +61,7 @@ const Dock = React.forwardRef(({ items, className }, ref) => {
             "backdrop-blur-lg border shadow-lg",
             "bg-background/90 border-border",
             "hover:shadow-xl  transition-shadow duration-300",
-             "pointer-events-auto",
+            "pointer-events-auto",
           )}
         >
           {items.map((item) => (

@@ -66,7 +66,7 @@ const Analytics = () => {
     <SavingLinBar />
   </div>
 </div>
-      <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2 cursor-pointer mb-20 md:mb-0'>
+      <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2 cursor-pointer mb-15 md:mb-0'>
       <DownloadButton  onClick={exportToPDF} />
       </div>
     </div>
