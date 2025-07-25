@@ -103,10 +103,10 @@ A full-featured **Finance Tracking App** built using the **MERN Stack** that all
 
 ```bash
 # Clone the repository
-git clone 
+git clone https://github.com/hshehriyaralam/MoneyMinder.git
 
 # Navigate to project folder
-cd finance-tracker
+cd MoneyMinder
 
 # Install dependencies
 npm install
