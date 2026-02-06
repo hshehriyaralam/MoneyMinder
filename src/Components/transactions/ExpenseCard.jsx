@@ -1,16 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useMemo } from 'react';
 import ExpenseButton from '../comman/ExpenseButton';
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "../../assets/images/9610082-removebg-preview.png";
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../../Context/TransactionContext.jsx';
 import {theme} from  "../theme/theme.js"
+import { getTotalExpense } from '@/lib/calculations.js';
+import useTransactionStore from '@/store/transactions.js';
 
 const ExpenseCard = () => {
-  const {expenseAmount} = useContext(Context)
-  
   const Navigate = useNavigate()
+  const transactions  = useTransactionStore(state => state.transactions)
+
+
+  const totalExpense  = useMemo(
+    ()  => getTotalExpense(transactions),
+    [transactions]
+  )
+  
   return (
        <div 
     style={{color : theme.colors.inputText}}
@@ -21,7 +28,7 @@ const ExpenseCard = () => {
           -$
           <CountUp
             from={0}
-            to={`${expenseAmount}`}
+            to={`${totalExpense}`}
             separator="," 
             direction="up"
             duration={1}

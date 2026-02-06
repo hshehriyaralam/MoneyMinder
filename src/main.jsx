@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
 <TransactionContext >
   <App />
 </TransactionContext>
-  </AlertProvider>
+  </AlertProvider>  
    </GoogleOAuthProvider>
 
 )

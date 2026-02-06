@@ -1,32 +1,64 @@
-import React, { useContext } from 'react';
-import { TextAnimate } from '../Components/magicui/text-animate';
-import SavingCard from '../Components/OverviewComponents/SavingCard';
-import CategoriesCard from '../Components/OverviewComponents/CategoriesCard';
-import { Context } from '../Context/TransactionContext.jsx';
+import React, { useEffect, useMemo, useCallback } from "react";
+import { TextAnimate } from "../Components/magicui/text-animate";
+import SavingCard from "../Components/OverviewComponents/SavingCard";
+import CategoriesCard from "../Components/OverviewComponents/CategoriesCard";
+import useTransactionStore from "@/store/transactions.js";
+import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
 
 const Overview = () => {
-  const { transactions } = useContext(Context);
+  const transactions = useTransactionStore((state) => state.transactions);
+  const fetchTransactions = useTransactionStore(
+    (state) => state.fetchTransactions,
+  );
 
-  const categoryMap = {};
-  transactions.forEach((t) => {
-    const key = `${t.category}-${t.type}`;
-    if (!categoryMap[key]) {
-      categoryMap[key] = 0;
-    }
-    categoryMap[key] += Number(t.amount);
-  });
+  const totalIncome = useMemo(
+    () => getTotalIncome(transactions),
+    [transactions],
+  );
 
-  const categoryWithPercentage = Object.entries(categoryMap).map(([key, totalAmount]) => {
-    const [category, type] = key.split('-');
-    const totalBase = type === 'income'
-      ? transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + Number(t.amount), 0)
-      : transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + Number(t.amount), 0);
+  const totalExpense = useMemo(
+    () => getTotalExpense(transactions),
+    [transactions],
+  );
 
-    const percentage = totalBase > 0 ? Math.round((totalAmount / totalBase) * 100) : 0;
+  const balanceAmount = useMemo(
+    () => totalIncome - totalExpense,
+    [totalIncome, totalExpense],
+  );
 
-    return { category, type, amount: totalAmount, percentage: `${percentage}` };
-  });
+  const buildCategoryMap = useCallback(() => {
+    const map = {};
 
+    transactions.forEach((t) => {
+      const key = `${t.category}-${t.type}`;
+      map[key] = (map[key] || 0) + Number(t.amount);
+    });
+
+    return map;
+  }, [transactions]);
+
+  const categoryWithPercentage = useMemo(() => {
+    const categoryMap = buildCategoryMap();
+
+    return Object.entries(categoryMap).map(([key, amount]) => {
+      const [category, type] = key.split("-");
+
+      const base = type === "income" ? totalIncome : totalExpense;
+
+      const percentage = base > 0 ? Math.round((amount / base) * 100) : 0;
+
+      return {
+        category,
+        type,
+        amount,
+        percentage: `${percentage}`,
+      };
+    });
+  }, [buildCategoryMap, totalIncome, totalExpense]);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
   return (
     <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4  mb-14 md:mb-4">
       <TextAnimate
@@ -39,26 +71,30 @@ const Overview = () => {
         {"Overview"}
       </TextAnimate>
       <div className="w-full flex justify-center">
-        <SavingCard />
-      </div>
-      <div className="w-full flex flex-wrap gap-6 ">
-  {categoryWithPercentage.length > 0 ? (
-    categoryWithPercentage.map((item, index) => (
-      <div key={index} className="flex-1 min-w-[250px] max-w-[400px]">
-        <CategoriesCard
-          category={item.category}
-          type={item.type}
-          amount={item.amount}
-          percentage={item.percentage}
+        <SavingCard
+          totalIncome={totalIncome}
+          totalExpense={totalExpense}
+          BalanceAmount={balanceAmount}
         />
       </div>
-    ))
-  ) : (
-    <p className="text-center w-full text-[#2d5385]">No transaction history.</p>
-  )}
-</div>
-
-
+      <div className="w-full flex flex-wrap gap-6 ">
+        {categoryWithPercentage.length > 0 ? (
+          categoryWithPercentage.map((item, index) => (
+            <div key={index} className="flex-1 min-w-[250px] max-w-[400px]">
+              <CategoriesCard
+                category={item.category}
+                type={item.type}
+                amount={item.amount}
+                percentage={item.percentage}
+              />
+            </div>
+          ))
+        ) : (
+          <p className="text-center w-full text-[#2d5385]">
+            No transaction history.
+          </p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,49 +1,60 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Context } from '../../Context/TransactionContext.jsx';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select'; 
+import React, { useState, useMemo, useCallback } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 import dayjs from 'dayjs';
 
-const SavingLinBar = () => {
-  const { transactions } = useContext(Context);
+const SavingLinBar = ({ transactions }) => {
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM'));
-  const [chartData, setChartData] = useState([]);
 
-  useEffect(() => {
-    const filteredTransactions = transactions.filter(transaction => {
-      const transactionMonth = dayjs(transaction.createdAt).format('YYYY-MM');
-      return transactionMonth === selectedMonth;
-    });
+  /* ------------ Month Change Handler ------------ */
+  const handleMonthChange = useCallback((value) => {
+    setSelectedMonth(value);
+  }, []);
 
+  /* ------------ Filtered Transactions (Month-wise) ------------ */
+  const monthTransactions = useMemo(() => {
+    return transactions.filter(txn =>
+      dayjs(txn.createdAt).format('YYYY-MM') === selectedMonth
+    );
+  }, [transactions, selectedMonth]);
+
+  /* ------------ Chart Data (Daily Savings) ------------ */
+  const chartData = useMemo(() => {
     const dailySavings = {};
-    filteredTransactions.forEach((transaction) => {
-      const date = dayjs(transaction.createdAt).format('YYYY-MM-DD'); 
+
+    monthTransactions.forEach(txn => {
+      const date = dayjs(txn.createdAt).format('YYYY-MM-DD');
+
       if (!dailySavings[date]) {
         dailySavings[date] = { income: 0, expense: 0 };
       }
 
-      if (transaction.type === 'income') {
-        dailySavings[date].income += Number(transaction.amount);
-      } else if (transaction.type === 'expense') {
-        dailySavings[date].expense += Number(transaction.amount);
+      if (txn.type === 'income') {
+        dailySavings[date].income += Number(txn.amount);
+      } else if (txn.type === 'expense') {
+        dailySavings[date].expense += Number(txn.amount);
       }
     });
 
-    const transformedData = Object.keys(dailySavings).map((date) => ({
-      date,
-      savings: dailySavings[date].income - dailySavings[date].expense,
-    }));
-
-    setChartData(transformedData);
-
-  }, [selectedMonth, transactions]);
-
-  const handleMonthChange = (value) => {
-    setSelectedMonth(value);
-  };
+    return Object.entries(dailySavings)
+      .map(([date, values]) => ({
+        date,
+        savings: values.income - values.expense,
+      }))
+      .sort((a, b) => dayjs(a.date).unix() - dayjs(b.date).unix());
+  }, [monthTransactions]);
 
   return (
-    <div className="p-6 bg-[#FAF9F6] rounded-lg shadow-md">
+ <div className="p-6 bg-[#FAF9F6] rounded-lg shadow-md">
       <h1 className='text-2xl font-bold md:text-left  text-center m-3 text-[#1f2937]'>Savings Analytics</h1>
       
       <div className="mb-6">

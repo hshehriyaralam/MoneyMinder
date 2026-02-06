@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { Context } from '@/Context/TransactionContext.jsx';
+import React, { useContext, useMemo } from 'react';
 import CountUp from "../comman/CountUp.jsx"; 
 
-const SavingCard = () => {
-  const { incomeAmount, expenseAmount, BalanceAmount } = useContext(Context);
+
+
+const SavingCard = ({ totalIncome, totalExpense, BalanceAmount }) => {
 
   return (
     <div className="bg-transparent rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 w-full max-w-3xl mx-auto flex flex-col items-center space-y-6 backdrop-blur-md mb-10">
@@ -14,7 +14,7 @@ const SavingCard = () => {
           <p className="text-[#1f2937] text-[14px] font-semibold">Total Income</p>
           <h2 className="text-[#11bb52] text-[20px] font-bold">
             <CountUp  from={0}
-                to={`${incomeAmount}`}
+                to={`${totalIncome}`}
                 separator=","
                 direction="up"
                 duration={1}
@@ -27,7 +27,7 @@ const SavingCard = () => {
           <h2 className="text-[#e70c0c] text-[20px] font-bold">
             <CountUp
             from={0}
-            to={`${expenseAmount}`}
+            to={`${totalExpense}`}
                 separator=","
                 direction="up"
                 duration={1}
@@ -53,4 +53,4 @@ const SavingCard = () => {
   );
 };
 
-export default SavingCard;
+export default React.memo(SavingCard);

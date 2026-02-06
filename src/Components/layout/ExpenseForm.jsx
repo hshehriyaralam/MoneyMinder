@@ -4,12 +4,16 @@ import Input from "../comman/InputVerse";
 import CategoryDropdown from "../ExpenseComponents/Dropdown";
 import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
-import { Context } from "../../Context/TransactionContext.jsx";
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../comman/AnimatedContent";
+import useTransactionStore from "@/store/transactions";
+import { useAlert } from "@/Context/AlertContext.jsx";
+
+
 
 const ExpenseForm = () => {
   const Navigate = useNavigate();
+    const {showAlert} = useAlert();
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -17,69 +21,83 @@ const ExpenseForm = () => {
   const [time, setTime] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
-  const { addTransaction, editTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
+  // Zustand store hooks
+  const addTransaction = useTransactionStore((state) => state.addTransaction);
+  const editTransaction = useTransactionStore((state) => state.editTransaction);
+  const clearEditTransaction = useTransactionStore(
+    (state) => state.clearEditTransaction
+  );
 
-  useEffect(() => {
-    if (editTransaction) {
-      setAmount(editTransaction.amount);
-      setCategory(editTransaction.category);
-      setDescription(editTransaction.description);
-      setDate(editTransaction.date);
-      setTime(editTransaction.time);
-    }
-  }, [editTransaction]);
 
-  useEffect(() => {
-    return () => {
-      setEditTransaction(null);
-      resetForm();
-    };
-  }, []);
-
-  const resetForm = () => {
-    setAmount('');
-    setDescription('');
-    setCategory('');
-    setDate('');
-    setTime('');
+   const resetForm = () => {
+    setAmount("");
+    setCategory("salary");
+    setDescription("");
+    setDate("");
+    setTime("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const emptyFields = [];
 
-    if (!amount) emptyFields.push("Amount");
-    if (!category) emptyFields.push("Category");
-    if (!date) emptyFields.push("Date");
-    if (!time) emptyFields.push("Time");
-    if (!description) emptyFields.push("Description");
+    // Validation
+    const emptyField = [];
+    if (!amount) emptyField.push("Amount");
+    if (!category) emptyField.push("Category");
+    if (!date) emptyField.push("Date");
+    if (!time) emptyField.push("Time");
+    if (!description) emptyField.push("Description");
 
-    if (emptyFields.length > 0) {
-      setMissingFields(emptyFields);
+    if (emptyField.length > 0) {
+      setMissingFields(emptyField);
       setShowErrorModal(true);
       return;
     }
 
-    addTransaction({
+    // Call Zustand action
+    await addTransaction({
       category,
       date,
       time,
       amount,
       description,
-      type: "expense"
+      type: "expense",
+    }, (type, msg) => {
+      showAlert(type, msg);
+
     });
 
     resetForm();
-    triggerTransactionRefresh()
-    Navigate('/Dashbaord');
+    Navigate("/Dashbaord");
   };
 
-  const handleBack = (e) => {
+
+    const handleBack = (e) => {    
     e.preventDefault();
-    setEditTransaction(null);
-    Navigate('/Dashbaord');
-  };
-
+    clearEditTransaction();
+    Navigate("/Dashbaord");
+    };
+  
+  
+  
+     // Populate form if editing
+    useEffect(() => {
+      if (editTransaction) {
+        setAmount(editTransaction.amount);
+        setCategory(editTransaction.category);
+        setDescription(editTransaction.description);
+        setDate(editTransaction.date);
+        setTime(editTransaction.time);
+      }
+    }, [editTransaction]);
+  
+   // Reset form on unmount
+    useEffect(() => {
+      return () => {
+        resetForm();
+        clearEditTransaction();
+      };
+    }, []);
   return (
     <AnimatedContent
       distance={300}

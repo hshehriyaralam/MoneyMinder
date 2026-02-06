@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../../Context/TransactionContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import CountUp from '../comman/CountUp';
@@ -10,16 +10,34 @@ import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
 import Filters from '../layout/Filters';
 import SplitText from "../Reactbits/SplitText.jsx"
+import  useTransactionStore  from '@/store/transactions.js';
+import { useAlert } from "@/Context/AlertContext.jsx";
+
+
 
 
 
 function TransactionHistory({ limit, Name }) {
+  const {showAlert} = useAlert();
+  const transactions = useTransactionStore((state ) => state.transactions)
+  const fetchTransactions = useTransactionStore((state ) => state.fetchTransactions)
+  const removeTransaction = useTransactionStore((state ) => state.removeTransaction)
+  const setEditTransaction = useTransactionStore(
+  (state) => state.setEditTransaction
+);
   const Navigate = useNavigate();
-  const { transactions, removeTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
+  // const {  removeTransaction } = useContext(Context);
   const [filterValue, setFilterValue] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+
+  const deleteTransaction = (id) => {
+    removeTransaction(id, (type, msg) => {
+      showAlert(type, msg);
+    });
+  }
 
   const sortedTransactions = React.useMemo(() => {
     return [...transactions].sort((a, b) => {
@@ -89,6 +107,10 @@ function TransactionHistory({ limit, Name }) {
     }
   };
 
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
   return (
     <div className="w-full max-w-full p-4 sm:p-6  shadow-none  md:shadow-xl ">
       <div className='flex justify-center'>
@@ -108,6 +130,7 @@ function TransactionHistory({ limit, Name }) {
         onSelectValue={setFilterValue} 
         selectedCategory={selectedCategory} 
         setSelectCategory={setSelectedCategory}
+        transactions={transactions}
       />)}
       </div>
 
@@ -192,14 +215,14 @@ function TransactionHistory({ limit, Name }) {
               <div className="flex md:justify-center  items-center justify-center space-x-3">
                 <Button
                   Name={"Edit"}
-                  onClick={() => {
+                    onClick={() => {
                     setEditTransaction(item);
                     Navigate(`/AddTransaction?type=${item.type}`);
                   }}
                 />
                 <DeleteButton 
                   Name={"Delete"} 
-                  onClick={() => removeTransaction(item._id)} 
+                  onClick={() => deleteTransaction(item._id)} 
                 />
               </div>
             </div>

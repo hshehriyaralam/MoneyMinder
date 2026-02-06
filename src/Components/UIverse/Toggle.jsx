@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 const Toggle = ({ isIncome, setIsIncome }) => {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 bg-gray-100 rounded-full p-1 ">
       <span className={`text-sm font-bold ${isIncome ? "text-amber-500" : "text-[#4b5563]"}`}>
         Income
       </span>
       <button
         onClick={() => setIsIncome(!isIncome)}
-        className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
+        className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors ${
           isIncome ? "bg-[#0D4D66]" : "bg-gray-300"
         }`}
       >

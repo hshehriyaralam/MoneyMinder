@@ -6,7 +6,7 @@ import GoogleButton from "../UIverse/GoogleButto.jsx"
 import ButtonComponent from "../comman/VerseButton.jsx";
 import axios from 'axios';
 import { useAlert } from "../../Context/AlertContext.jsx";
-import { Context } from '../../Context/TransactionContext.jsx';
+
 
 
 
@@ -17,7 +17,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const Navigate = useNavigate()
   const { showAlert } = useAlert();
-  const {triggerTransactionRefresh} = useContext(Context)
+
   
 const handleLogin = async (e) => {
   e.preventDefault()
@@ -29,7 +29,6 @@ const handleLogin = async (e) => {
   {
     withCredentials : true
   })
-  triggerTransactionRefresh()
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
@@ -73,7 +72,6 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        triggerTransactionRefresh()
         showAlert('success', 'Successfully Login with Google');
         Navigate('/Dashbaord');
       } catch (err) {

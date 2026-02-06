@@ -1,15 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import ElasticSlider from "../Reactbits/InputRange";
-import { Context } from "../../Context/TransactionContext.jsx";
 import DropDown from "../Reactbits/Dropdown";
-const Filters = ({ onSelectValue, selectedCategory, setSelectCategory }) => {
+ const Filters = ({ onSelectValue, selectedCategory, setSelectCategory,transactions })  => {
+
   const [selectValue, setSelectValue] = useState(100);
-  const { maxValue, minValue } = useContext(Context);
+  console.log("selectValue", selectValue)
 
   const handleSliderChange = (value) => {
     setSelectValue(value);
-    onSelectValue(value);x
+    onSelectValue(value);
   };
+
+  const  maxValue = useMemo(() => { return transactions.length > 0 ? Math.max(...transactions.map(t => Number(t.amount))) : 0; }, [transactions]);
+
+  const  minValue = useMemo(() => { return transactions.length > 0 ? Math.min(...transactions.map(t => Number(t.amount))) : 0; }, [transactions]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-y-3 gap-x-10  my-3 md:flex md:flex-row  md:justify-end">
@@ -26,6 +30,6 @@ const Filters = ({ onSelectValue, selectedCategory, setSelectCategory }) => {
       />
     </div>
   );
-};
+}
 
-export default Filters;
+export default React.memo(Filters);

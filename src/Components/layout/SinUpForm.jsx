@@ -19,7 +19,6 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('') 
   const  Navigate = useNavigate()
   const { showAlert } = useAlert();
-  const {triggerTransactionRefresh} = useContext(Context)
   
 
 
@@ -83,7 +82,6 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        triggerTransactionRefresh()
         showAlert('success', 'Successfully signup with Google');
         Navigate('/Dashbaord');
       } catch (err) {

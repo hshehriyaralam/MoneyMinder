@@ -5,22 +5,81 @@ import CategoryDropdown from "../comman/Dropdown";
 import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../Context/TransactionContext.jsx";
 import AnimatedContent from "../comman/AnimatedContent";
+import useTransactionStore from "@/store/transactions";
+import { useAlert } from "@/Context/AlertContext.jsx";
 
 const IncomeForm = () => {
   const Navigate = useNavigate();
+  const {showAlert} = useAlert();
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("salary");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [missingFields, setMisingFields] = useState([]);
-  const { addTransaction, editTransaction, setEditTransaction,triggerTransactionRefresh } = useContext(Context);
+  const [missingFields, setMissingFields] = useState([]);
 
+// Zustand store hooks
+  const addTransaction = useTransactionStore((state) => state.addTransaction);
+  const editTransaction = useTransactionStore((state) => state.editTransaction);
+  const clearEditTransaction = useTransactionStore(
+    (state) => state.clearEditTransaction
+  );
+
+
+ const resetForm = () => {
+    setAmount("");
+    setCategory("salary");
+    setDescription("");
+    setDate("");
+    setTime("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validation
+    const emptyField = [];
+    if (!amount) emptyField.push("Amount");
+    if (!category) emptyField.push("Category");
+    if (!date) emptyField.push("Date");
+    if (!time) emptyField.push("Time");
+    if (!description) emptyField.push("Description");
+
+    if (emptyField.length > 0) {
+      setMissingFields(emptyField);
+      setShowErrorModal(true);
+      return;
+    }
+
+    // Call Zustand action
+    await addTransaction({
+      category,
+      date,
+      time,
+      amount,
+      description,
+      type: "income",
+    }, (type, msg) => {
+      showAlert(type, msg);
+    });
+    
+    resetForm();
+    Navigate("/Dashbaord");
+  };
+
+  const handleBack = (e) => {    
+  e.preventDefault();
+  clearEditTransaction();
+  Navigate("/Dashbaord");
+  };
+
+
+
+   // Populate form if editing
   useEffect(() => {
-    if(editTransaction){
+    if (editTransaction) {
       setAmount(editTransaction.amount);
       setCategory(editTransaction.category);
       setDescription(editTransaction.description);
@@ -29,56 +88,13 @@ const IncomeForm = () => {
     }
   }, [editTransaction]);
 
+ // Reset form on unmount
   useEffect(() => {
     return () => {
-      setEditTransaction(null);
       resetForm();
+      clearEditTransaction();
     };
   }, []);
-
-  const resetForm = () => {
-    setAmount('');
-    setDescription('');
-    setCategory('salary');
-    setDate('');
-    setTime('');
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const emptyField = [];
-
-    if(!amount) emptyField.push("Amount");
-    if(!category) emptyField.push("Category");
-    if(!date) emptyField.push("Date");  
-    if(!time) emptyField.push("Time");
-    if(!description) emptyField.push("Description");
-
-    if(emptyField.length > 0){
-      setMisingFields(emptyField);
-      setShowErrorModal(true);
-      return;
-    }
-
-    addTransaction({
-      category,
-      date,
-      time,
-      amount,
-      description,
-      type: "income"
-    });
-    
-    resetForm();
-    triggerTransactionRefresh()
-    Navigate('/Dashbaord');
-  };
-
-  const handleBack = (e) => {    
-    e.preventDefault();
-    setEditTransaction(null);
-    Navigate('/Dashbaord');
-  };
 
   return (
     <AnimatedContent

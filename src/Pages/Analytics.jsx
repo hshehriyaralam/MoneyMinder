@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import MontlyBarChart from '../Components/AnaylyticsComponents/BarChart';
 import ExpensePieChart from '../Components/AnaylyticsComponents/ExpensePieChart';
 import SavingLinBar from '../Components/AnaylyticsComponents/SavingLinBar.jsx';
 import DownloadButton from "../Components/UIverse//DownloadButton.jsx"
+import  useTransactionStore  from '@/store/transactions.js';
+
 
 const Analytics = () => {
+  const transactions = useTransactionStore((state ) => state.transactions)
+  const fetchTransactions = useTransactionStore((state ) => state.fetchTransactions)
   // Export Function for PDF
   const exportToPDF = () => {
   const chartElement = document.getElementById('analytics-page');
@@ -53,17 +57,21 @@ const Analytics = () => {
     console.error('PDF generation error:', error);
   });
 };
-  
+
+useEffect(() => {
+  fetchTransactions();
+}, []);
+
 
   return (
     <div className="w-full min-h-screen p-6 flex flex-col gap-y-3">
       <div id="analytics-page">
-  <MontlyBarChart />
+  <MontlyBarChart  transactions={transactions} />
   <div className="max-w-4xl h-min-screen p-5 mx-auto ">
-    <ExpensePieChart />
+    <ExpensePieChart   transactions={transactions}/>
   </div>
   <div className="w-full p-2 border-1  shadow-xl rounded-lg border-black mt-2">
-    <SavingLinBar />
+    <SavingLinBar transactions={transactions} />
   </div>
 </div>
       <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2 cursor-pointer mb-15 md:mb-0'>

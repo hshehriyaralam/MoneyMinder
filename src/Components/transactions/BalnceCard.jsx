@@ -1,15 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from "react";
 import CashPick1 from "../../assets/images/cash-amount2.png";
-import AnimatedContent from '../comman/AnimatedContent.jsx';
+import AnimatedContent from "../comman/AnimatedContent.jsx";
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
-import { Context } from '../../Context/TransactionContext.jsx';
-import SplitText from "../Reactbits/SplitText.jsx"
-
-
+import SplitText from "../Reactbits/SplitText.jsx";
+import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
+import useTransactionStore from "@/store/transactions.js";
 
 const BalanceCard = () => {
-  const {incomeAmount,expenseAmount,BalanceAmount}  = useContext(Context)
+  const transactions = useTransactionStore((state) => state.transactions);
+
+  // total income
+  const totalIncome = useMemo(
+    () => getTotalIncome(transactions),
+    [transactions],
+  );
+
+  // total expense
+  const totalExpense = useMemo(
+    () => getTotalExpense(transactions),
+    [transactions],
+  );
+
+  // Balance
+  const BalanceAmount = useMemo(() => {
+    return totalIncome - totalExpense;
+  }, [totalIncome, totalExpense]);
+
   return (
     <div className="bg-transparent rounded-lg p-4 md:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]  transition-all duration-300 w-full max-w-lg md:max-w-4xl mx-auto h-auto flex flex-col md:flex-row items-center justify-center">
       <div className="flex-1 text-center w-full">
@@ -22,17 +39,16 @@ const BalanceCard = () => {
           pauseBetweenAnimations={1}
         />
         <div className="flex justify-center items-center my-2">
-            <SplitText
-                  text={`$${BalanceAmount}`}
-                  className=" text-3xl md:text-[26px] font-lexend font-bold text-[#1f2937]"
-                  delay={150}
-                  animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
-                  animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-                  easing="easeOutCubic"
-                  threshold={0.2}
-                  rootMargin="-50px"
-                  />
-           
+          <SplitText
+            text={`$${BalanceAmount}`}
+            className=" text-3xl md:text-[26px] font-lexend font-bold text-[#1f2937]"
+            delay={150}
+            animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
+            animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+            easing="easeOutCubic"
+            threshold={0.2}
+            rootMargin="-50px"
+          />
         </div>
         <div className="flex justify-center space-x-4 md:space-x-8 flex-wrap w-full">
           <div className="text-center w-1/2 md:w-auto">
@@ -41,7 +57,7 @@ const BalanceCard = () => {
               +$
               <CountUp
                 from={0}
-                to={`${incomeAmount}`}
+                to={`${totalIncome}`}
                 separator=","
                 direction="up"
                 duration={1}
@@ -55,7 +71,7 @@ const BalanceCard = () => {
               -$
               <CountUp
                 from={0}
-                to={`${expenseAmount}`}
+                to={`${totalExpense}`}
                 separator=","
                 direction="up"
                 duration={1}
@@ -75,9 +91,9 @@ const BalanceCard = () => {
         scale={1.1}
         threshold={0.2}
       >
-        <img 
-          src={CashPick1} 
-          alt="Balance-Vector" 
+        <img
+          src={CashPick1}
+          alt="Balance-Vector"
           className="w-48 md:w-[500px] max-w-full h-auto mt-2 md:mt-0 md:ml-6"
         />
       </AnimatedContent>
