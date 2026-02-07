@@ -72,7 +72,7 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        showAlert('success', 'Successfully Login with Google');
+        // showAlert('success', 'Successfully Login with Google');
         Navigate('/Dashbaord');
       } catch (err) {
         console.error('Google login error:', err);

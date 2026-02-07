@@ -82,7 +82,7 @@ const handleGoogleLogin = () => {
         }, {
           withCredentials: true,
         });
-        showAlert('success', 'Successfully signup with Google');
+        // showAlert('success', 'Successfully signup with Google');
         Navigate('/Dashbaord');
       } catch (err) {
         console.error('Google login error:', err);
