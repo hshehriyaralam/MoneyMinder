@@ -1,11 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Context } from '../../Context/TransactionContext.jsx';
+import React, {  useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CountUp from '../comman/CountUp';
-import DecryptedText from '../Reactbits/DecryptedText';
 import ShinyText from '../Reactbits/ShinnyText';
 import Button from "../UIverse/EditButtton";
-import DeleteButton from "../UIverse/DeleteButton";
 import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
 import Filters from '../layout/Filters';
@@ -17,7 +13,7 @@ import { useAlert } from "@/Context/AlertContext.jsx";
 
 
 
-function TransactionHistory({ limit, Name }) {
+const TransactionHistory = React.memo(({ limit, Name }) => {
   const {showAlert} = useAlert();
   const transactions = useTransactionStore((state ) => state.transactions)
   const fetchTransactions = useTransactionStore((state ) => state.fetchTransactions)
@@ -26,7 +22,6 @@ function TransactionHistory({ limit, Name }) {
   (state) => state.setEditTransaction
 );
   const Navigate = useNavigate();
-  // const {  removeTransaction } = useContext(Context);
   const [filterValue, setFilterValue] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +34,7 @@ function TransactionHistory({ limit, Name }) {
     });
   }
 
-  const sortedTransactions = React.useMemo(() => {
+  const sortedTransactions = useMemo(() => {
     return [...transactions].sort((a, b) => {
       if (a.createdAt && b.createdAt) {
         return new Date(b.createdAt) - new Date(a.createdAt);
@@ -48,7 +43,7 @@ function TransactionHistory({ limit, Name }) {
     });
   }, [transactions]);
   
-  const filteredTrnsaction = React.useMemo(() => {
+  const filteredTrnsaction = useMemo(() => {
     return sortedTransactions.filter((tnx) => {
       const isAboveAmount = tnx.amount >= filterValue;
       const isCategoryMatch =
@@ -145,7 +140,7 @@ function TransactionHistory({ limit, Name }) {
           <div>Actions</div>
         </div>
 
-        <div className="divide-y-1 py-3 divide-[#4b5563] text-[#4b5563]   ">
+        <div className="divide-y-1 py-3 divide-[#4b5563] text-[#4b5563]  mb-10 lg:mb-0   ">
           {visibleTransactions.map((item) => (
             <div
               key={item._id}
@@ -164,14 +159,7 @@ function TransactionHistory({ limit, Name }) {
                 item.type === "income" ? "text-[#11bb52]" : "text-[#e70c0c]"
               }`}>
                 {item.type === "income" ? "+" : "-"}$
-                <CountUp 
-                  from={0} 
-                  to={item.amount} 
-                  separator="," 
-                  direction="up" 
-                  duration={1} 
-                  className="inline" 
-                />
+                {item.amount}
               </div>
 
                {/* Type */}
@@ -190,19 +178,11 @@ function TransactionHistory({ limit, Name }) {
 
               {/* Date */}
               <div className="text-[#4b5563]">
-                <DecryptedText 
-                  text={formatDate(item.date)} 
-                  animateOn="view" 
-                  revealDirection="center" 
-                />
+                {item.date}
               </div>
               {/* Time */}
               <div className="text-[#4b5563]">
-                <DecryptedText 
-                  text={formatTime(item.time)} 
-                  animateOn="view" 
-                  revealDirection="left" 
-                />
+                {item.time}
               </div>
 
               {/* Description */}
@@ -220,10 +200,10 @@ function TransactionHistory({ limit, Name }) {
                     Navigate(`/AddTransaction?type=${item.type}`);
                   }}
                 />
-                <DeleteButton 
-                  Name={"Delete"} 
-                  onClick={() => deleteTransaction(item._id)} 
-                />
+                <button  className='px-2 py-1.5 rounded-full text-xs font-semibold bg-[#e70c0c] text-white flex justify-center items-center  cursor-pointer  '
+                 onClick={() => deleteTransaction(item._id)} >
+                  Delete
+                </button>
               </div>
             </div>
           ))}
@@ -281,6 +261,6 @@ function TransactionHistory({ limit, Name }) {
       )}
     </div>
   );
-}
+})
 
 export default TransactionHistory;

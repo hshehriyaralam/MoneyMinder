@@ -12,7 +12,7 @@ import {
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 import dayjs from 'dayjs';
 
-const SavingLinBar = ({ transactions }) => {
+const SavingLinBar = React.memo(({ transactions }) => {
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format('YYYY-MM'));
 
   /* ------------ Month Change Handler ------------ */
@@ -107,6 +107,6 @@ const SavingLinBar = ({ transactions }) => {
 
     </div>
   );
-};
+})
 
 export default SavingLinBar;

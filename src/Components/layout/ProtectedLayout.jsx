@@ -11,7 +11,7 @@ const ProtectedLayout = () => {
     const checkUser = async () => {
       const user = await fetchUserUtils(); 
       if (!user) {
-        navigate('/'); 
+        navigate('/Login'); 
       } else {
         setLoading(false); 
       }

@@ -36,7 +36,7 @@ const COLORS = [
   "#ADFF2F",
 ];
 
-const ExpensePieChart = ({ transactions }) => {
+const ExpensePieChart = React.memo(({ transactions }) => {
   const [selectedMonth, setSelectedMonth] = useState(dayjs().format("YYYY-MM"));
 
   /* ---------------- Month Change Handler ---------------- */
@@ -261,6 +261,6 @@ const ExpensePieChart = ({ transactions }) => {
       )}
     </div>
   );
-};
+})
 
 export default ExpensePieChart;

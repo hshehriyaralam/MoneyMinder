@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AnimatedAvatar from "../comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../ExpenseComponents/Dropdown";
@@ -11,7 +11,8 @@ import { useAlert } from "@/Context/AlertContext.jsx";
 
 
 
-const ExpenseForm = () => {
+
+const ExpenseForm = React.memo(() => {
   const Navigate = useNavigate();
     const {showAlert} = useAlert();
   const [amount, setAmount] = useState("");
@@ -68,14 +69,14 @@ const ExpenseForm = () => {
     });
 
     resetForm();
-    Navigate("/Dashbaord");
+    Navigate("/");
   };
 
 
     const handleBack = (e) => {    
     e.preventDefault();
     clearEditTransaction();
-    Navigate("/Dashbaord");
+    Navigate("/");
     };
   
   
@@ -189,6 +190,6 @@ const ExpenseForm = () => {
       )}
     </AnimatedContent>
   );
-};
+})
 
 export default ExpenseForm;

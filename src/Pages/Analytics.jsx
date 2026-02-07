@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect ,lazy,Suspense} from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import MontlyBarChart from '../Components/AnaylyticsComponents/BarChart';
-import ExpensePieChart from '../Components/AnaylyticsComponents/ExpensePieChart';
-import SavingLinBar from '../Components/AnaylyticsComponents/SavingLinBar.jsx';
-import DownloadButton from "../Components/UIverse//DownloadButton.jsx"
 import  useTransactionStore  from '@/store/transactions.js';
+
+const ExpensePieChart = lazy(() => import('../Components/AnaylyticsComponents/ExpensePieChart.jsx'));
+const SavingLinBar = lazy(() => import('../Components/AnaylyticsComponents/SavingLinBar.jsx'));
+const DownloadButton = lazy(() => import('../Components/UIverse//DownloadButton.jsx'));
 
 
 const Analytics = () => {
@@ -68,14 +69,21 @@ useEffect(() => {
       <div id="analytics-page">
   <MontlyBarChart  transactions={transactions} />
   <div className="max-w-4xl h-min-screen p-5 mx-auto ">
+    <Suspense fallback={<div>Loading Chart...</div>}>
     <ExpensePieChart   transactions={transactions}/>
+    </Suspense> 
   </div>
   <div className="w-full p-2 border-1  shadow-xl rounded-lg border-black mt-2">
+       <Suspense fallback={<div>Loading Chart...</div>}>
     <SavingLinBar transactions={transactions} />
+    </Suspense> 
   </div>
 </div>
       <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2 cursor-pointer mb-15 md:mb-0'>
-      <DownloadButton  onClick={exportToPDF} />
+           <Suspense fallback={<div>Loading Chart...</div>}>
+         <DownloadButton  onClick={exportToPDF} />
+    </Suspense>
+
       </div>
     </div>
   );

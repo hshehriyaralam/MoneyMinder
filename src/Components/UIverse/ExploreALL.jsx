@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Explore = ({ color = "#149a65", Name,onClick }) => {
+const Explore = ({ color = "#1E3A5F", Name,onClick }) => {
   return (
     <StyledWrapper color={color}  onClick={onClick} >
       <button className="button">

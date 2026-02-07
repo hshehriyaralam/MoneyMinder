@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Toggle = ({ isIncome, setIsIncome }) => {
   return (
-    <div className="flex items-center space-x-2 bg-gray-100 rounded-full p-1 ">
+    <div className="flex items-center space-x-2 bg-gray-100 rounded-full p-1 px-2 ">
       <span className={`text-sm font-bold ${isIncome ? "text-amber-500" : "text-[#4b5563]"}`}>
         Income
       </span>

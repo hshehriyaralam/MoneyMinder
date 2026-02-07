@@ -1,16 +1,16 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import IncomeButton from "../comman/AddButtons.jsx";
-// import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from "../comman/AnimatedContent.jsx";
 import incomeLogo from "/images/3588982.webp";
-import { useNavigate } from "react-router-dom";
+
 import { getTotalIncome } from "@/lib/calculations.js";
 
 
-const IncomeCard = ({ transactions }) => {
-  const navigate = useNavigate();
+
+const IncomeCard =  React.memo(({ transactions,navigation }) => {
+
   const handleNavigate = () => {
-    navigate("/AddTransaction?type=income");
+    navigation('/AddTransaction?type=income');
   };
   const totalIncome = useMemo(
     () => getTotalIncome(transactions),
@@ -23,20 +23,11 @@ const IncomeCard = ({ transactions }) => {
         <h1 className="text-[#1f2937] text-[22px] font-bold">Total Income</h1>
         <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-[#11bb52] mb-4">
           +${totalIncome}
-          {/* <CountUp
-            from={0}
-            to={`${totalIncome}`}
-            separator=","
-            direction="up"
-            duration={1}
-            className="inline"
-          /> */}
         </p>
         <div className="flex justify-center">
           <IncomeButton
-            navigate={() => navigate("/AddTransaction?type=income")}
+            navigate={handleNavigate}
           />
-          <button onClick={handleNavigate}></button>
         </div>
       </div>
       <AnimatedContent
@@ -57,6 +48,6 @@ const IncomeCard = ({ transactions }) => {
       </AnimatedContent>
     </div>
   );
-};
+})
 
 export default IncomeCard;

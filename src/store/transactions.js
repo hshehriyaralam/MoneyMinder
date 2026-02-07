@@ -7,12 +7,16 @@ const useTransactionStore = create((set,get) => ({
   editTransaction : null,
 
 
+
+
+
   // Setters 
   setEditTransaction: (transaction) => 
     set({editTransaction : transaction}),  
 
   clearEditTransaction: () => 
     set({editTransaction:  null}),
+
 
   // Fetch transactions
   fetchTransactions: async () => {
@@ -101,6 +105,8 @@ removeTransaction: async (id, showAlert) => {
       showAlert?.("error", "Failed to delete transaction");
     }
 },
+
+
 
 }));
 

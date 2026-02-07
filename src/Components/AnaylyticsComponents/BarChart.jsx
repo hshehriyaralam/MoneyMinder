@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from "react";
+import  React, { useMemo, useState, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "../ui/select";
 import {
@@ -11,7 +11,7 @@ import {
   LabelList,
 } from "recharts";
 
-const MonthlyBarChart = ({ transactions }) => {
+const MonthlyBarChart = React.memo(({ transactions }) => {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
@@ -121,6 +121,6 @@ const MonthlyBarChart = ({ transactions }) => {
       )}
     </Card>
   );
-};
+})
 
 export default MonthlyBarChart;

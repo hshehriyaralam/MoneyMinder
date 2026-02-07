@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import AnimatedAvatar from "../comman/AnimateAvtar";
 import Input from "../comman/InputVerse";
 import CategoryDropdown from "../comman/Dropdown";
@@ -9,7 +9,7 @@ import AnimatedContent from "../comman/AnimatedContent";
 import useTransactionStore from "@/store/transactions";
 import { useAlert } from "@/Context/AlertContext.jsx";
 
-const IncomeForm = () => {
+const IncomeForm = React.memo(() => {
   const Navigate = useNavigate();
   const {showAlert} = useAlert();
   const [amount, setAmount] = useState("");
@@ -66,13 +66,13 @@ const IncomeForm = () => {
     });
     
     resetForm();
-    Navigate("/Dashbaord");
+    Navigate("/");
   };
 
   const handleBack = (e) => {    
   e.preventDefault();
   clearEditTransaction();
-  Navigate("/Dashbaord");
+  Navigate("/");
   };
 
 
@@ -196,6 +196,6 @@ const IncomeForm = () => {
 
     </AnimatedContent>
   );
-};
+})
 
 export default IncomeForm;

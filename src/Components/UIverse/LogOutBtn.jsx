@@ -26,7 +26,7 @@ const StyledWrapper = styled.div`
     overflow: hidden;
     transition-duration: .3s;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-    background-color: #f04968;
+    background-color: #1E3A5F;
   }
 
   /* plus sign */

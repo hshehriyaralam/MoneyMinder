@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 
 const AppContent = ({ isMobile, isCollapsed, setIsCollapsed }) => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/' || location.pathname === '/SignUp';
+  const isAuthPage = location.pathname === '/Login' || location.pathname === '/SignUp';
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -39,17 +39,18 @@ const AppContent = ({ isMobile, isCollapsed, setIsCollapsed }) => {
           }`}
         >
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/Login" element={<Login />} />
             <Route path="/SignUp" element={<SignUp />} />
             
+              <Route path="/" element={<Dashboard />} />
+
             <Route element={<ProtectedLayout />}>
-              <Route path="/Dashbaord" element={<Dashboard />} />
               <Route path="/AddTransaction" element={<AddTransaction />} />
+            </Route>
               <Route path="/Transactions" element={<Transaction />} />
               <Route path="/Analytics" element={<Analytics />} />
               <Route path="/Overview" element={<Overview />} />
               <Route path="/Profile" element={<Profile />} />
-            </Route>
           </Routes>
         </div>
       </div>

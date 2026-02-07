@@ -32,7 +32,7 @@ const handleLogin = async (e) => {
   console.log("Login Successfully")
   setEmail('')
   setPassword('')
-  Navigate('/Dashbaord')
+  Navigate('/')
 
 
   }catch(error){
@@ -73,7 +73,7 @@ const handleGoogleLogin = () => {
           withCredentials: true,
         });
         // showAlert('success', 'Successfully Login with Google');
-        Navigate('/Dashbaord');
+        Navigate('/');
       } catch (err) {
         console.error('Google login error:', err);
         showAlert('error', 'Google login failed');
@@ -122,7 +122,7 @@ const handleGoogleLogin = () => {
           />
 
           {/* Submit Button */}
-          <div className="mt-4 mx-8">
+          <div className="mt-4 mx-8 ">
             <ButtonComponent Name="Login" type="submit" />
           </div>
 

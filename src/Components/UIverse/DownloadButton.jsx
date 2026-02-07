@@ -23,7 +23,7 @@ const StyledWrapper = styled.div`
     --tooltip-height: 35px;
     --tooltip-width: 90px;
     --gap-between-tooltip-to-button: 18px;
-    --button-color: #1163ff;
+    --button-color: #1E3A5F;
     --tooltip-color: #fff;
     width: var(--width);
     height: var(--height);
@@ -103,7 +103,7 @@ const StyledWrapper = styled.div`
   }
 
   .button:hover {
-    background: #6c18ff;
+    background: #1E3A5F;
   }
 
   .button:hover .text {

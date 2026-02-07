@@ -1,9 +1,9 @@
-import React, { useContext, useMemo } from 'react';
+import React from 'react';
 import CountUp from "../comman/CountUp.jsx"; 
 
 
 
-const SavingCard = ({ totalIncome, totalExpense, BalanceAmount }) => {
+const SavingCard = React.memo(({ totalIncome, totalExpense, BalanceAmount }) => {
 
   return (
     <div className="bg-transparent rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 w-full max-w-3xl mx-auto flex flex-col items-center space-y-6 backdrop-blur-md mb-10">
@@ -13,44 +13,28 @@ const SavingCard = ({ totalIncome, totalExpense, BalanceAmount }) => {
         <div className="flex flex-col space-y-2  shadow-md p-3  rounded-xl">
           <p className="text-[#1f2937] text-[14px] font-semibold">Total Income</p>
           <h2 className="text-[#11bb52] text-[20px] font-bold">
-            <CountUp  from={0}
-                to={`${totalIncome}`}
-                separator=","
-                direction="up"
-                duration={1}
-                className="inline" />
+                {totalIncome}
           </h2>
         </div>
 
         <div className="flex flex-col space-y-2 shadow-md p-3   rounded-xl">
           <p className="text-[#1f2937] text-[14px] font-semibold">Total Expense</p>
           <h2 className="text-[#e70c0c] text-[20px] font-bold">
-            <CountUp
-            from={0}
-            to={`${totalExpense}`}
-                separator=","
-                direction="up"
-                duration={1}
-                className="inline" />
+                {totalExpense}
           </h2>
         </div>
 
         <div className="flex flex-col space-y-2 shadow-md p-3   rounded-xl ">
           <p className="text-[#1f2937] text-[14px] font-semibold">Total Saving</p>
-          <h2 className="text-[#FF9900] text-[20px] font-bold">
-            <CountUp
-            from={0}
-            to={`${BalanceAmount}`}
-                separator=","
-                direction="up"
-                duration={1}
-                className="inline" />
+          <h2 className="text-[#2d5385] text-[20px] font-bold">
+                {BalanceAmount}
           </h2>
         </div>
 
       </div>
     </div>
   );
-};
+})
 
-export default React.memo(SavingCard);
+
+export default SavingCard;

@@ -32,7 +32,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   const items = [
-    { title: "Dashboard", url: "/Dashbaord", icon: Home },
+    { title: "Dashboard", url: "/", icon: Home },
     { title: "Add Transaction", url: "/AddTransaction", icon: Plus },
     { title: "Transactions", url: "/Transactions", icon: List },
     { title: "Overview", url: "/Overview", icon: Layout }, 
@@ -42,7 +42,7 @@ const AppSidebar = ({ isCollapsed, setIsCollapsed }) => {
   ]; 
 
   const itemsDocks = [
-    { icon: Home, label: "Dashbaord" , onclick: () => navigate('/Dashbaord')},
+    { icon: Home, label: "Dashbaord" , onclick: () => navigate('/')},
     { icon: Plus, label: "Add" ,  onclick:()  => navigate("/AddTransaction") },
     { icon: List, label: "Transactions",onclick:()  => navigate("/Transactions") },
     { icon: Layout, label: "Overview",onclick:()  => navigate("/Overview") },

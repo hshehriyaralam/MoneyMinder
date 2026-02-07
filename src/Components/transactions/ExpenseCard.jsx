@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import ExpenseButton from '../comman/ExpenseButton';
-// import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "/images/9610082-removebg-preview.webp";
 import { useNavigate } from 'react-router-dom';
 import {theme} from  "../theme/theme.js"
 import { getTotalExpense } from '@/lib/calculations.js';
 
-const ExpenseCard = ({transactions}) => {
+const ExpenseCard = React.memo(({transactions,navigation}) => {
   const Navigate = useNavigate()
 
 
@@ -24,17 +23,9 @@ const ExpenseCard = ({transactions}) => {
         <h1 className="text-[#1f2937] text-[22px] font-bold">Total Expense</h1>
         <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-[#e70c0c] mb-4">
           -${totalExpense}
-          {/* <CountUp
-            from={0}
-            to={`${totalExpense}`}
-            separator="," 
-            direction="up"
-            duration={1}
-            className="inline" 
-          /> */}
         </p>
         <div className="flex justify-center">
-          <ExpenseButton  Navigate={() => Navigate('/AddTransaction?type=expense')} />
+          <ExpenseButton  Navigate={() => navigation('/AddTransaction?type=expense')} />
         </div>
       </div>
       <AnimatedContent
@@ -51,6 +42,7 @@ const ExpenseCard = ({transactions}) => {
       </AnimatedContent>
     </div>
   );
-};
+})
+
 
 export default ExpenseCard;

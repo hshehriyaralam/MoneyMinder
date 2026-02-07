@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useCallback } from "react";
+import React, { useEffect, useMemo, useCallback ,lazy, Suspense  } from "react";
 import { TextAnimate } from "../Components/magicui/text-animate";
 import SavingCard from "../Components/OverviewComponents/SavingCard";
-import CategoriesCard from "../Components/OverviewComponents/CategoriesCard";
 import useTransactionStore from "@/store/transactions.js";
 import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
+
+const  CategoriesCard = lazy(() => import("../Components/OverviewComponents/CategoriesCard"));
 
 const Overview = () => {
   const transactions = useTransactionStore((state) => state.transactions);
@@ -81,12 +82,17 @@ const Overview = () => {
         {categoryWithPercentage.length > 0 ? (
           categoryWithPercentage.map((item, index) => (
             <div key={index} className="flex-1 min-w-[250px] max-w-[400px]">
+
+              
+                    <Suspense fallback={<p>Loading...</p>}>
               <CategoriesCard
                 category={item.category}
                 type={item.type}
                 amount={item.amount}
                 percentage={item.percentage}
               />
+                    </Suspense>
+      
             </div>
           ))
         ) : (

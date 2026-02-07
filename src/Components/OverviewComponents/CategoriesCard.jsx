@@ -1,8 +1,8 @@
+import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-
-const CategoryCard = ({ category, type, amount, percentage }) => {
+const CategoryCard = React.memo(({ category, type, amount, percentage }) => {
 
   const isIncome = type.toLowerCase() === 'income';
 
@@ -39,6 +39,6 @@ const CategoryCard = ({ category, type, amount, percentage }) => {
       </div>
     </div>
   );
-};
+})
 
 export default CategoryCard;
