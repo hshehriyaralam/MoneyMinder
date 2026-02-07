@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import ExpenseButton from '../comman/ExpenseButton';
-import CountUp from "../comman/CountUp.jsx";
+// import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from '../comman/AnimatedContent';
 import expenseLogo from "/images/9610082-removebg-preview.webp";
 import { useNavigate } from 'react-router-dom';
@@ -23,15 +23,15 @@ const ExpenseCard = ({transactions}) => {
       <div className="flex-1 text-center">
         <h1 className="text-[#1f2937] text-[22px] font-bold">Total Expense</h1>
         <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-[#e70c0c] mb-4">
-          -$
-          <CountUp
+          -${totalExpense}
+          {/* <CountUp
             from={0}
             to={`${totalExpense}`}
             separator="," 
             direction="up"
             duration={1}
             className="inline" 
-          />
+          /> */}
         </p>
         <div className="flex justify-center">
           <ExpenseButton  Navigate={() => Navigate('/AddTransaction?type=expense')} />

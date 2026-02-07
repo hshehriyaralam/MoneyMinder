@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import IncomeButton from "../comman/AddButtons.jsx";
-import CountUp from "../comman/CountUp.jsx";
+// import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from "../comman/AnimatedContent.jsx";
 import incomeLogo from "/images/3588982.webp";
 import { useNavigate } from "react-router-dom";
@@ -22,15 +22,15 @@ const IncomeCard = ({ transactions }) => {
       <div className="flex-1 text-center">
         <h1 className="text-[#1f2937] text-[22px] font-bold">Total Income</h1>
         <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-[#11bb52] mb-4">
-          +$
-          <CountUp
+          +${totalIncome}
+          {/* <CountUp
             from={0}
             to={`${totalIncome}`}
             separator=","
             direction="up"
             duration={1}
             className="inline"
-          />
+          /> */}
         </p>
         <div className="flex justify-center">
           <IncomeButton

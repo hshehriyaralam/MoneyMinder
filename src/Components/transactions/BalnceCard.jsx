@@ -2,7 +2,7 @@ import React, {  useMemo } from "react";
 import CashPick1 from "/images/cash-amount2.webp";
 import AnimatedContent from "../comman/AnimatedContent.jsx";
 import TrueFocus from "../comman/TrueFocus.jsx";
-import CountUp from "../comman/CountUp.jsx";
+// import CountUp from "../comman/CountUp.jsx";
 import SplitText from "../Reactbits/SplitText.jsx";
 import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
 
@@ -38,6 +38,7 @@ const BalanceCard = ({ transactions }) => {
           pauseBetweenAnimations={1}
         />
         <div className="flex justify-center items-center my-2">
+          {/* {BalanceAmount} */}
           <SplitText
             text={`$${BalanceAmount}`}
             className=" text-3xl md:text-[26px] font-lexend font-bold text-[#1f2937]"
@@ -53,29 +54,29 @@ const BalanceCard = ({ transactions }) => {
           <div className="text-center w-1/2 md:w-auto">
             <p className="text-lg font-semibold text-[#11bb52]">Income</p>
             <p className="text-xl md:text-2xl font-bold text-[#11bb52]">
-              +$
-              <CountUp
+              +${totalIncome}
+              {/* <CountUp
                 from={0}
                 to={`${totalIncome}`}
                 separator=","
                 direction="up"
                 duration={1}
                 className="inline"
-              />
+              /> */}
             </p>
           </div>
           <div className="text-center w-1/2 md:w-auto">
             <p className="text-lg font-semibold text-[#e70c0c]">Expense</p>
             <p className="text-xl md:text-2xl font-bold text-[#e70c0c]">
-              -$
-              <CountUp
+              -${totalExpense}
+              {/* <CountUp
                 from={0}
                 to={`${totalExpense}`}
                 separator=","
                 direction="up"
                 duration={1}
                 className="inline"
-              />
+              /> */}
             </p>
           </div>
         </div>
