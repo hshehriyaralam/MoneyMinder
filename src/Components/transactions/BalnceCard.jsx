@@ -1,14 +1,13 @@
-import React, { useContext, useMemo } from "react";
-import CashPick1 from "../../assets/images/cash-amount2.png";
+import React, {  useMemo } from "react";
+import CashPick1 from "/images/cash-amount2.webp";
 import AnimatedContent from "../comman/AnimatedContent.jsx";
 import TrueFocus from "../comman/TrueFocus.jsx";
 import CountUp from "../comman/CountUp.jsx";
 import SplitText from "../Reactbits/SplitText.jsx";
 import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
-import useTransactionStore from "@/store/transactions.js";
 
-const BalanceCard = () => {
-  const transactions = useTransactionStore((state) => state.transactions);
+const BalanceCard = ({ transactions }) => {
+
 
   // total income
   const totalIncome = useMemo(

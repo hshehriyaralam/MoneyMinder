@@ -1,5 +1,5 @@
 import React from 'react';
-import logo4 from "../../assets/images/Growth.png"
+import logo4 from "/images/Growth.webp"
 import { Link } from 'react-router-dom';
 
 

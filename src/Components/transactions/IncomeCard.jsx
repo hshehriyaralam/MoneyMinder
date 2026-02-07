@@ -2,14 +2,13 @@ import { useMemo } from "react";
 import IncomeButton from "../comman/AddButtons.jsx";
 import CountUp from "../comman/CountUp.jsx";
 import AnimatedContent from "../comman/AnimatedContent.jsx";
-import incomeLogo from "../../assets/images/3588982.png";
+import incomeLogo from "/images/3588982.webp";
 import { useNavigate } from "react-router-dom";
 import { getTotalIncome } from "@/lib/calculations.js";
-import useTransactionStore from "@/store/transactions.js";
 
-const IncomeCard = () => {
+
+const IncomeCard = ({ transactions }) => {
   const navigate = useNavigate();
-  const transactions = useTransactionStore((state) => state.transactions);
   const handleNavigate = () => {
     navigate("/AddTransaction?type=income");
   };
