@@ -1,37 +1,40 @@
-import React from 'react'
-import { ArrowUp, ArrowDown } from 'lucide-react';
+import React from "react";
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { formatDate, money } from "../../ui/format";
 
-const RecentTransaction = React.memo(({transactions}) => {
+const RecentTransaction = React.memo(function RecentTransaction({ transactions }) {
+  const recent = transactions.slice(0, 4);
+
   return (
-      <div className="px-6 pb-6  ">
-          <h2 className="text-[#1f2937] text-[24px]   font-bold mb-4">Recent Transactions</h2>
-          <div className="space-y-3">
-            {transactions.slice(0,4).map((txn) => (
-              <div
-                key={txn._id}
-                className={`p-4 rounded-lg flex justify-between items-center ${txn.type === 'income' ? 'bg-green-50' : 'bg-red-50'} shadow-sm hover:shadow-md transition`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`p-2 rounded-full ${txn.type === 'income' ? 'bg-green-100' : 'bg-red-100'}`}>
-                    {txn.type === 'income' ? (
-                      <ArrowUp className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <ArrowDown className="w-4 h-4 text-red-600" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-md font-medium">{txn.category}</p>
-                    <p className="text-sm text-gray-500">{txn.date}</p>
-                  </div>
-                </div>
-                <p className={`text-lg font-bold ${txn.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                  {txn.type === 'income' ? '+' : '-'}${Math.abs(txn.amount).toLocaleString()}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-  )
-})
+    <section className="recent-content">
+      <h2 className="section-title">Recent Transactions</h2>
+      {recent.length ? (
+        <ul className="recent-list">
+          {recent.map((transaction) => {
+            const isIncome = transaction.type === "income";
+            const Icon = isIncome ? ArrowUp : ArrowDown;
 
-export default RecentTransaction
+            return (
+              <li className="recent-row" key={transaction._id}>
+                <span className={`recent-icon ${isIncome ? "pos" : "neg"}`}>
+                  <Icon size={18} aria-hidden="true" />
+                </span>
+                <span className="recent-detail">
+                  <strong title={transaction.category}>{transaction.category}</strong>
+                  <small>{formatDate(transaction.date)}</small>
+                </span>
+                <strong className={`recent-amount ${isIncome ? "pos" : "neg"}`}>
+                  {isIncome ? "+" : "−"}{money(transaction.amount)}
+                </strong>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="label">No transactions yet. Your latest activity will appear here.</p>
+      )}
+    </section>
+  );
+});
+
+export default RecentTransaction;

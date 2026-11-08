@@ -1,10 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const GoogleButton = ({onClick,disabled}) => {
   return (
     <StyledWrapper>
-      <button className="button"
+      <button type="button" className="button"
         onClick={(e) => {
         if (disabled) {
           e.preventDefault();

@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AnimateSignUp from "../comman/AnimateSignUp.jsx";
 import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx";
-import InteractiveHoverButtonDemo from "../comman/InteractiveHover.jsx";
 import axios from "axios";
 import { useAlert } from "../../Context/AlertContext.jsx";
+
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 const SignUpForm = () => {
   const [fullName, setFullName] = useState("");
@@ -25,7 +25,7 @@ const SignUpForm = () => {
       }
 
       await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/signup`,
+        `${API_BASE_URL}/api/user/signup`,
         {
           fullName: fullName,
           email: email,
@@ -56,11 +56,26 @@ const SignUpForm = () => {
       return;
     }
 
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!googleClientId) {
+      showAlert("error", "Google login is not configured");
+      return;
+    }
+    if (!window.google?.accounts?.oauth2) {
+      showAlert("error", "Google login is not ready. Please try again.");
+      return;
+    }
+
     // TokenClient init only now — NOT on page load
     const tokenClient = window.google.accounts.oauth2.initTokenClient({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      client_id: googleClientId,
       scope: "email profile openid",
       callback: async (tokenResponse) => {
+        if (tokenResponse.error || !tokenResponse.access_token) {
+          showAlert("error", "Google login was cancelled or failed");
+          return;
+        }
+
         try {
           const res = await axios.get(
             "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -72,7 +87,7 @@ const SignUpForm = () => {
           );
 
           await axios.post(
-            `${import.meta.env.VITE_API_BASE_URL}/api/user/google-auth`,
+            `${API_BASE_URL}/api/user/google-auth`,
             {
               userInfo: res.data,
             },
@@ -94,62 +109,41 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="h-min-screen bg-transparent flex justify-center items-center overflow-hidden">
-      <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col">
-        <div className="flex flex-col md:flex-row overflow-hidden">
-          <div className="md:w-1/2 flex items-center justify-center">
-            <AnimateSignUp />
-          </div>
-
-          <div className="md:w-1/2  md:px-4 mx-auto  overflow-y-auto max-h-screen">
-            <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
-              Sign Up
-            </h2>
-
-            <form className="space-y-4" onSubmit={handleSignUp}>
-              <Input
-                type={"string"}
-                label={"Full Name"}
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-
-              <Input
-                type={"email"}
-                label={"Email"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-
-              <Input
-                type={"password"}
-                label={"Password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-
-              <div className="mt-2 md:mx-4">
-                <InteractiveHoverButtonDemo type={"submit"} Name={"Sign Up"} />
-              </div>
-
-              <p className="text-[12px] text-[#1f2937]  mx-8">
-                Already have an account?{" "}
-                <Link
-                  to="/Login"
-                  className="text-[#FF9900] hover:underline text-[13px] font-bold"
-                >
-                  Login
-                </Link>
-              </p>
-
-              <div>
-                <GoogleButton onClick={handleGoogleLogin} />
-              </div>
-            </form>
-          </div>
+    <main className="auth-wrap">
+      <section className="card auth-card">
+        <div className="auth-brand">
+          <h1>Create your account</h1>
+          <p className="label">A clearer view of where your money goes.</p>
         </div>
-      </div>
-    </div>
+        <form className="auth-form" onSubmit={handleSignUp}>
+          <Input
+            type="text"
+            label="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <Input
+            type="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="btn auth-submit" type="submit">Create account</button>
+          <p className="auth-switch">
+            Already have an account? <Link to="/Login">Log in</Link>
+          </p>
+          <div className="auth-google">
+            <GoogleButton onClick={handleGoogleLogin} disabled={Boolean(email || password)} />
+          </div>
+        </form>
+      </section>
+    </main>
   );
 };
 

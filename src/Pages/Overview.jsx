@@ -1,107 +1,87 @@
-import React, { useEffect, useMemo, useCallback ,lazy, Suspense  } from "react";
-import { TextAnimate } from "../Components/magicui/text-animate";
-import SavingCard from "../Components/OverviewComponents/SavingCard";
+import { useEffect, useMemo } from "react";
 import useTransactionStore from "@/store/transactions.js";
 import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
-
-const  CategoriesCard = lazy(() => import("../Components/OverviewComponents/CategoriesCard"));
+import { money } from "../ui/format";
+import { EmptyState, Ring } from "../ui/primitives";
 
 const Overview = () => {
   const transactions = useTransactionStore((state) => state.transactions);
-  const fetchTransactions = useTransactionStore(
-    (state) => state.fetchTransactions,
-  );
+  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
+  const fetchError = useTransactionStore((state) => state.fetchError);
+  const totalIncome = useMemo(() => getTotalIncome(transactions), [transactions]);
+  const totalExpense = useMemo(() => getTotalExpense(transactions), [transactions]);
+  const balance = totalIncome - totalExpense;
 
-  const totalIncome = useMemo(
-    () => getTotalIncome(transactions),
-    [transactions],
-  );
-
-  const totalExpense = useMemo(
-    () => getTotalExpense(transactions),
-    [transactions],
-  );
-
-  const balanceAmount = useMemo(
-    () => totalIncome - totalExpense,
-    [totalIncome, totalExpense],
-  );
-
-  const buildCategoryMap = useCallback(() => {
-    const map = {};
-
-    transactions.forEach((t) => {
-      const key = `${t.category}-${t.type}`;
-      map[key] = (map[key] || 0) + Number(t.amount);
+  const categories = useMemo(() => {
+    const totals = new Map();
+    transactions.forEach(({ category, type, amount }) => {
+      const key = JSON.stringify([type, category]);
+      totals.set(key, (totals.get(key) || 0) + (Number(amount) || 0));
     });
 
-    return map;
-  }, [transactions]);
-
-  const categoryWithPercentage = useMemo(() => {
-    const categoryMap = buildCategoryMap();
-
-    return Object.entries(categoryMap).map(([key, amount]) => {
-      const [category, type] = key.split("-");
-
+    return [...totals].map(([key, amount]) => {
+      const [type, category] = JSON.parse(key);
       const base = type === "income" ? totalIncome : totalExpense;
-
-      const percentage = base > 0 ? Math.round((amount / base) * 100) : 0;
-
       return {
-        category,
         type,
+        category,
         amount,
-        percentage: `${percentage}`,
+        percentage: base > 0 ? Math.round((amount / base) * 100) : 0,
       };
     });
-  }, [buildCategoryMap, totalIncome, totalExpense]);
+  }, [transactions, totalIncome, totalExpense]);
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
-  return (
-    <div className="min-h-screen w-full flex flex-col p-6 md:p-10 bg-transparent space-y-4  mb-14 md:mb-4">
-      <TextAnimate
-        delay={0.4}
-        duration={1.9}
-        animation="slideLeft"
-        by="character"
-        className="text-center text-4xl  font-lexend font-bold text-[#2d5385]"
-      >
-        {"Overview"}
-      </TextAnimate>
-      <div className="w-full flex justify-center">
-        <SavingCard
-          totalIncome={totalIncome}
-          totalExpense={totalExpense}
-          BalanceAmount={balanceAmount}
-        />
-      </div>
-      <div className="w-full flex flex-wrap gap-6 ">
-        {categoryWithPercentage.length > 0 ? (
-          categoryWithPercentage.map((item, index) => (
-            <div key={index} className="flex-1 min-w-[250px] max-w-[400px]">
+  }, [fetchTransactions]);
 
-              
-                    <Suspense fallback={<p>Loading...</p>}>
-              <CategoriesCard
-                category={item.category}
-                type={item.type}
-                amount={item.amount}
-                percentage={item.percentage}
+  return (
+    <section className="bento overview-page">
+      {fetchError && <div className="data-error span-12" role="alert">{fetchError}</div>}
+      <article className="card card-income span-4">
+        <p className="label">Total Income</p>
+        <p className="figure pos">{money(totalIncome)}</p>
+      </article>
+      <article className="card card-expense span-4">
+        <p className="label">Total Expense</p>
+        <p className="figure neg">{money(totalExpense)}</p>
+      </article>
+      <article className="card card-ink span-4">
+        <p className="label">Total Savings</p>
+        <p className="figure">{money(balance)}</p>
+      </article>
+
+      {categories.length ? (
+        categories.map((item) => (
+          <article
+            className="card span-4 category-card"
+            key={JSON.stringify([item.type, item.category])}
+          >
+            <header className="card-head">
+              <div>
+                <span className={`tag tag-${item.type}`}>{item.type}</span>
+                <h2 className="category-name" title={item.category}>{item.category}</h2>
+              </div>
+              <Ring
+                value={item.percentage}
+                color={item.type === "income" ? "var(--pos)" : "var(--neg)"}
               />
-                    </Suspense>
-      
-            </div>
-          ))
-        ) : (
-          <p className="text-center w-full text-[#2d5385]">
-            No transaction history.
-          </p>
-        )}
-      </div>
-    </div>
+            </header>
+            <p className={`figure ${item.type === "income" ? "pos" : "neg"}`}>
+              {money(item.amount)}
+            </p>
+            <p className="label">{item.percentage}% of {item.type}</p>
+          </article>
+        ))
+      ) : (
+        <article className="card span-12">
+          <EmptyState
+            title="No category activity yet"
+            body="Add an income or expense to see how your finances are split."
+          />
+        </article>
+      )}
+    </section>
   );
 };
 

@@ -1,89 +1,82 @@
-import React, { useEffect ,lazy,Suspense} from 'react';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
-import MontlyBarChart from '../Components/AnaylyticsComponents/BarChart';
-import  useTransactionStore  from '@/store/transactions.js';
+import { lazy, Suspense, useEffect } from "react";
+import { Download } from "lucide-react";
+import useTransactionStore from "@/store/transactions.js";
+import { useAlert } from "@/Context/AlertContext";
+import { ChartSkeleton } from "../ui/primitives";
 
-const ExpensePieChart = lazy(() => import('../Components/AnaylyticsComponents/ExpensePieChart.jsx'));
-const SavingLinBar = lazy(() => import('../Components/AnaylyticsComponents/SavingLinBar.jsx'));
-const DownloadButton = lazy(() => import('../Components/UIverse//DownloadButton.jsx'));
-
+const YearBars = lazy(() =>
+  import("../ui/AnalyticsCharts").then((module) => ({ default: module.YearBars })),
+);
+const ExpensePie = lazy(() =>
+  import("../ui/AnalyticsCharts").then((module) => ({ default: module.ExpensePie })),
+);
+const SavingsLine = lazy(() =>
+  import("../ui/AnalyticsCharts").then((module) => ({ default: module.SavingsLine })),
+);
 
 const Analytics = () => {
-  const transactions = useTransactionStore((state ) => state.transactions)
-  const fetchTransactions = useTransactionStore((state ) => state.fetchTransactions)
-  // Export Function for PDF
-  const exportToPDF = () => {
-  const chartElement = document.getElementById('analytics-page');
+  const transactions = useTransactionStore((state) => state.transactions);
+  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
+  const fetchError = useTransactionStore((state) => state.fetchError);
+  const { showAlert } = useAlert();
 
-  html2canvas(chartElement, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: '#ffffff',
-    ignoreElements: (element) => element.tagName === 'BUTTON',
-  }).then((canvas) => {
-    const pdf = new jsPDF('p', 'mm', 'a4');
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
-    const pageWidth = pdf.internal.pageSize.getWidth();  
-    const pageHeight = pdf.internal.pageSize.getHeight(); 
-
-    const padding = 30;
-
-    const printableWidth = pageWidth - 2 * padding;
-    const printableHeight = pageHeight - 2 * padding;
-
-    const imgWidth = printableWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    const imgData = canvas.toDataURL('image/png');
-
-    if (imgHeight <= printableHeight) {
-      pdf.addImage(imgData, 'PNG', padding, padding, imgWidth, imgHeight);
-    } else {
-      let position = padding;
-      let heightLeft = imgHeight;
-
-      while (heightLeft > 0) {
-        pdf.addImage(imgData, 'PNG', padding, position, imgWidth, imgHeight);
-        heightLeft -= printableHeight;
-        if (heightLeft > 0) {
-          pdf.addPage();
-          position = padding - (imgHeight - heightLeft);
-        }
-      }
+  const exportToPDF = async () => {
+    const element = document.getElementById("analytics-page");
+    if (!element) {
+      showAlert("error", "Analytics are not ready to export.");
+      return;
     }
 
-    pdf.save('analytics.pdf');
-  }).catch((error) => {
-    console.error('PDF generation error:', error);
-  });
-};
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#EFEEE9",
+        ignoreElements: (node) => node.tagName === "BUTTON",
+      });
+      const pdf = new jsPDF("p", "mm", "a4");
+      const padding = 16;
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const printableWidth = pageWidth - padding * 2;
+      const printableHeight = pageHeight - padding * 2;
+      const imageHeight = (canvas.height * printableWidth) / canvas.width;
+      const image = canvas.toDataURL("image/png");
 
-useEffect(() => {
-  fetchTransactions();
-}, []);
+      for (let offset = 0; offset < imageHeight; offset += printableHeight) {
+        if (offset > 0) pdf.addPage();
+        pdf.addImage(image, "PNG", padding, padding - offset, printableWidth, imageHeight);
+      }
 
+      pdf.save("money-minder-analytics.pdf");
+    } catch (error) {
+      console.error("Analytics export failed:", error);
+      showAlert("error", "Could not export analytics. Please try again.");
+    }
+  };
 
   return (
-    <div className="w-full min-h-screen p-6 flex flex-col gap-y-3">
-      <div id="analytics-page">
-  <MontlyBarChart  transactions={transactions} />
-  <div className="max-w-4xl h-min-screen p-5 mx-auto ">
-    <Suspense fallback={<div>Loading Chart...</div>}>
-    <ExpensePieChart   transactions={transactions}/>
-    </Suspense> 
-  </div>
-  <div className="w-full p-2 border-1  shadow-xl rounded-lg border-black mt-2">
-       <Suspense fallback={<div>Loading Chart...</div>}>
-    <SavingLinBar transactions={transactions} />
-    </Suspense> 
-  </div>
-</div>
-      <div  className='max-w-7xl flex md:justify-end justify-center items-center md:mx-12 mt-2 cursor-pointer mb-15 md:mb-0'>
-           <Suspense fallback={<div>Loading Chart...</div>}>
-         <DownloadButton  onClick={exportToPDF} />
-    </Suspense>
-
+    <div className="analytics-page">
+      {fetchError && <p className="data-error" role="alert">{fetchError}</p>}
+      <div id="analytics-page" className="bento">
+        <Suspense fallback={<ChartSkeleton />}>
+          <YearBars transactions={transactions} />
+          <ExpensePie transactions={transactions} />
+          <SavingsLine transactions={transactions} />
+        </Suspense>
+      </div>
+      <div className="analytics-actions">
+        <button type="button" className="pill" onClick={exportToPDF}>
+          Export PDF <Download size={16} aria-hidden="true" />
+        </button>
       </div>
     </div>
   );

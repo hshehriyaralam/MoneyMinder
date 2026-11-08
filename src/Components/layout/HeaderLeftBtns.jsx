@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Image } from 'antd'
+import { User } from "lucide-react";
 
 const HeaderLeftBtns = () => {
-    const [picture,setPicture] = useState('')
+    const [picture] = useState('')
   return (
     <div className='flex gap-x-2'>
        {picture && picture.trim() !== '' ? (

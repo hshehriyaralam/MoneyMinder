@@ -4,6 +4,7 @@ import axios from "axios";
 const useTransactionStore = create((set,get) => ({
   transactions: [],
   loading: false,
+  fetchError: null,
   editTransaction : null,
 
 
@@ -20,7 +21,7 @@ const useTransactionStore = create((set,get) => ({
 
   // Fetch transactions
   fetchTransactions: async () => {
-    set({ loading: true });
+    set({ loading: true, fetchError: null });
 
     try {
       const response = await axios.get(
@@ -32,13 +33,20 @@ const useTransactionStore = create((set,get) => ({
           },
         },
       );
+      if (!Array.isArray(response.data?.data)) {
+        throw new Error("Unexpected transactions response");
+      }
       set({
         transactions: response.data.data,
         loading: false,
+        fetchError: null,
       });
     } catch (error) {
       console.error("Error fetching transactions:", error);
-      set({ loading: false });
+      set({
+        loading: false,
+        fetchError: "Could not load transactions. Check your connection and try again.",
+      });
     }
   },
 

@@ -1,19 +1,5 @@
-import React, { useEffect } from 'react'
-import SignUpForm from '../Components/layout/SinUpForm';
+import SignUpForm from "../Components/layout/SinUpForm.jsx";
 
+const SignUp = () => <SignUpForm />;
 
-const SignUp = () => {
-
-  useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-  },[])
-  
-  return (
-    <div>
-      <SignUpForm />
-    </div>
-  )
-};
-
-
-export default SignUp
+export default SignUp;

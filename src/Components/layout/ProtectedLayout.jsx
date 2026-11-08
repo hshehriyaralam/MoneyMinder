@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { fetchUserUtils } from '../../utils/auth.js';
-import Loader from "../UIverse/Loader.jsx"
+import { FormSkeleton } from "../../ui/primitives";
 
 const ProtectedLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -20,12 +20,7 @@ const ProtectedLayout = () => {
     checkUser();
   }, [navigate]);
 
-  {loading && (
-  <div className="w-full h-screen flex items-center justify-center">
-    <Loader />
-  </div>
-)}
-
+  if (loading) return <FormSkeleton />;
   return <Outlet />; 
 };
 

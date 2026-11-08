@@ -3,16 +3,13 @@ export const theme = {
     background: {
       base: "#dedcd8",      // App ka overall background
       light: "#FFFFFF",     // White
-      dark: "#0F172A",      // Dark Navy
       lightAlt: "#F7F7F7",  // Light Gray for sections
-      darkAlt: "#1A202C",   // Darker Navy for sections
     },
 
     // 🖋️ Text Colors
     text: {
       tarnsaction:"#2d5385",
       light: "#1E293B",     // Dark Gray
-      dark: "#F8FAFC",      // Light Gray
       card: "#1f2937",      // Card text
       label: "#4b5563",     // Secondary text/labels
     },

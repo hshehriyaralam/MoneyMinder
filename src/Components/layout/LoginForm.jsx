@@ -1,12 +1,11 @@
-import React, { useContext,  useRef, useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link,  useNavigate } from 'react-router-dom'
-import AnimateLogin from "../comman/Ainimate-LOgin.jsx"
 import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx"
-import ButtonComponent from "../comman/VerseButton.jsx";
 import axios from 'axios';
 import { useAlert } from "../../Context/AlertContext.jsx";
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
 
 
@@ -22,7 +21,7 @@ const LoginForm = () => {
 const handleLogin = async (e) => {
   e.preventDefault()
   try{
-    await  axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/login`, {
+    await  axios.post(`${API_BASE_URL}/api/user/login`, {
       email : email,
       password : password
     }, 
@@ -55,11 +54,26 @@ const handleGoogleLogin = () => {
     return;
   }
 
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  if (!googleClientId) {
+    showAlert("error", "Google login is not configured");
+    return;
+  }
+  if (!window.google?.accounts?.oauth2) {
+    showAlert("error", "Google login is not ready. Please try again.");
+    return;
+  }
+
   // TokenClient init only now — NOT on page load
   const tokenClient = window.google.accounts.oauth2.initTokenClient({
-    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    client_id: googleClientId,
     scope: 'email profile openid',
     callback: async (tokenResponse) => {
+      if (tokenResponse.error || !tokenResponse.access_token) {
+        showAlert("error", "Google login was cancelled or failed");
+        return;
+      }
+
       try {
         const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
@@ -67,7 +81,7 @@ const handleGoogleLogin = () => {
           },
         });
 
-        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/user/google-auth`, {
+        await axios.post(`${API_BASE_URL}/api/user/google-auth`, {
           userInfo: res.data
         }, {
           withCredentials: true,
@@ -91,66 +105,35 @@ const handleGoogleLogin = () => {
 
  
   return (
-<div className="h-min-screen bg-transparent flex justify-center items-center overflow-hidden">
-  <div className="w-full max-w-4xl bg-transparent backdrop-blur-lg rounded-lg overflow-hidden flex flex-col p-2">
-    
-    <div className="flex flex-col md:flex-row p-4">
-        <AnimateLogin />
-     
-
-      {/* Right Side - Form */}
-      <div className="md:w-1/2 py-4 px-4 mx-auto mt-0 overflow-y-auto max-h-screen">
-         <h2 className="text-[#1f2937] text-[26px] font-bold text-center md:text-left md:ml-20">
-  Login
-</h2>
-
-        <form className="space-y-5" onSubmit={handleLogin}>
-          {/* Email */}
-          <Input
-            type="email"
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          {/* Password */}
-          <Input
-            type="password"
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {/* Submit Button */}
-          <div className="mt-4 mx-8 ">
-            <ButtonComponent Name="Login" type="submit" />
-          </div>
-
-          {/* Sign Up Link */}
-          <p className="text-[12px] text-[#1f2937] mx-6 ">
-            Don't have an account?{" "}
-            <Link
-              to="/SignUp"
-              className="text-[#FF9900] hover:underline text-[13px] font-bold"
-            >
-              Sign Up
-            </Link>
-          </p>
-
-          {/* Google Login */}
-          <div className="mt-2">
-            <GoogleButton
-              onClick={handleGoogleLogin}
-              disabled={email || password}
-            />
-          </div>
-        </form>
-      </div>
+<main className="auth-wrap">
+  <section className="card auth-card">
+    <div className="auth-brand">
+      <h1>Welcome back</h1>
+      <p className="label">Sign in to keep your finances in view.</p>
     </div>
-  </div>
-</div>
-
-
+    <form className="auth-form" onSubmit={handleLogin}>
+      <Input
+        type="email"
+        label="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <Input
+        type="password"
+        label="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button className="btn auth-submit" type="submit">Log in</button>
+      <p className="auth-switch">
+        Don’t have an account? <Link to="/SignUp">Sign up</Link>
+      </p>
+      <div className="auth-google">
+        <GoogleButton onClick={handleGoogleLogin} disabled={Boolean(email || password)} />
+      </div>
+    </form>
+  </section>
+</main>
   )
 }
 

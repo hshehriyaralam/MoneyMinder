@@ -1,11 +1,7 @@
-import React from 'react'
-import TransactionHistory from '../Components/transactions/TransactionHistory'
+import { TransactionsView } from "../ui/TransactionsView";
+
 const Transaction = () => {
-  return (
-    <div className='w-full p-0 m-0' >
-      <TransactionHistory Name={"All Transactions"}  limit={'all'}  />
-    </div>
-  )
-}
+  return <TransactionsView title="All Transactions" />;
+};
 
 export default Transaction

@@ -7,14 +7,11 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { User, Edit, Check, X, Camera } from "lucide-react";
+import { User, Edit, Check, X, Camera, LogOut } from "lucide-react";
 import axios from "axios";
-import { Image } from "antd";
 import { useNavigate } from "react-router-dom";
-import LogOutButton from "@/Components/UIverse/LogOutBtn";
 import { useAlert } from "@/Context/AlertContext";
 import { Trash2 } from "lucide-react";
-import SplitText from "@/Components/Reactbits/SplitText";
 import useTransactionStore from "@/store/transactions.js";
 import { getCurrentMonthSummary } from "@/lib/calculations.js";
 
@@ -24,11 +21,43 @@ const RecentTransaction = lazy(
 );
 const ImageModal = lazy(() => import("@/Components/profileComp/imageModal"));
 
+async function prepareAvatar(file) {
+  if (!("createImageBitmap" in window)) return file;
+  const image = await createImageBitmap(file);
+  const size = Math.min(512, image.width, image.height);
+  const cropSize = Math.min(image.width, image.height);
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext("2d");
+  if (!context) {
+    image.close();
+    throw new Error("Could not prepare this image.");
+  }
+  const left = (image.width - cropSize) / 2;
+  const top = (image.height - cropSize) / 2;
+  context.drawImage(image, left, top, cropSize, cropSize, 0, 0, size, size);
+  image.close();
+
+  const blob = await new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (result) => (result ? resolve(result) : reject(new Error("Could not encode this image."))),
+      "image/jpeg",
+      0.86,
+    );
+  });
+  return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", {
+    type: "image/jpeg",
+    lastModified: Date.now(),
+  });
+}
+
 const Profile = () => {
   const transactions = useTransactionStore((state) => state.transactions);
   const fetchTransactions = useTransactionStore(
     (state) => state.fetchTransactions,
   );
+  const fetchError = useTransactionStore((state) => state.fetchError);
 
   const {
     monthlyIncomes,
@@ -49,7 +78,7 @@ const Profile = () => {
   };
 
   // UI states
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -62,11 +91,12 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
   const Navigate = useNavigate();
   const { showAlert } = useAlert();
 
   // fetch Data
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/fetch-user`,
@@ -78,6 +108,7 @@ const Profile = () => {
       const fullName = response.data.user.fullName;
       const email = response.data.user.email;
       const profilePicture = response.data.user.profilePicture;
+      setUser(response.data.user);
       setFullName(fullName);
       setEmail(email);
       setUpdateEmail(email);
@@ -86,7 +117,7 @@ const Profile = () => {
     } catch (error) {
       console.log("fetchUser failed", error.message);
     }
-  };
+  }, []);
 
   //iamge Upload
   const handleiamgeUpload = useCallback(async (e) => {
@@ -95,11 +126,14 @@ const Profile = () => {
       showAlert("error", "Please select an image first");
       return;
     }
+    if (!selectedFile.type.startsWith("image/") || selectedFile.size > 5 * 1024 * 1024) {
+      showAlert("error", "Choose an image smaller than 5 MB.");
+      return;
+    }
     const formData = new FormData();
-    formData.append("profilePicture", selectedFile);
-
     try {
       setUploading(true);
+      formData.append("profilePicture", await prepareAvatar(selectedFile));
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/upload-profile`,
         formData,
@@ -112,18 +146,21 @@ const Profile = () => {
         },
       );
       setPicture(response.data.profilePicture);
-      setSelectedFile(false);
+      setSelectedFile(null);
       setShowImageModal(false);
       window.location.reload();
     } catch (error) {
       console.error("Image upload failed:", error.message);
-      if (error.response?.status === 400) {
-        showAlert("errro", "No file uploaded");
-      }
+      showAlert(
+        "error",
+        error.response?.status === 400
+          ? "No file uploaded"
+          : "Could not upload this picture. Please try again.",
+      );
     } finally {
       setUploading(false);
     }
-  }, []);
+  }, [selectedFile, showAlert]);
 
   // Save profile changes
   const saveChanges = useCallback(async (e) => {
@@ -157,7 +194,7 @@ const Profile = () => {
     } finally {
       setUploading(false);
     }
-  }, []);
+  }, [updateName, updateEmail, showAlert]);
 
   // Cancel 
   const cancelChanges = useCallback(() => {
@@ -167,7 +204,7 @@ const Profile = () => {
     setUpdateEmail(email);
     setIsEditingName(false);
     setIsEditingEmail(false);
-  }, []);
+  }, [fullName, email]);
 
   //LogOUt
   const handleLogOut = async () => {
@@ -186,6 +223,7 @@ const Profile = () => {
   };
 
   const handleDelete = useCallback(async () => {
+    if (deleteConfirmation !== "DELETE") return;
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/delete-user`,
@@ -194,6 +232,7 @@ const Profile = () => {
         },
       );
       setShowDeleteConfirm(false);
+      setDeleteConfirmation("");
       Navigate("/SignUp");
     } catch (error) {
       showAlert("error", "Failed to delete account");
@@ -201,45 +240,41 @@ const Profile = () => {
         showAlert("error", "User Not Registered");
       }
     }
-  }, []);
+  }, [deleteConfirmation, Navigate, showAlert]);
 
   // Check for changes
   const hasChanges = useMemo(
-    () => fullName !== user.fullName || email !== user.email,
-    [fullName, user.fullName, email, user.email],
+    () => fullName !== user?.fullName || email !== user?.email,
+    [fullName, user?.fullName, email, user?.email],
   );
 
   useEffect(() => {
     fetchUser();
     fetchTransactions();
-  }, [Navigate]);
+  }, [fetchUser, fetchTransactions]);
 
   return (
-    <div className="min-h-screen w-full bg-transparent p-4 flex items-center justify-center  md:mb-0 mb-5">
-      <div className="w-full max-w-5xl bg-transparent rounded-2xl  overflow-hidden md:shadow-2xl">
-        <div className=" p-6  text-center  ">
-          <SplitText
-            text={`Profile`}
-            className="text-3xl md:text-[35px] font-lexend font-bold text-[#2d5385]"
-            delay={150}
-            animationFrom={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
-            animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-            easing="easeOutCubic"
-            threshold={0.2}
-            rootMargin="-50px"
-          />
+    <div className="profile-page">
+      <div className="profile-content">
+        <div className="profile-heading">
+          <h1 className="section-title">Profile</h1>
         </div>
+        {fetchError && <p className="data-error" role="alert">{fetchError}</p>}
 
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="profile-grid">
           {/* Left Column - Profile Info */}
-          <div>
+          <div className="profile-info card">
             <div className="flex justify-center mb-6 relative">
               <div className="w-26 h-26 rounded-full bg-gray-200 overflow-hidden shadow-lg flex items-center justify-center relative">
                 {picture && picture.trim() !== "" ? (
-                  <Image
+                  <img
                     src={picture}
                     alt="Profile"
                     className="w-full h-full object-cover object-center"
+                    width="104"
+                    height="104"
+                    loading="lazy"
+                    decoding="async"
                   />
                 ) : (
                   <User className="w-16 h-16 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -360,25 +395,48 @@ const Profile = () => {
               </div>
 
               {showDeleteConfirm && (
-                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex justify-center items-center">
-                  <div className="bg-white p-6 rounded-md shadow-md w-[90%] max-w-md">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                <div
+                  className="modal-back"
+                  role="presentation"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  <div
+                    className="modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="delete-title"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <h3 id="delete-title">
                       Confirm Account Deletion
                     </h3>
-                    <p className="text-sm text-gray-600 mb-6">
-                      Are you sure you want to permanently delete your account?
-                      This action cannot be undone.
+                    <p>
+                      Type DELETE to permanently remove your account. This action cannot be undone.
                     </p>
-                    <div className="flex justify-end gap-3">
+                    <label className="field">
+                      <span>Confirmation</span>
+                      <input
+                        value={deleteConfirmation}
+                        onChange={(event) => setDeleteConfirmation(event.target.value)}
+                        autoComplete="off"
+                      />
+                    </label>
+                    <div className="btn-row" style={{ justifyContent: "flex-end", marginTop: 16 }}>
                       <button
-                        onClick={() => setShowDeleteConfirm(false)}
-                        className="px-4 py-2 text-sm bg-gray-200 rounded hover:bg-gray-300 cursor-pointer"
+                        type="button"
+                        onClick={() => {
+                          setShowDeleteConfirm(false);
+                          setDeleteConfirmation("");
+                        }}
+                        className="btn btn-ghost"
                       >
                         Cancel
                       </button>
                       <button
+                        type="button"
                         onClick={handleDelete}
-                        className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 flex items-center gap-1 cursor-pointer"
+                        disabled={deleteConfirmation !== "DELETE"}
+                        className="btn btn-danger"
                       >
                         <Trash2 className="w-4 h-4" />
                         Confirm Delete
@@ -391,16 +449,23 @@ const Profile = () => {
           </div>
 
           {/* Right Column - Financial Summary + Transactions */}
-          <Suspense fallback={<div>Loading...</div>}>
-            <Summary financialData={financialData} />
+          <Suspense fallback={<div className="card profile-summary"><p className="label">Loading financial summary…</p></div>}>
+            <div className="card profile-summary">
+              <Summary financialData={financialData} />
+            </div>
           </Suspense>
         </div>
 
-        <Suspense fallback={<div>Loading...</div>}>
-          <RecentTransaction transactions={financialData.transactions} />
+        <Suspense fallback={<div className="card"><p className="label">Loading recent activity…</p></div>}>
+          <div className="card profile-recent">
+            <RecentTransaction transactions={financialData.transactions} />
+          </div>
         </Suspense>
-        <div className="p-6 border-t flex justify-end  my-4">
-          <LogOutButton onClick={handleLogOut} />
+        <div className="profile-logout">
+          <button type="button" className="btn btn-ghost" onClick={handleLogOut}>
+            <LogOut size={16} aria-hidden="true" />
+            Log out
+          </button>
         </div>
 
         {showImageModal && (

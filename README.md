@@ -101,6 +101,16 @@ A full-featured **Finance Tracking App** built using the **MERN Stack** that all
 
 ## 📦 Installation & Setup
 
+## MoneyMinder interface
+
+The interface uses the CSS custom properties in `src/index.css` as its design tokens (warm background, ink, muted text, income/expense surfaces, chart lavender, and lime accent). Shared UI and page building blocks live in `src/ui/`: `Shell`, `primitives`, `TransactionForm`, `TransactionsView`, and the lazy-loaded analytics charts.
+
+To add a page, create a component in `src/Pages/`, register it with a `React.lazy(() => import(...))` route in `src/App.jsx`, and add its `PageSkeleton` mapping in `src/ui/primitives.jsx`. Add its route title and navigation link in `src/ui/Shell.jsx` when it belongs in the primary navigation. Keep transaction requests and models in the existing store and API layer.
+
+## Google login configuration
+
+Set `GOOGLE_CLIENT_ID` or `VITE_GOOGLE_CLIENT_ID` to the public Google OAuth web client ID; the Vite config maps the unprefixed key without exposing other backend variables. Do not put secrets in `VITE_` variables. In development, requests use same-origin `/api` and the Vite proxy to `http://localhost:4000`. Set `VITE_API_BASE_URL` for the deployed API. The backend must separately allow credentialed requests from the frontend origin and configure its session cookies for its hosting domains.
+
 ```bash
 # Clone the repository
 git clone https://github.com/hshehriyaralam/MoneyMinder.git
@@ -113,3 +123,4 @@ npm install
 
 # Run frontend and backend
 npm run dev
+```
