@@ -4,6 +4,7 @@ import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx";
 import axios from "axios";
 import { useAlert } from "../../Context/AlertContext.jsx";
+import { Logo } from "../../ui/primitives.jsx";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
@@ -11,19 +12,28 @@ const SignUpForm = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const Navigate = useNavigate();
   const { showAlert } = useAlert();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    try {
-      //check email format
-      const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!isEmailValid) {
-        showAlert("error", "Please Enter Valid email");
-        return;
-      }
+    if (password.length < 8) {
+      showAlert("error", "Password must be at least 8 characters");
+      return;
+    }
 
+    //check email format
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isEmailValid) {
+      showAlert("error", "Please Enter Valid email");
+      return;
+    }
+
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
       await axios.post(
         `${API_BASE_URL}/api/user/signup`,
         {
@@ -47,15 +57,12 @@ const SignUpForm = () => {
       } else {
         showAlert("error", "Something Went Wrong");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleGoogleLogin = () => {
-    if (email || password) {
-      showAlert("error", "Please clear email and password first");
-      return;
-    }
-
     const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
     if (!googleClientId) {
       showAlert("error", "Google login is not configured");
@@ -109,9 +116,13 @@ const SignUpForm = () => {
   };
 
   return (
-    <main className="auth-wrap">
-      <section className="card auth-card">
+    <main className="auth-wrap signup-auth-wrap">
+      <section className="card auth-card signup-auth-card">
         <div className="auth-brand">
+          <div className="auth-logo">
+            <Logo className="auth-logo-mark" />
+            <span>MoneyMinder</span>
+          </div>
           <h1>Create your account</h1>
           <p className="label">A clearer view of where your money goes.</p>
         </div>
@@ -128,18 +139,29 @@ const SignUpForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
-            type="password"
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="btn auth-submit" type="submit">Create account</button>
+          <label className="field auth-field">
+            <span>Password</span>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+              autoComplete="new-password"
+            />
+          </label>
+          <p className="password-hint">
+            Strong password suggestion: use 8+ characters with a mix of letters, numbers, and symbols.
+          </p>
+          <button className="btn auth-submit" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+            {isSubmitting && <span className="auth-spinner" aria-hidden="true" />}
+            <span aria-live="polite">{isSubmitting ? "Creating account..." : "Create account"}</span>
+          </button>
           <p className="auth-switch">
             Already have an account? <Link to="/Login">Log in</Link>
           </p>
           <div className="auth-google">
-            <GoogleButton onClick={handleGoogleLogin} disabled={Boolean(email || password)} />
+            <GoogleButton onClick={handleGoogleLogin} />
           </div>
         </form>
       </section>

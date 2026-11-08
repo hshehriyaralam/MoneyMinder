@@ -227,7 +227,11 @@ export function TransactionsView({
       )}
 
       {editing && (
-        <Modal title={`Edit ${editing.type}`} onClose={() => setEditing(null)}>
+        <Modal
+          title={`Edit ${editing.type}`}
+          onClose={() => setEditing(null)}
+          className="edit-transaction-modal"
+        >
           <TransactionForm
             lockedType={editing.type}
             navigateOnSuccess={false}

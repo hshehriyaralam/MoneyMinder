@@ -4,6 +4,7 @@ import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx"
 import axios from 'axios';
 import { useAlert } from "../../Context/AlertContext.jsx";
+import { Logo } from "../../ui/primitives.jsx";
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
 
@@ -14,12 +15,16 @@ const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "
 const LoginForm = () => {
   const [email,setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const Navigate = useNavigate()
   const { showAlert } = useAlert();
 
   
 const handleLogin = async (e) => {
   e.preventDefault()
+  if (isSubmitting) return
+
+  setIsSubmitting(true)
   try{
     await  axios.post(`${API_BASE_URL}/api/user/login`, {
       email : email,
@@ -43,17 +48,13 @@ const handleLogin = async (e) => {
       }else{
         showAlert("error", "Server Failed");
       }
-    
+  } finally {
+    setIsSubmitting(false)
   }
 }
 
 
 const handleGoogleLogin = () => {
-  if (email || password) {
-    showAlert('error', 'Please clear email and password first');
-    return;
-  }
-
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   if (!googleClientId) {
     showAlert("error", "Google login is not configured");
@@ -108,6 +109,10 @@ const handleGoogleLogin = () => {
 <main className="auth-wrap">
   <section className="card auth-card">
     <div className="auth-brand">
+      <div className="auth-logo">
+        <Logo className="auth-logo-mark" />
+        <span>MoneyMinder</span>
+      </div>
       <h1>Welcome back</h1>
       <p className="label">Sign in to keep your finances in view.</p>
     </div>
@@ -124,12 +129,15 @@ const handleGoogleLogin = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button className="btn auth-submit" type="submit">Log in</button>
+      <button className="btn auth-submit" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+        {isSubmitting && <span className="auth-spinner" aria-hidden="true" />}
+        <span aria-live="polite">{isSubmitting ? "Logging in..." : "Log in"}</span>
+      </button>
       <p className="auth-switch">
         Don’t have an account? <Link to="/SignUp">Sign up</Link>
       </p>
       <div className="auth-google">
-        <GoogleButton onClick={handleGoogleLogin} disabled={Boolean(email || password)} />
+        <GoogleButton onClick={handleGoogleLogin} />
       </div>
     </form>
   </section>

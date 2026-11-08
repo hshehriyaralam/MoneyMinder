@@ -18,6 +18,9 @@ const useTransactionStore = create((set,get) => ({
   clearEditTransaction: () => 
     set({editTransaction:  null}),
 
+  clearTransactions: () =>
+    set({ transactions: [], fetchError: null, loading: false, editTransaction: null }),
+
 
   // Fetch transactions
   fetchTransactions: async () => {

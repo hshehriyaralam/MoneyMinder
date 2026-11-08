@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { X } from "lucide-react";
 import useTransactionStore from "../store/transactions";
 import { useAlert } from "../Context/AlertContext";
 import { Segmented } from "./primitives";
@@ -72,6 +73,10 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
   const saveCustom = () => {
     const name = draft.trim().toLowerCase();
     if (!name) return;
+    if (custom[type].length >= 5) {
+      showAlert("error", "You can add up to 5 custom categories per transaction type.");
+      return;
+    }
     const next = {
       ...custom,
       [type]: custom[type].includes(name) ? custom[type] : [...custom[type], name],
@@ -83,13 +88,22 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
     setAdding(false);
   };
 
+  const deleteCustom = (name) => {
+    const next = {
+      ...custom,
+      [type]: custom[type].filter((item) => item !== name),
+    };
+    setCustom(next);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    if (category === name) setCategory("");
+  };
+
   const validate = () => {
     const next = {};
     if (!amount || Number(amount) <= 0) next.amount = "Enter an amount greater than 0.";
     if (!category) next.category = "Choose a category, or add your own.";
     if (!date) next.date = "Pick a date.";
     if (!time) next.time = "Pick a time.";
-    if (!description.trim()) next.description = "Add a short description.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -136,21 +150,45 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
 
       <label className="field">
         <span>Category</span>
-        <div className="chips" role="listbox" aria-label="Category">
-          {options.map((item) => (
+        <div className="chips" aria-label="Category">
+          {options.map((item) => custom[type].includes(item) ? (
+            <span className="custom-category-chip" key={item}>
+              <button
+                type="button"
+                aria-pressed={category === item}
+                className={`chip${category === item ? " on" : ""}`}
+                onClick={() => setCategory(item)}
+              >
+                {item}
+              </button>
+              <button
+                type="button"
+                className="custom-category-delete"
+                aria-label={`Delete ${item} category`}
+                onClick={() => deleteCustom(item)}
+              >
+                <X size={14} />
+              </button>
+            </span>
+          ) : (
             <button
               key={item}
               type="button"
-              role="option"
-              aria-selected={category === item}
+              aria-pressed={category === item}
               className={`chip${category === item ? " on" : ""}`}
               onClick={() => setCategory(item)}
             >
               {item}
             </button>
           ))}
-          <button type="button" className="chip add" onClick={() => setAdding((open) => !open)}>
-            + Add category
+          <button
+            type="button"
+            className="chip add"
+            onClick={() => setAdding((open) => !open)}
+            disabled={custom[type].length >= 5}
+            title={custom[type].length >= 5 ? "You can add up to 5 custom categories" : undefined}
+          >
+            {custom[type].length >= 5 ? "Limit reached (5)" : "+ Add category"}
           </button>
         </div>
         {adding && (
@@ -158,11 +196,17 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
             <input
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  saveCustom();
+                }
+              }}
               placeholder="Category name"
               aria-label="New category"
               style={{ flex: 1, minHeight: 44, borderRadius: 16, border: "1px solid var(--hairline)", padding: "0 12px", background: "var(--surface)" }}
             />
-            <button type="button" className="btn" onClick={saveCustom}>Add</button>
+            <button type="button" className="btn" onClick={saveCustom} disabled={!draft.trim() || custom[type].length >= 5}>Add</button>
           </div>
         )}
         {errors.category && <em className="error" role="alert">{errors.category}</em>}
@@ -196,7 +240,7 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
       </label>
 
       <label className="field">
-        <span>Description</span>
+        <span>Description (Optional)</span>
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}

@@ -7,11 +7,10 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { User, Edit, Check, X, Camera, LogOut } from "lucide-react";
+import { User, Edit, Check, X, Camera, LogOut, Trash2 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "@/Context/AlertContext";
-import { Trash2 } from "lucide-react";
 import useTransactionStore from "@/store/transactions.js";
 import { getCurrentMonthSummary } from "@/lib/calculations.js";
 
@@ -58,6 +57,7 @@ const Profile = () => {
     (state) => state.fetchTransactions,
   );
   const fetchError = useTransactionStore((state) => state.fetchError);
+  const clearTransactions = useTransactionStore((state) => state.clearTransactions);
 
   const {
     monthlyIncomes,
@@ -78,20 +78,17 @@ const Profile = () => {
   };
 
   // UI states
-  const [user, setUser] = useState(null);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [updateName, setUpdateName] = useState("");
-  const [updateEmail, setUpdateEmail] = useState("");
   const [picture, setPicture] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deleteConfirmation, setDeleteConfirmation] = useState("");
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const Navigate = useNavigate();
   const { showAlert } = useAlert();
 
@@ -108,10 +105,8 @@ const Profile = () => {
       const fullName = response.data.user.fullName;
       const email = response.data.user.email;
       const profilePicture = response.data.user.profilePicture;
-      setUser(response.data.user);
       setFullName(fullName);
       setEmail(email);
-      setUpdateEmail(email);
       setUpdateName(fullName);
       setPicture(profilePicture);
     } catch (error) {
@@ -145,10 +140,14 @@ const Profile = () => {
           },
         },
       );
-      setPicture(response.data.profilePicture);
+      const updatedPicture = response.data.profilePicture;
+      setPicture(updatedPicture);
+      window.dispatchEvent(new CustomEvent("moneyminder:user-updated", {
+        detail: { fullName, email, profilePicture: updatedPicture },
+      }));
       setSelectedFile(null);
       setShowImageModal(false);
-      window.location.reload();
+      showAlert("success", "Profile picture updated");
     } catch (error) {
       console.error("Image upload failed:", error.message);
       showAlert(
@@ -160,51 +159,49 @@ const Profile = () => {
     } finally {
       setUploading(false);
     }
-  }, [selectedFile, showAlert]);
+  }, [selectedFile, showAlert, fullName, email]);
 
   // Save profile changes
   const saveChanges = useCallback(async (e) => {
     e.preventDefault();
     const updateData = {};
-    if (updateName.trim() !== "") updateData.fullName = updateName;
-    if (updateEmail.trim() !== "") updateData.email = updateEmail;
+    if (updateName.trim() !== "") updateData.fullName = updateName.trim();
 
-    if (Object.keys(updateData).length == 0) {
-      showAlert("error", "ALL filed is Required");
+    if (!updateData.fullName || updateData.fullName === fullName) {
+      showAlert("error", "Enter a new name before saving");
       return;
     }
 
     try {
       setUploading(true);
-      await axios.put(
+      const response = await axios.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/edit-user`,
         updateData,
         {
           withCredentials: true,
         },
       );
-      window.location.reload();
-      setUpdateEmail(updateData.email);
-      setUpdateName(updateData.fullName);
-      setFullName(updateData.fullName);
-      setEmail(updateData.email);
+      const updatedName = response.data?.user?.fullName || updateData.fullName;
+      setUpdateName(updatedName);
+      setFullName(updatedName);
+      window.dispatchEvent(new CustomEvent("moneyminder:user-updated", {
+        detail: { fullName: updatedName, email, profilePicture: picture },
+      }));
+      setIsEditingName(false);
+      showAlert("success", "Name updated");
     } catch (error) {
       console.log("Update Data failed", error.message);
       showAlert("error", "No valid field for update");
     } finally {
       setUploading(false);
     }
-  }, [updateName, updateEmail, showAlert]);
+  }, [updateName, fullName, email, picture, showAlert]);
 
   // Cancel 
   const cancelChanges = useCallback(() => {
-    setFullName(fullName);
-    setEmail(email);
     setUpdateName(fullName);
-    setUpdateEmail(email);
     setIsEditingName(false);
-    setIsEditingEmail(false);
-  }, [fullName, email]);
+  }, [fullName]);
 
   //LogOUt
   const handleLogOut = async () => {
@@ -223,29 +220,58 @@ const Profile = () => {
   };
 
   const handleDelete = useCallback(async () => {
-    if (deleteConfirmation !== "DELETE") return;
+    let accountDeleteRequested = false;
+    setIsDeletingAccount(true);
     try {
+      const transactionsResponse = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/transactions/fetch-amounts`,
+        { withCredentials: true },
+      );
+      const transactions = transactionsResponse.data?.data;
+      if (!Array.isArray(transactions)) {
+        throw new Error("Could not verify account transactions before deletion");
+      }
+
+      await Promise.all(
+        transactions.map((transaction) => {
+          if (!transaction?._id) {
+            throw new Error("An account transaction is missing its identifier");
+          }
+          return axios.delete(
+            `${import.meta.env.VITE_API_BASE_URL}/api/transactions/delete/${transaction._id}`,
+            { withCredentials: true },
+          );
+        }),
+      );
+
+      accountDeleteRequested = true;
       await axios.delete(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/delete-user`,
         {
           withCredentials: true,
         },
       );
+      clearTransactions();
       setShowDeleteConfirm(false);
-      setDeleteConfirmation("");
-      Navigate("/SignUp");
+      Navigate("/SignUp", { replace: true });
     } catch (error) {
-      showAlert("error", "Failed to delete account");
-      if (error.response?.status === 404) {
-        showAlert("error", "User Not Registered");
+      if (accountDeleteRequested && error.response?.status === 404) {
+        clearTransactions();
+        setShowDeleteConfirm(false);
+        Navigate("/SignUp", { replace: true });
+        return;
       }
+      console.error("Account deletion failed:", error.message);
+      showAlert("error", "Could not delete the account and its transactions. Please try again.");
+    } finally {
+      setIsDeletingAccount(false);
     }
-  }, [deleteConfirmation, Navigate, showAlert]);
+  }, [clearTransactions, Navigate, showAlert]);
 
   // Check for changes
   const hasChanges = useMemo(
-    () => fullName !== user?.fullName || email !== user?.email,
-    [fullName, user?.fullName, email, user?.email],
+    () => updateName.trim() !== "" && updateName.trim() !== fullName,
+    [updateName, fullName],
   );
 
   useEffect(() => {
@@ -264,8 +290,8 @@ const Profile = () => {
         <div className="profile-grid">
           {/* Left Column - Profile Info */}
           <div className="profile-info card">
-            <div className="flex justify-center mb-6 relative">
-              <div className="w-26 h-26 rounded-full bg-gray-200 overflow-hidden shadow-lg flex items-center justify-center relative">
+            <div className="profile-avatar">
+              <div className="profile-avatar-image">
                 {picture && picture.trim() !== "" ? (
                   <img
                     src={picture}
@@ -277,14 +303,16 @@ const Profile = () => {
                     decoding="async"
                   />
                 ) : (
-                  <User className="w-16 h-16 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <User className="profile-avatar-placeholder" />
                 )}
               </div>
               <button
+                type="button"
                 onClick={() => setShowImageModal(true)}
-                className="absolute bottom-0 right-[calc(50%-64px)] bg-white p-2.5 rounded-full shadow hover:bg-gray-100 transition cursor-pointer"
+                className="profile-avatar-edit"
+                aria-label="Change profile picture"
               >
-                <Camera className="w-5 h-5 text-blue-500" />
+                <Camera size={18} />
               </button>
             </div>
 
@@ -309,49 +337,25 @@ const Profile = () => {
                     </span>
                   )}
                   <button
-                    onClick={() => setIsEditingName(!isEditingName)}
+                    type="button"
+                    onClick={isEditingName ? saveChanges : () => setIsEditingName(true)}
                     className="ml-4 text-blue-500 hover:bg-blue-50 p-1.5 rounded-full cursor-pointer"
                   >
-                    {isEditingName ? (
-                      <Check size={22} onClick={saveChanges} />
-                    ) : (
-                      <Edit size={22} />
-                    )}
+                    {isEditingName ? <Check size={22} /> : <Edit size={22} />}
                   </button>
                 </div>
               </div>
 
-              {/* Email Field */}
               <div>
                 <label className="block text-lg text-gray-600 mb-1">
                   Email
                 </label>
                 <div className="flex items-center border-b-2 border-gray-200 pb-2">
-                  {isEditingEmail ? (
-                    <input
-                      type="email"
-                      value={updateEmail}
-                      onChange={(e) => setUpdateEmail(e.target.value)}
-                      className="flex-1 outline-none text-lg"
-                      autoFocus
-                    />
-                  ) : (
-                    <span className="flex-1 font-medium text-md ">{email}</span>
-                  )}
-                  <button
-                    onClick={() => setIsEditingEmail(!isEditingEmail)}
-                    className="ml-4 text-blue-500 hover:bg-blue-50 p-1.5 rounded-full cursor-pointer"
-                  >
-                    {isEditingEmail ? (
-                      <Check size={22} onClick={saveChanges} />
-                    ) : (
-                      <Edit size={22} />
-                    )}
-                  </button>
+                  <span className="flex-1 font-medium text-md">{email}</span>
                 </div>
               </div>
 
-              {(isEditingName || isEditingEmail) && (
+              {isEditingName && (
                 <div className="flex justify-end gap-4 pt-3">
                   <button
                     onClick={cancelChanges}
@@ -369,9 +373,7 @@ const Profile = () => {
                         : "bg-gray-400 cursor-not-allowed"
                     }`}
                   >
-                    {uploading ? (
-                      "Updating..."
-                    ) : (
+                    {uploading ? "Updating..." : (
                       <>
                         <Check size={18} /> Save
                       </>
@@ -411,35 +413,27 @@ const Profile = () => {
                       Confirm Account Deletion
                     </h3>
                     <p>
-                      Type DELETE to permanently remove your account. This action cannot be undone.
+                      Your account and transactions will be permanently deleted. This action cannot be undone.
                     </p>
-                    <label className="field">
-                      <span>Confirmation</span>
-                      <input
-                        value={deleteConfirmation}
-                        onChange={(event) => setDeleteConfirmation(event.target.value)}
-                        autoComplete="off"
-                      />
-                    </label>
                     <div className="btn-row" style={{ justifyContent: "flex-end", marginTop: 16 }}>
                       <button
                         type="button"
                         onClick={() => {
-                          setShowDeleteConfirm(false);
-                          setDeleteConfirmation("");
+                          if (!isDeletingAccount) setShowDeleteConfirm(false);
                         }}
                         className="btn btn-ghost"
+                        disabled={isDeletingAccount}
                       >
                         Cancel
                       </button>
                       <button
                         type="button"
                         onClick={handleDelete}
-                        disabled={deleteConfirmation !== "DELETE"}
                         className="btn btn-danger"
+                        disabled={isDeletingAccount}
                       >
                         <Trash2 className="w-4 h-4" />
-                        Confirm Delete
+                        {isDeletingAccount ? "Deleting…" : "Confirm Delete"}
                       </button>
                     </div>
                   </div>
@@ -462,7 +456,7 @@ const Profile = () => {
           </div>
         </Suspense>
         <div className="profile-logout">
-          <button type="button" className="btn btn-ghost" onClick={handleLogOut}>
+          <button type="button" className="btn profile-logout-button" onClick={handleLogOut}>
             <LogOut size={16} aria-hidden="true" />
             Log out
           </button>

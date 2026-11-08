@@ -22,7 +22,7 @@ const LINKS = [
   { to: "/Profile", label: "Profile", icon: UserRound },
 ];
 
-const TABS = LINKS.filter((link) => link.to !== "/Overview");
+const TABS = LINKS.filter((link) => link.to !== "/Profile");
 
 export function prefetch(path) {
   prefetchByPath[path]?.();
@@ -52,7 +52,6 @@ export function Shell({ children }) {
   const navigate = useNavigate();
   const isAuth = location.pathname === "/Login" || location.pathname === "/SignUp";
   const [user, setUser] = useState(null);
-  const [more, setMore] = useState(false);
   const [offline, setOffline] = useState(typeof navigator !== "undefined" ? !navigator.onLine : false);
 
   useEffect(() => {
@@ -68,7 +67,6 @@ export function Shell({ children }) {
     };
     const name = titles[location.pathname];
     document.title = name && location.pathname !== "/" ? `${name} · MoneyMinder` : "MoneyMinder";
-    setMore(false);
   }, [location.pathname]);
 
   useEffect(() => {
@@ -81,6 +79,14 @@ export function Shell({ children }) {
       alive = false;
     };
   }, [isAuth]);
+
+  useEffect(() => {
+    const updateUser = (event) => {
+      setUser((currentUser) => ({ ...currentUser, ...event.detail }));
+    };
+    window.addEventListener("moneyminder:user-updated", updateUser);
+    return () => window.removeEventListener("moneyminder:user-updated", updateUser);
+  }, []);
 
   useEffect(() => {
     const on = () => setOffline(false);
@@ -102,21 +108,6 @@ export function Shell({ children }) {
             MoneyMinder
           </button>
           <div style={{ display: "flex", alignItems: "center", gap: 8, position: "relative" }}>
-            <button
-              type="button"
-              className="mini mobile-only"
-              aria-expanded={more}
-              aria-label="More pages"
-              onClick={() => setMore((open) => !open)}
-            >
-              More
-            </button>
-            {more && (
-              <div className="more-pop">
-                <NavLink to="/Overview" onMouseEnter={() => prefetch("/Overview")}>Overview</NavLink>
-                <NavLink to="/Analytics" onMouseEnter={() => prefetch("/Analytics")}>Analytics</NavLink>
-              </div>
-            )}
             <button
               type="button"
               className="user-chip"

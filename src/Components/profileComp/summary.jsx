@@ -22,7 +22,9 @@ const Summary = React.memo(function Summary({ financialData }) {
         {rows.map((row) => (
           <div className={`summary-stat ${row.type}`} key={row.type}>
             <p className="label">{row.label}</p>
-            <strong title={row.value}>{row.value}</strong>
+            <strong className={row.type === "spending" ? "spending-value" : undefined} title={row.value}>
+              {row.value}
+            </strong>
           </div>
         ))}
       </div>

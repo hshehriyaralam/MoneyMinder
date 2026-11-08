@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export function Logo({ className = "brand-mark" }) {
   return (
@@ -86,7 +87,7 @@ export function IconButton({ label, children, ...props }) {
   );
 }
 
-export function Modal({ title, children, onClose }) {
+export function Modal({ title, children, onClose, className = "" }) {
   useEffect(() => {
     const onKey = (event) => {
       if (event.key === "Escape") onClose?.();
@@ -95,8 +96,8 @@ export function Modal({ title, children, onClose }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  return (
-    <div className="modal-back" onClick={onClose} role="presentation">
+  return createPortal(
+    <div className={`modal-back ${className}`.trim()} onClick={onClose} role="presentation">
       <div
         className="modal"
         role="dialog"
@@ -108,7 +109,8 @@ export function Modal({ title, children, onClose }) {
         {title ? <h3>{title}</h3> : null}
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -211,22 +213,22 @@ export function PageSkeleton({ pathname = "/" }) {
 export function Ring({ value, color = "var(--ink)" }) {
   const pct = Math.max(0, Math.min(100, Number(value) || 0));
   const radius = 28;
-  const circ = 2 * Math.PI * radius;
+  const circumference = 2 * Math.PI * radius;
   return (
-    <svg className="ring" viewBox="0 0 72 72" aria-hidden="true">
-      <circle cx="36" cy="36" r={radius} fill="none" stroke="var(--hairline)" strokeWidth="6" />
-      <circle
-        className="draw"
-        cx="36"
-        cy="36"
-        r={radius}
-        fill="none"
-        stroke={color}
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeDasharray={`${(pct / 100) * circ} ${circ}`}
-        transform="rotate(-90 36 36)"
-      />
+    <svg className="overview-ring" viewBox="0 0 72 72" aria-hidden="false">
+      {pct > 0 && (
+        <circle
+          cx="36"
+          cy="36"
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={`${(pct / 100) * circumference} ${circumference}`}
+          transform="rotate(-90 36 36)"
+        />
+      )}
       <text x="36" y="40" textAnchor="middle" fontSize="12" fontWeight="700" fill="currentColor">{pct}%</text>
     </svg>
   );
