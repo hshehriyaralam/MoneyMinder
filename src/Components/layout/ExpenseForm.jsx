@@ -6,7 +6,7 @@ import Button from "../UIverse/IncomeBuuton";
 import CancellButton from "../UIverse/CancellBtn";
 import { useNavigate } from "react-router-dom";
 import AnimatedContent from "../comman/AnimatedContent";
-import useTransactionStore from "@/store/transactions";
+import useAppStore from "@/store/store.js";
 import { useAlert } from "@/Context/AlertContext.jsx";
 
 
@@ -23,9 +23,9 @@ const ExpenseForm = React.memo(() => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [missingFields, setMissingFields] = useState([]);
   // Zustand store hooks
-  const addTransaction = useTransactionStore((state) => state.addTransaction);
-  const editTransaction = useTransactionStore((state) => state.editTransaction);
-  const clearEditTransaction = useTransactionStore(
+  const addTransaction = useAppStore((state) => state.addTransaction);
+  const editTransaction = useAppStore((state) => state.editTransaction);
+  const clearEditTransaction = useAppStore(
     (state) => state.clearEditTransaction
   );
 
@@ -56,7 +56,7 @@ const ExpenseForm = React.memo(() => {
     }
 
     // Call Zustand action
-    await addTransaction({
+    const saved = await addTransaction({
       category,
       date,
       time,
@@ -68,6 +68,7 @@ const ExpenseForm = React.memo(() => {
 
     });
 
+    if (!saved) return;
     resetForm();
     Navigate("/");
   };

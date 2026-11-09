@@ -1,9 +1,17 @@
-import React, { useContext } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Context } from '../../Context/TransactionContext.jsx';
+import useAppStore from "../../store/store.js";
 
 const ExpensePieChart = () => {
-  const { IncomeSummary, incomeAmount } = useContext(Context);
+  const transactions = useAppStore((state) => state.transactions);
+  const incomeTransactions = transactions.filter((transaction) => transaction.type === "income");
+  const IncomeSummary = incomeTransactions.reduce((summary, transaction) => {
+    summary[transaction.category] = (summary[transaction.category] || 0) + Math.abs(Number(transaction.amount) || 0);
+    return summary;
+  }, {});
+  const incomeAmount = incomeTransactions.reduce(
+    (total, transaction) => total + (Number(transaction.amount) || 0),
+    0,
+  );
   const data = Object.keys(IncomeSummary)
     .map((key) => {
       const value = IncomeSummary[key];

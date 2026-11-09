@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Download } from "lucide-react";
-import useTransactionStore from "@/store/transactions.js";
+import useAppStore from "@/store/store.js";
 import { useAlert } from "@/Context/AlertContext";
 import { ChartSkeleton } from "../ui/primitives";
 
@@ -15,9 +15,9 @@ const SavingsLine = lazy(() =>
 );
 
 const Analytics = () => {
-  const transactions = useTransactionStore((state) => state.transactions);
-  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
-  const fetchError = useTransactionStore((state) => state.fetchError);
+  const transactions = useAppStore((state) => state.transactions);
+  const fetchTransactions = useAppStore((state) => state.fetchTransactions);
+  const fetchError = useAppStore((state) => state.fetchError);
   const { showAlert } = useAlert();
 
   useEffect(() => {

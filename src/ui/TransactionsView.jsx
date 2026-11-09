@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import useTransactionStore from "../store/transactions";
+import useAppStore from "../store/store.js";
 import { useAlert } from "../Context/AlertContext";
 import { formatDate, formatTime, money } from "./format";
 import { EmptyState, Modal, Segmented } from "./primitives";
@@ -32,11 +32,11 @@ export function TransactionsView({
   fetchOnMount = true,
 }) {
   const { showAlert } = useAlert();
-  const transactions = useTransactionStore((state) => state.transactions);
-  const fetchError = useTransactionStore((state) => state.fetchError);
-  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
-  const removeTransaction = useTransactionStore((state) => state.removeTransaction);
-  const setEditTransaction = useTransactionStore((state) => state.setEditTransaction);
+  const transactions = useAppStore((state) => state.transactions);
+  const fetchError = useAppStore((state) => state.fetchError);
+  const fetchTransactions = useAppStore((state) => state.fetchTransactions);
+  const removeTransaction = useAppStore((state) => state.removeTransaction);
+  const setEditTransaction = useAppStore((state) => state.setEditTransaction);
 
   const [type, setType] = useState("all");
   const [floor, setFloor] = useState(0);
@@ -135,7 +135,7 @@ export function TransactionsView({
         <EmptyState
           title="Transactions couldn’t be loaded"
           body="Check your connection, then try again."
-          action={<button type="button" className="btn" onClick={fetchTransactions}>Try again</button>}
+          action={<button type="button" className="btn" onClick={() => fetchTransactions({ force: true })}>Try again</button>}
         />
       ) : !visible.length ? (
         <EmptyState

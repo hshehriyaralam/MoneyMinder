@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import useTransactionStore from "@/store/transactions.js";
+import useAppStore from "@/store/store.js";
 import { DashboardView } from "../ui/DashboardView";
 
 const Dashboard = () => {
-  const transactions = useTransactionStore((state) => state.transactions);
-  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
+  const transactions = useAppStore((state) => state.transactions);
+  const fetchTransactions = useAppStore((state) => state.fetchTransactions);
 
   useEffect(() => {
     fetchTransactions();

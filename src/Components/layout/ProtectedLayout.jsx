@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { fetchUserUtils } from '../../utils/auth.js';
 import { FormSkeleton } from "../../ui/primitives";
+import useAppStore from "../../store/store.js";
 
 const ProtectedLayout = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const fetchUser = useAppStore((state) => state.fetchUser);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const user = await fetchUserUtils(); 
+    let active = true;
+    fetchUser().then((user) => {
+      if (!active) return;
       if (!user) {
-        navigate('/Login'); 
+        navigate('/Login');
       } else {
-        setLoading(false); 
+        setLoading(false);
       }
+    });
+    return () => {
+      active = false;
     };
-
-    checkUser();
-  }, [navigate]);
+  }, [fetchUser, navigate]);
 
   if (loading) return <FormSkeleton />;
   return <Outlet />; 

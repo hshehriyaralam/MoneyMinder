@@ -8,10 +8,9 @@ import {
   useCallback,
 } from "react";
 import { User, Edit, Check, X, Camera, LogOut, Trash2 } from "lucide-react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "@/Context/AlertContext";
-import useTransactionStore from "@/store/transactions.js";
+import useAppStore from "@/store/store.js";
 import { getCurrentMonthSummary } from "@/lib/calculations.js";
 
 const Summary = lazy(() => import("@/Components/profileComp/summary"));
@@ -52,12 +51,17 @@ async function prepareAvatar(file) {
 }
 
 const Profile = () => {
-  const transactions = useTransactionStore((state) => state.transactions);
-  const fetchTransactions = useTransactionStore(
+  const user = useAppStore((state) => state.user);
+  const fetchUser = useAppStore((state) => state.fetchUser);
+  const updateUser = useAppStore((state) => state.updateUser);
+  const uploadProfilePicture = useAppStore((state) => state.uploadProfilePicture);
+  const logOut = useAppStore((state) => state.logOut);
+  const deleteAccount = useAppStore((state) => state.deleteAccount);
+  const transactions = useAppStore((state) => state.transactions);
+  const fetchTransactions = useAppStore(
     (state) => state.fetchTransactions,
   );
-  const fetchError = useTransactionStore((state) => state.fetchError);
-  const clearTransactions = useTransactionStore((state) => state.clearTransactions);
+  const fetchError = useAppStore((state) => state.fetchError);
 
   const {
     monthlyIncomes,
@@ -77,7 +81,6 @@ const Profile = () => {
     transactions: [...transactions],
   };
 
-  // UI states
   const [isEditingName, setIsEditingName] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -92,29 +95,14 @@ const Profile = () => {
   const Navigate = useNavigate();
   const { showAlert } = useAlert();
 
-  // fetch Data
-  const fetchUser = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/fetch-user`,
-        {
-          withCredentials: true,
-        },
-      );
+  useEffect(() => {
+    if (!user) return;
+    setFullName(user.fullName || "");
+    setEmail(user.email || "");
+    setUpdateName(user.fullName || "");
+    setPicture(user.profilePicture || "");
+  }, [user]);
 
-      const fullName = response.data.user.fullName;
-      const email = response.data.user.email;
-      const profilePicture = response.data.user.profilePicture;
-      setFullName(fullName);
-      setEmail(email);
-      setUpdateName(fullName);
-      setPicture(profilePicture);
-    } catch (error) {
-      console.log("fetchUser failed", error.message);
-    }
-  }, []);
-
-  //iamge Upload
   const handleiamgeUpload = useCallback(async (e) => {
     e.preventDefault();
     if (!selectedFile) {
@@ -129,22 +117,8 @@ const Profile = () => {
     try {
       setUploading(true);
       formData.append("profilePicture", await prepareAvatar(selectedFile));
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/upload-profile`,
-        formData,
-        {
-          withCredentials: true,
-
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        },
-      );
-      const updatedPicture = response.data.profilePicture;
+      const updatedPicture = await uploadProfilePicture(formData);
       setPicture(updatedPicture);
-      window.dispatchEvent(new CustomEvent("moneyminder:user-updated", {
-        detail: { fullName, email, profilePicture: updatedPicture },
-      }));
       setSelectedFile(null);
       setShowImageModal(false);
       showAlert("success", "Profile picture updated");
@@ -159,7 +133,7 @@ const Profile = () => {
     } finally {
       setUploading(false);
     }
-  }, [selectedFile, showAlert, fullName, email]);
+  }, [selectedFile, showAlert, uploadProfilePicture]);
 
   // Save profile changes
   const saveChanges = useCallback(async (e) => {
@@ -174,19 +148,10 @@ const Profile = () => {
 
     try {
       setUploading(true);
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/edit-user`,
-        updateData,
-        {
-          withCredentials: true,
-        },
-      );
-      const updatedName = response.data?.user?.fullName || updateData.fullName;
+      const updatedUser = await updateUser(updateData);
+      const updatedName = updatedUser.fullName || updateData.fullName;
       setUpdateName(updatedName);
       setFullName(updatedName);
-      window.dispatchEvent(new CustomEvent("moneyminder:user-updated", {
-        detail: { fullName: updatedName, email, profilePicture: picture },
-      }));
       setIsEditingName(false);
       showAlert("success", "Name updated");
     } catch (error) {
@@ -195,7 +160,7 @@ const Profile = () => {
     } finally {
       setUploading(false);
     }
-  }, [updateName, fullName, email, picture, showAlert]);
+  }, [updateName, fullName, updateUser, showAlert]);
 
   // Cancel 
   const cancelChanges = useCallback(() => {
@@ -206,13 +171,7 @@ const Profile = () => {
   //LogOUt
   const handleLogOut = async () => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/logout`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      await logOut();
       Navigate("/Login");
     } catch (error) {
       console.error("Logout failed:", error.message);
@@ -220,53 +179,18 @@ const Profile = () => {
   };
 
   const handleDelete = useCallback(async () => {
-    let accountDeleteRequested = false;
     setIsDeletingAccount(true);
     try {
-      const transactionsResponse = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/transactions/fetch-amounts`,
-        { withCredentials: true },
-      );
-      const transactions = transactionsResponse.data?.data;
-      if (!Array.isArray(transactions)) {
-        throw new Error("Could not verify account transactions before deletion");
-      }
-
-      await Promise.all(
-        transactions.map((transaction) => {
-          if (!transaction?._id) {
-            throw new Error("An account transaction is missing its identifier");
-          }
-          return axios.delete(
-            `${import.meta.env.VITE_API_BASE_URL}/api/transactions/delete/${transaction._id}`,
-            { withCredentials: true },
-          );
-        }),
-      );
-
-      accountDeleteRequested = true;
-      await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/api/user/delete-user`,
-        {
-          withCredentials: true,
-        },
-      );
-      clearTransactions();
+      await deleteAccount();
       setShowDeleteConfirm(false);
       Navigate("/SignUp", { replace: true });
     } catch (error) {
-      if (accountDeleteRequested && error.response?.status === 404) {
-        clearTransactions();
-        setShowDeleteConfirm(false);
-        Navigate("/SignUp", { replace: true });
-        return;
-      }
       console.error("Account deletion failed:", error.message);
       showAlert("error", "Could not delete the account and its transactions. Please try again.");
     } finally {
       setIsDeletingAccount(false);
     }
-  }, [clearTransactions, Navigate, showAlert]);
+  }, [deleteAccount, Navigate, showAlert]);
 
   // Check for changes
   const hasChanges = useMemo(

@@ -2,53 +2,40 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../comman/InputVerse.jsx";
 import GoogleButton from "../UIverse/GoogleButto.jsx";
-import axios from "axios";
 import { useAlert } from "../../Context/AlertContext.jsx";
 import { Logo } from "../../ui/primitives.jsx";
-
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+import useAppStore from "../../store/store.js";
 
 const SignUpForm = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const Navigate = useNavigate();
+  const signUp = useAppStore((state) => state.signUp);
+  const googleLogIn = useAppStore((state) => state.googleLogIn);
+  const navigate = useNavigate();
   const { showAlert } = useAlert();
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  const handleSignUp = async (event) => {
+    event.preventDefault();
     if (password.length < 8) {
       showAlert("error", "Password must be at least 8 characters");
       return;
     }
 
-    //check email format
-    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!isEmailValid) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       showAlert("error", "Please Enter Valid email");
       return;
     }
-
     if (isSubmitting) return;
 
     setIsSubmitting(true);
     try {
-      await axios.post(
-        `${API_BASE_URL}/api/user/signup`,
-        {
-          fullName: fullName,
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      await signUp({ fullName, email, password });
       setFullName("");
       setEmail("");
       setPassword("");
-      Navigate("/Login");
+      navigate("/Login");
     } catch (error) {
       if (error.response?.status === 400) {
         showAlert("error", "ALL filed is Required");
@@ -73,7 +60,6 @@ const SignUpForm = () => {
       return;
     }
 
-    // TokenClient init only now — NOT on page load
     const tokenClient = window.google.accounts.oauth2.initTokenClient({
       client_id: googleClientId,
       scope: "email profile openid",
@@ -84,34 +70,15 @@ const SignUpForm = () => {
         }
 
         try {
-          const res = await axios.get(
-            "https://www.googleapis.com/oauth2/v3/userinfo",
-            {
-              headers: {
-                Authorization: `Bearer ${tokenResponse.access_token}`,
-              },
-            },
-          );
-
-          await axios.post(
-            `${API_BASE_URL}/api/user/google-auth`,
-            {
-              userInfo: res.data,
-            },
-            {
-              withCredentials: true,
-            },
-          );
-          // showAlert('success', 'Successfully signup with Google');
-          Navigate("/");
-        } catch (err) {
-          console.error("Google login error:", err);
+          await googleLogIn(tokenResponse.access_token);
+          navigate("/");
+        } catch (error) {
+          console.error("Google login error:", error);
           showAlert("error", "Google login failed");
         }
       },
     });
 
-    // Now request token
     tokenClient.requestAccessToken();
   };
 
@@ -127,24 +94,14 @@ const SignUpForm = () => {
           <p className="label">A clearer view of where your money goes.</p>
         </div>
         <form className="auth-form" onSubmit={handleSignUp}>
-          <Input
-            type="text"
-            label="Full Name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-          <Input
-            type="email"
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <Input type="text" label="Full Name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
+          <Input type="email" label="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
           <label className="field auth-field">
             <span>Password</span>
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(event) => setPassword(event.target.value)}
               required
               minLength={8}
               autoComplete="new-password"

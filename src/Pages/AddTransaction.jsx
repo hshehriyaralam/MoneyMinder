@@ -1,8 +1,8 @@
-import useTransactionStore from "@/store/transactions";
+import useAppStore from "@/store/store.js";
 import { TransactionForm } from "../ui/TransactionForm";
 
 const AddTransaction = () => {
-  const editTransaction = useTransactionStore((state) => state.editTransaction);
+  const editTransaction = useAppStore((state) => state.editTransaction);
 
   return (
     <section className="card form-card">

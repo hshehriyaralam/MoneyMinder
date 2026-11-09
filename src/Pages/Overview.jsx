@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from "react";
-import useTransactionStore from "@/store/transactions.js";
+import useAppStore from "@/store/store.js";
 import { getTotalExpense, getTotalIncome } from "@/lib/calculations.js";
 import { money } from "../ui/format";
 import { EmptyState, Ring } from "../ui/primitives";
 
 const Overview = () => {
-  const transactions = useTransactionStore((state) => state.transactions);
-  const fetchTransactions = useTransactionStore((state) => state.fetchTransactions);
-  const fetchError = useTransactionStore((state) => state.fetchError);
+  const transactions = useAppStore((state) => state.transactions);
+  const fetchTransactions = useAppStore((state) => state.fetchTransactions);
+  const fetchError = useAppStore((state) => state.fetchError);
   const totalIncome = useMemo(() => getTotalIncome(transactions), [transactions]);
   const totalExpense = useMemo(() => getTotalExpense(transactions), [transactions]);
   const balance = totalIncome - totalExpense;

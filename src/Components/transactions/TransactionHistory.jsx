@@ -6,7 +6,7 @@ import Explore from '../UIverse/ExploreALL';
 import { Pagination, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext } from '../ui/pagination';
 import Filters from '../layout/Filters';
 import SplitText from "../Reactbits/SplitText.jsx"
-import  useTransactionStore  from '@/store/transactions.js';
+import useAppStore from '@/store/store.js';
 import { useAlert } from "@/Context/AlertContext.jsx";
 
 
@@ -15,10 +15,10 @@ import { useAlert } from "@/Context/AlertContext.jsx";
 
 const TransactionHistory = React.memo(({ limit, Name }) => {
   const {showAlert} = useAlert();
-  const transactions = useTransactionStore((state ) => state.transactions)
-  const fetchTransactions = useTransactionStore((state ) => state.fetchTransactions)
-  const removeTransaction = useTransactionStore((state ) => state.removeTransaction)
-  const setEditTransaction = useTransactionStore(
+  const transactions = useAppStore((state ) => state.transactions)
+  const fetchTransactions = useAppStore((state ) => state.fetchTransactions)
+  const removeTransaction = useAppStore((state ) => state.removeTransaction)
+  const setEditTransaction = useAppStore(
   (state) => state.setEditTransaction
 );
   const Navigate = useNavigate();

@@ -11,7 +11,7 @@ import {
 import { Logo, PageSkeleton, useDelayedFlag } from "./primitives";
 import { initials } from "./format";
 import { prefetchByPath } from "./pages";
-import { fetchUserUtils } from "../utils/auth";
+import useAppStore from "../store/store.js";
 
 const LINKS = [
   { to: "/", label: "Dashboard", icon: House, end: true },
@@ -51,7 +51,8 @@ export function Shell({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const isAuth = location.pathname === "/Login" || location.pathname === "/SignUp";
-  const [user, setUser] = useState(null);
+  const user = useAppStore((state) => state.user);
+  const fetchUser = useAppStore((state) => state.fetchUser);
   const [offline, setOffline] = useState(typeof navigator !== "undefined" ? !navigator.onLine : false);
 
   useEffect(() => {
@@ -71,22 +72,9 @@ export function Shell({ children }) {
 
   useEffect(() => {
     if (isAuth) return undefined;
-    let alive = true;
-    fetchUserUtils().then((next) => {
-      if (alive) setUser(next);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [isAuth]);
-
-  useEffect(() => {
-    const updateUser = (event) => {
-      setUser((currentUser) => ({ ...currentUser, ...event.detail }));
-    };
-    window.addEventListener("moneyminder:user-updated", updateUser);
-    return () => window.removeEventListener("moneyminder:user-updated", updateUser);
-  }, []);
+    fetchUser();
+    return undefined;
+  }, [isAuth, fetchUser]);
 
   useEffect(() => {
     const on = () => setOffline(false);

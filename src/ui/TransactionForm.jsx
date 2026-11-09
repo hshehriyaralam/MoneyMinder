@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { X } from "lucide-react";
-import useTransactionStore from "../store/transactions";
+import useAppStore from "../store/store.js";
 import { useAlert } from "../Context/AlertContext";
 import { Segmented } from "./primitives";
 
@@ -25,9 +25,9 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { showAlert } = useAlert();
-  const addTransaction = useTransactionStore((state) => state.addTransaction);
-  const editTransaction = useTransactionStore((state) => state.editTransaction);
-  const clearEditTransaction = useTransactionStore((state) => state.clearEditTransaction);
+  const addTransaction = useAppStore((state) => state.addTransaction);
+  const editTransaction = useAppStore((state) => state.editTransaction);
+  const clearEditTransaction = useAppStore((state) => state.clearEditTransaction);
   const editing = Boolean(editTransaction);
   const queryType = searchParams.get("type");
   const initialType =
@@ -112,10 +112,9 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
     event.preventDefault();
     if (submitting) return;
     if (!validate()) return;
-    const before = JSON.stringify(useTransactionStore.getState().transactions);
     setSubmitting(true);
     try {
-      await addTransaction(
+      const saved = await addTransaction(
         {
           category,
           date,
@@ -126,8 +125,7 @@ export function TransactionForm({ lockedType, onSuccess, navigateOnSuccess = tru
         },
         (kind, message) => showAlert(kind, message),
       );
-      const after = JSON.stringify(useTransactionStore.getState().transactions);
-      if (before === after) return;
+      if (!saved) return;
       if (navigateOnSuccess) navigate("/");
       onSuccess?.();
     } finally {
